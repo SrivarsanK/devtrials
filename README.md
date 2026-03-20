@@ -405,7 +405,7 @@ Based on document data:
 
 ## 📄 License
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)[(https://github.com/SrivarsanK/devtrials?tab=MIT-1-ov-file#readme)]
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)(https://github.com/SrivarsanK/devtrials?tab=MIT-1-ov-file#readme)
 
 ---
 

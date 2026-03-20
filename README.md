@@ -3,8 +3,6 @@
 > **Guidewire DEVTrails 2026 | University Hackathon**  
 > *When the rain stops Raju from working, GigShield pays — automatically, instantly, no questions asked.*
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-
 ---
 
 ## 🎯 The Problem
@@ -407,7 +405,7 @@ Based on document data:
 
 ## 📄 License
 
-MIT License
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)[(https://github.com/SrivarsanK/devtrials?tab=MIT-1-ov-file#readme)]
 
 ---
 

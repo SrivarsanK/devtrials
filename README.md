@@ -32,7 +32,7 @@
 
 ---
 
-## �️ Architecture
+## 🏗️ Architecture
 
 <cite index="3-0">GigShield is a three-sided platform serving three stakeholders simultaneously</cite>:
 

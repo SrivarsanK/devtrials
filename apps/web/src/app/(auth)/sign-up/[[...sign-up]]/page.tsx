@@ -3,8 +3,9 @@
 import { SignUp } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
-import { ShieldCheck, ArrowLeft, Sparkles } from "lucide-react";
+import { ShieldCheck, ArrowLeft, Sparkles, Box } from "lucide-react";
 import anime from "animejs";
+import HeroShield from "@/components/HeroShield";
 
 export default function SignUpPage() {
   React.useEffect(() => {
@@ -34,10 +35,17 @@ export default function SignUpPage() {
 
   return (
     <div className="flex flex-col min-h-screen bg-background text-foreground overflow-hidden relative">
+      {/* 3D Corner Accent - Positioned behind the card */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-1/2 left-1/2 -translate-y-[240px] translate-x-[80px] w-64 h-64 opacity-50 mix-blend-screen anime-auth-bg">
+          <HeroShield />
+        </div>
+      </div>
+
       {/* Ambient background glow */}
-      <div className="fixed inset-0 pointer-events-none z-0 anime-auth-bg opacity-0">
-        <div className="absolute top-1/4 left-1/4 w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px] animate-glow-pulse" />
-        <div className="absolute bottom-1/4 right-1/4 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px] animate-glow-pulse" style={{ animationDelay: '1.5s' }} />
+      <div className="fixed inset-0 pointer-events-none z-1 anime-auth-bg opacity-0">
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] animate-glow-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] animate-glow-pulse" style={{ animationDelay: '1.5s' }} />
       </div>
 
       {/* Navigation Header */}
@@ -60,13 +68,13 @@ export default function SignUpPage() {
 
       <main className="flex-1 flex items-center justify-center p-6 relative z-10">
         <div className="w-full max-w-[440px] anime-auth-card opacity-0">
-          <div className="mb-8 flex flex-col items-center text-center space-y-4">
-            <div className="inline-flex items-center gap-2.5 glass rounded-full px-5 py-2 text-[10px] font-bold uppercase tracking-[0.15em] text-secondary">
-              <Sparkles size={14} className="text-secondary animate-pulse" />
+          <div className="mb-10 flex flex-col items-center text-center space-y-4">
+            <div className="inline-flex items-center gap-2.5 glass-subtle border border-white/5 rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-secondary shadow-lg">
+              <Sparkles size={12} className="text-secondary animate-pulse" />
               <span>Node Initialization</span>
             </div>
-            <h1 className="text-4xl font-display font-black tracking-tighter uppercase">Join the <span className="text-secondary italic">Network</span></h1>
-            <p className="text-sm text-muted-foreground font-medium max-w-[280px]">
+            <h1 className="text-5xl font-display font-black tracking-tighter uppercase leading-[0.8] drop-shadow-2xl">Join the <span className="text-secondary italic">Network</span></h1>
+            <p className="text-sm text-muted-foreground font-medium max-w-[280px] leading-relaxed opacity-80">
               Provision your auditor profile for the global safety net protocol.
             </p>
           </div>
@@ -91,12 +99,6 @@ export default function SignUpPage() {
         </div>
       </main>
 
-      {/* Footer Info */}
-      <div className="fixed bottom-8 left-0 right-0 text-center pointer-events-none anime-auth-nav opacity-0">
-        <p className="text-[9px] font-black uppercase tracking-[0.3em] text-muted-foreground opacity-30">
-          Sync Status: Encrypted & Active (v2.4)
-        </p>
-      </div>
     </div>
   );
 }

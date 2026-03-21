@@ -207,3 +207,32 @@
 .animate-glow-pulse {
   animation: glow-pulse 3s ease-in-out infinite;
 }
+
+/* ─── Clerk Branding Cleanup ─── */
+.cl-internal-1su9znd,
+.cl-internal-tnicov,
+.cl-internal-1dauvpw,
+.cl-internal-b3fm6y,
+.cl-footerPortion,
+[data-test-id="dev-mode-badge"],
+.cl-internal-h9v6kv {
+  display: none !important;
+}
+
+.cl-footerAction {
+  display: flex !important;
+}
+
+.cl-badge { background-color: rgba(255, 255, 255, 0.5) !important; color: white !important; }
+.anime-auth-card { z-index: 50 !important; }
+.cl-identityPreviewText { color: white !important; }
+.cl-identityPreviewLink { color: white !important; }
+.cl-userButtonOuter { color: white !important; }
+.cl-userButtonTrigger { color: white !important; }
+.cl-identityPreview { color: white !important; }
+
+
+.cl-rootBox * { color: white; }
+.cl-formFieldLabel { color: #94a3b8 !important; }
+.cl-headerSubtitle { color: #94a3b8 !important; }
+.cl-footerActionText { color: #94a3b8 !important; }

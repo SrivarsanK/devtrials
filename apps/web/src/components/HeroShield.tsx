@@ -8,53 +8,74 @@ import * as THREE from "three";
 function GeometricShield({ mouse }: { mouse: React.MutableRefObject<[number, number]> }) {
   const meshRef = useRef<THREE.Mesh>(null!);
   const groupRef = useRef<THREE.Group>(null!);
+  const outerRef = useRef<THREE.Mesh>(null!);
 
   const { size } = useThree();
-  const responsiveScale = Math.min(Math.max(size.width / 1200, 0.7), 1.2);
+  const responsiveScale = Math.min(Math.max(size.width / 1100, 0.8), 1.4);
 
   useFrame((state, delta) => {
-    // Smoothly interpolate rotation based on mouse position
-    const targetRotationX = mouse.current[1] * 0.2;
-    const targetRotationY = mouse.current[0] * 0.2;
+    const t = state.clock.getElapsedTime();
     
-    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.1);
-    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.1);
+    // Smooth magnetic interpolation based on mouse
+    const targetRotationX = mouse.current[1] * 0.3;
+    const targetRotationY = mouse.current[0] * 0.3;
     
-    // Constant slow drift
-    meshRef.current.rotation.z += delta * 0.2;
-    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, responsiveScale, 0.1));
+    groupRef.current.rotation.x = THREE.MathUtils.lerp(groupRef.current.rotation.x, targetRotationX, 0.05);
+    groupRef.current.rotation.y = THREE.MathUtils.lerp(groupRef.current.rotation.y, targetRotationY, 0.05);
+    
+    // Self-rotation
+    meshRef.current.rotation.z = Math.sin(t * 0.5) * 0.2;
+    meshRef.current.rotation.y += delta * 0.2;
+    outerRef.current.rotation.y -= delta * 0.15;
+    
+    // Breathing scale effect
+    const bounce = Math.sin(t * 1.5) * 0.05 + 1;
+    groupRef.current.scale.setScalar(THREE.MathUtils.lerp(groupRef.current.scale.x, responsiveScale * bounce, 0.1));
   });
 
   return (
     <group ref={groupRef}>
-      <Float speed={2} rotationIntensity={0.5} floatIntensity={1}>
-        {/* Core Shield Sphere */}
+      <Float speed={1.5} rotationIntensity={0.4} floatIntensity={0.8}>
+        {/* Core - The Kinetic Energy Hub */}
         <mesh ref={meshRef}>
-          <octahedronGeometry args={[2, 2]} />
-          <MeshWobbleMaterial 
+          <icosahedronGeometry args={[2, 12]} />
+          <MeshDistortMaterial 
             color="#ff4625" 
-            factor={0.4} 
-            speed={2} 
-            roughness={0} 
-            metalness={0.8}
-            emissive="#ff4625"
-            emissiveIntensity={0.5}
+            speed={3} 
+            distort={0.45} 
+            radius={1}
+            roughness={0.1}
+            metalness={0.9}
+            emissive="#ff1e00"
+            emissiveIntensity={1.2}
           />
         </mesh>
 
-        {/* Wireframe Shell */}
-        <mesh>
-          <octahedronGeometry args={[2.2, 3]} />
-          <meshBasicMaterial 
+        {/* Outer Kinetic Shield Shell */}
+        <mesh ref={outerRef}>
+          <icosahedronGeometry args={[2.8, 2]} />
+          <meshPhongMaterial 
             color="#00d8ff" 
             wireframe 
             transparent 
-            opacity={0.3} 
+            opacity={0.15} 
+            shininess={100}
+            emissive="#00d8ff"
+            emissiveIntensity={0.2}
           />
         </mesh>
 
-        {/* Moving Light Point */}
-        <pointLight position={[5, 5, 5]} intensity={50} color="#00d8ff" />
+        {/* Orbiting Tech Particles */}
+        <group rotation={[Math.PI / 4, 0, 0]}>
+          <mesh position={[4, 0, 0]}>
+            <sphereGeometry args={[0.08, 16, 16]} />
+            <meshBasicMaterial color="#00d8ff" />
+          </mesh>
+          <mesh position={[-4, 0, 0]}>
+            <sphereGeometry args={[0.08, 16, 16]} />
+            <meshBasicMaterial color="#ff4625" />
+          </mesh>
+        </group>
       </Float>
     </group>
   );
@@ -63,8 +84,10 @@ function GeometricShield({ mouse }: { mouse: React.MutableRefObject<[number, num
 function Scene({ mouse }: { mouse: React.MutableRefObject<[number, number]> }) {
   return (
     <>
-      <ambientLight intensity={0.5} />
-      <pointLight position={[10, 10, 10]} intensity={1.5} />
+      <ambientLight intensity={0.2} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={100} color="#ff4625" />
+      <pointLight position={[-10, -10, -10]} intensity={50} color="#00d8ff" />
+      <Environment preset="city" />
       <GeometricShield mouse={mouse} />
     </>
   );

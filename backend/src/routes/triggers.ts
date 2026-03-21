@@ -8,15 +8,16 @@ const router = Router();
 
 /**
  * GET /api/triggers — List recent trigger events.
- * Query params: ?type=RAINFALL&zone=chennai_tambaram&limit=50
+ * Query params: ?type=RAINFALL&zone=chennai_tambaram&limit=50&includeMock=true
  */
 router.get('/', async (req: Request, res: Response) => {
   try {
-    const { type, zone, limit } = req.query;
+    const { type, zone, limit, includeMock } = req.query;
     const events = await getRecentTriggerEvents(
       Number(limit) || 50,
       type as string,
-      zone as string
+      zone as string,
+      includeMock === 'true'
     );
     res.json({ events, count: events.length });
   } catch (err) {

@@ -33,17 +33,17 @@ export const config = {
   triggers: {
     pollingIntervalMs: 5 * 60 * 1000, // 5 minutes
     rainfall: {
-      thresholdMm: 50,
+      thresholdMm: 10, // Lowered from 50 for testing
       windowHrs: 3,
       payoutAmount: 800,
     },
     aqi: {
-      threshold: 300,
+      threshold: 100, // Lowered from 300 for testing
       sustainedHrs: 4,
       payoutAmount: 600,
     },
     heatIndex: {
-      thresholdCelsius: 45,
+      thresholdCelsius: 35, // Lowered from 45 for testing
       sustainedHrs: 3,
       payoutAmount: 500,
     },

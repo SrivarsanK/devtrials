@@ -25,7 +25,8 @@ async function fetchAqiData(zone: ZoneConfig): Promise<number | null> {
   const { key, baseUrl } = config.apis.aqicn;
 
   if (!key) {
-    return generateMockAqiData(zone);
+    console.error(`[AQI Monitor] No API key for ${zone.name}`);
+    return null;
   }
 
   try {
@@ -49,60 +50,61 @@ async function fetchAqiData(zone: ZoneConfig): Promise<number | null> {
  * Delhi gets higher AQI values to reflect real-world patterns.
  */
 function generateMockAqiData(zone: ZoneConfig): number {
-  const isDelhi = zone.city === 'Delhi';
-  // ~10% chance of hazardous AQI, higher for Delhi (~25%)
-  const isHazardous = Math.random() < (isDelhi ? 0.25 : 0.10);
-  return isHazardous
-    ? 300 + Math.floor(Math.random() * 200)   // 300–500 (above threshold)
-    : 50 + Math.floor(Math.random() * 200);    // 50–250 (below threshold)
+  return 0; // Mock disabled
 }
 
 /**
- * Evaluate all monitored zones for AQI threshold breaches.
+ * Evaluate all monitored zones for AQI threshold breaches using live AQICN/WAQI API.
  */
 export async function checkAqi(): Promise<TriggerEvent[]> {
   const triggeredEvents: TriggerEvent[] = [];
   const threshold = config.triggers.aqi.threshold;
+  const apiKey = config.apis.aqicn.key;
 
-  console.log(`[AQI Monitor] Checking ${MONITORED_ZONES.length} zones (threshold: AQI > ${threshold})`);
+  if (!apiKey) {
+    console.error('[AQI Monitor] CRITICAL: AQICN_API_KEY is missing. Skipping live poll.');
+    return [];
+  }
+
+  console.log(`[AQI Monitor] Checking ${MONITORED_ZONES.length} zones via live API (threshold: AQI > ${threshold})`);
 
   for (const zone of MONITORED_ZONES) {
     const aqi = await fetchAqiData(zone);
     if (aqi === null) continue;
 
-    console.log(`  [${zone.name}] AQI: ${aqi}`);
+    console.log(`  [${zone.name}] Live AQI: ${aqi}`);
 
-    if (aqi > threshold) {
-      if (await isAlreadyProcessed('AQI', zone.id)) {
-        console.log(`  [${zone.name}] Already processed, skipping.`);
-        continue;
-      }
+    const breached = aqi > threshold;
+    const alreadyProcessed = breached ? await isAlreadyProcessed('AQI', zone.id) : false;
 
-      const event: TriggerEvent = {
-        triggerType: 'AQI',
-        zoneId: zone.id,
-        timestamp: new Date(),
-        dataSource: config.apis.aqicn.key ? 'AQICN' : 'MockData',
-        thresholdValue: threshold,
-        actualValue: aqi,
-        status: 'ACTIVE',
-        metadata: {
-          city: zone.city,
-          zoneName: zone.name,
-          aqiCategory: 'Hazardous',
-          sustainedHrsRequired: config.triggers.aqi.sustainedHrs,
-          payoutAmount: config.triggers.aqi.payoutAmount,
-        },
-      };
+    const event: TriggerEvent = {
+      triggerType: 'AQI',
+      zoneId: zone.id,
+      timestamp: new Date(),
+      dataSource: 'AQICN',
+      thresholdValue: threshold,
+      actualValue: aqi,
+      status: breached ? 'ACTIVE' : 'RESOLVED',
+      metadata: {
+        city: zone.city,
+        zoneName: zone.name,
+        aqiCategory: breached ? 'Hazardous' : 'Normal',
+        sustainedHrsRequired: config.triggers.aqi.sustainedHrs,
+        payoutAmount: breached ? config.triggers.aqi.payoutAmount : 0,
+        triggerBreached: breached,
+        duplicateSuppressed: alreadyProcessed,
+      },
+    };
 
-      try {
-        const saved = await logTriggerEvent(event);
+    try {
+      const saved = await logTriggerEvent(event);
+      if (breached && !alreadyProcessed) {
         await markAsProcessed('AQI', zone.id);
         triggeredEvents.push(saved);
         console.log(`  🏭 TRIGGER FIRED: ${zone.name} — AQI ${aqi} (Hazardous)!`);
-      } catch (err) {
-        console.error(`  Failed to log AQI trigger for ${zone.name}:`, err);
       }
+    } catch (err) {
+      console.error(`  Failed to log AQI trigger for ${zone.name}:`, err);
     }
   }
 

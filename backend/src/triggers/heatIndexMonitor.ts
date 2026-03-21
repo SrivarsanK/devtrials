@@ -25,7 +25,8 @@ async function fetchHeatData(zone: ZoneConfig): Promise<{ feelsLike: number; tem
   const { key, baseUrl } = config.apis.openWeather;
 
   if (!key) {
-    return generateMockHeatData(zone);
+    console.error(`[Heat Index Monitor] No API key for ${zone.name}`);
+    return null;
   }
 
   try {
@@ -52,67 +53,63 @@ async function fetchHeatData(zone: ZoneConfig): Promise<{ feelsLike: number; tem
  * Chennai and Delhi get higher temperatures to match real patterns.
  */
 function generateMockHeatData(zone: ZoneConfig): { feelsLike: number; temp: number; humidity: number } {
-  const isHotCity = zone.city === 'Chennai' || zone.city === 'Delhi';
-  // ~12% chance of extreme heat, higher for hot cities (~20%)
-  const isExtreme = Math.random() < (isHotCity ? 0.20 : 0.12);
-  const feelsLike = isExtreme
-    ? 45 + Math.random() * 8    // 45–53°C (above threshold)
-    : 30 + Math.random() * 12;  // 30–42°C (below threshold)
-
-  return {
-    feelsLike: parseFloat(feelsLike.toFixed(1)),
-    temp: parseFloat((feelsLike - 3 - Math.random() * 3).toFixed(1)),
-    humidity: 40 + Math.floor(Math.random() * 40),
-  };
+  // Logic removed - no mock data allowed
+  return { feelsLike: 0, temp: 0, humidity: 0 };
 }
 
 /**
- * Evaluate all monitored zones for Heat Index threshold breaches.
+ * Evaluate all monitored zones for Heat Index threshold breaches using live OpenWeatherMap data.
  */
 export async function checkHeatIndex(): Promise<TriggerEvent[]> {
   const triggeredEvents: TriggerEvent[] = [];
   const threshold = config.triggers.heatIndex.thresholdCelsius;
+  const apiKey = config.apis.openWeather.key;
 
-  console.log(`[Heat Index Monitor] Checking ${MONITORED_ZONES.length} zones (threshold: >${threshold}°C feels-like)`);
+  if (!apiKey) {
+    console.error('[Heat Index Monitor] CRITICAL: OPENWEATHER_API_KEY is missing. Skipping live poll.');
+    return [];
+  }
+
+  console.log(`[Heat Index Monitor] Checking ${MONITORED_ZONES.length} zones via live API (threshold: >${threshold}°C feels-like)`);
 
   for (const zone of MONITORED_ZONES) {
     const data = await fetchHeatData(zone);
     if (!data) continue;
 
-    console.log(`  [${zone.name}] Feels-like: ${data.feelsLike}°C (actual: ${data.temp}°C)`);
+    console.log(`  [${zone.name}] Live Feels-like: ${data.feelsLike}°C (actual: ${data.temp}°C)`);
 
-    if (data.feelsLike > threshold) {
-      if (await isAlreadyProcessed('HEAT_INDEX', zone.id)) {
-        console.log(`  [${zone.name}] Already processed, skipping.`);
-        continue;
-      }
+    const breached = data.feelsLike > threshold;
+    const alreadyProcessed = breached ? await isAlreadyProcessed('HEAT_INDEX', zone.id) : false;
 
-      const event: TriggerEvent = {
-        triggerType: 'HEAT_INDEX',
-        zoneId: zone.id,
-        timestamp: new Date(),
-        dataSource: config.apis.openWeather.key ? 'OpenWeatherMap' : 'MockData',
-        thresholdValue: threshold,
-        actualValue: data.feelsLike,
-        status: 'ACTIVE',
-        metadata: {
-          city: zone.city,
-          zoneName: zone.name,
-          actualTemp: data.temp,
-          humidity: data.humidity,
-          sustainedHrsRequired: config.triggers.heatIndex.sustainedHrs,
-          payoutAmount: config.triggers.heatIndex.payoutAmount,
-        },
-      };
+    const event: TriggerEvent = {
+      triggerType: 'HEAT_INDEX',
+      zoneId: zone.id,
+      timestamp: new Date(),
+      dataSource: 'OpenWeatherMap',
+      thresholdValue: threshold,
+      actualValue: data.feelsLike,
+      status: breached ? 'ACTIVE' : 'RESOLVED',
+      metadata: {
+        city: zone.city,
+        zoneName: zone.name,
+        actualTemp: data.temp,
+        humidity: data.humidity,
+        sustainedHrsRequired: config.triggers.heatIndex.sustainedHrs,
+        payoutAmount: breached ? config.triggers.heatIndex.payoutAmount : 0,
+        triggerBreached: breached,
+        duplicateSuppressed: alreadyProcessed,
+      },
+    };
 
-      try {
-        const saved = await logTriggerEvent(event);
+    try {
+      const saved = await logTriggerEvent(event);
+      if (breached && !alreadyProcessed) {
         await markAsProcessed('HEAT_INDEX', zone.id);
         triggeredEvents.push(saved);
         console.log(`  🔥 TRIGGER FIRED: ${zone.name} — ${data.feelsLike}°C feels-like!`);
-      } catch (err) {
-        console.error(`  Failed to log heat trigger for ${zone.name}:`, err);
       }
+    } catch (err) {
+      console.error(`  Failed to log heat trigger for ${zone.name}:`, err);
     }
   }
 

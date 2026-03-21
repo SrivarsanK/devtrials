@@ -23,7 +23,8 @@ async function fetchWeatherData(zone: ZoneConfig): Promise<WeatherApiResponse | 
 
   // In development without an API key, return mock data
   if (!key) {
-    return generateMockRainfallData(zone);
+    console.error(`[Rainfall Monitor] No API key for ${zone.name}`);
+    return null;
   }
 
   try {
@@ -41,72 +42,58 @@ async function fetchWeatherData(zone: ZoneConfig): Promise<WeatherApiResponse | 
 }
 
 /**
- * Generate mock rainfall data for development/testing.
- * Simulates realistic rainfall patterns with occasional threshold breaches.
- */
-function generateMockRainfallData(zone: ZoneConfig): WeatherApiResponse {
-  // ~15% chance of heavy rainfall to simulate realistic trigger patterns
-  const isHeavyRain = Math.random() < 0.15;
-  const rainfall3h = isHeavyRain
-    ? 50 + Math.random() * 60  // 50–110mm (above threshold)
-    : Math.random() * 30;      // 0–30mm (below threshold)
-
-  return {
-    rain: { '3h': parseFloat(rainfall3h.toFixed(1)) },
-    name: zone.name,
-    main: { temp: 28 + Math.random() * 5, feels_like: 30 + Math.random() * 5, humidity: 70 + Math.random() * 20 },
-    weather: [{ main: isHeavyRain ? 'Rain' : 'Clouds', description: isHeavyRain ? 'heavy intensity rain' : 'scattered clouds' }],
-  };
-}
-
-/**
- * Evaluate all monitored zones for rainfall threshold breaches.
+ * Evaluate all monitored zones for rainfall threshold breaches using live OpenWeatherMap data.
  */
 export async function checkRainfall(): Promise<TriggerEvent[]> {
   const triggeredEvents: TriggerEvent[] = [];
   const threshold = config.triggers.rainfall.thresholdMm;
+  const apiKey = config.apis.openWeather.key;
 
-  console.log(`[Rainfall Monitor] Checking ${MONITORED_ZONES.length} zones (threshold: ${threshold}mm/3hrs)`);
+  if (!apiKey) {
+    console.error('[Rainfall Monitor] CRITICAL: OPENWEATHER_API_KEY is missing. Skipping live poll.');
+    return [];
+  }
+
+  console.log(`[Rainfall Monitor] Checking ${MONITORED_ZONES.length} zones via live API (threshold: ${threshold}mm/3hrs)`);
 
   for (const zone of MONITORED_ZONES) {
     const data = await fetchWeatherData(zone);
     if (!data) continue;
 
     const rainfall3h = data.rain?.['3h'] || 0;
-    console.log(`  [${zone.name}] Rainfall 3h: ${rainfall3h}mm`);
+    console.log(`  [${zone.name}] Live Rainfall 3h: ${rainfall3h}mm`);
 
-    if (rainfall3h > threshold) {
-      // Check dedup
-      if (await isAlreadyProcessed('RAINFALL', zone.id)) {
-        console.log(`  [${zone.name}] Already processed, skipping.`);
-        continue;
-      }
+    const breached = rainfall3h > threshold;
+    const alreadyProcessed = breached ? await isAlreadyProcessed('RAINFALL', zone.id) : false;
 
-      const event: TriggerEvent = {
-        triggerType: 'RAINFALL',
-        zoneId: zone.id,
-        timestamp: new Date(),
-        dataSource: config.apis.openWeather.key ? 'OpenWeatherMap' : 'MockData',
-        thresholdValue: threshold,
-        actualValue: rainfall3h,
-        status: 'ACTIVE',
-        metadata: {
-          city: zone.city,
-          zoneName: zone.name,
-          weatherDescription: data.weather[0]?.description,
-          temperature: data.main.temp,
-          payoutAmount: config.triggers.rainfall.payoutAmount,
-        },
-      };
+    const event: TriggerEvent = {
+      triggerType: 'RAINFALL',
+      zoneId: zone.id,
+      timestamp: new Date(),
+      dataSource: 'OpenWeatherMap',
+      thresholdValue: threshold,
+      actualValue: rainfall3h,
+      status: breached ? 'ACTIVE' : 'RESOLVED',
+      metadata: {
+        city: zone.city,
+        zoneName: zone.name,
+        weatherDescription: data.weather[0]?.description,
+        temperature: data.main.temp,
+        payoutAmount: breached ? config.triggers.rainfall.payoutAmount : 0,
+        triggerBreached: breached,
+        duplicateSuppressed: alreadyProcessed,
+      },
+    };
 
-      try {
-        const saved = await logTriggerEvent(event);
+    try {
+      const saved = await logTriggerEvent(event);
+      if (breached && !alreadyProcessed) {
         await markAsProcessed('RAINFALL', zone.id);
         triggeredEvents.push(saved);
         console.log(`  🌧️ TRIGGER FIRED: ${zone.name} — ${rainfall3h}mm rainfall!`);
-      } catch (err) {
-        console.error(`  Failed to log rainfall trigger for ${zone.name}:`, err);
       }
+    } catch (err) {
+      console.error(`  Failed to log rainfall trigger for ${zone.name}:`, err);
     }
   }
 

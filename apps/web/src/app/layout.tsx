@@ -1,17 +1,11 @@
 import type { Metadata } from "next";
-import { Inter, Outfit } from "next/font/google";
-import Sidebar from "@/components/Sidebar";
+import { Bebas_Neue, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
+import { cn } from "@/lib/utils";
+import { TooltipProvider } from "@/components/ui/tooltip";
 
-const inter = Inter({
-  variable: "--font-inter",
-  subsets: ["latin"],
-});
-
-const outfit = Outfit({
-  variable: "--font-outfit",
-  subsets: ["latin"],
-});
+const jetbrainsMono = JetBrains_Mono({ variable: "--font-sans", subsets: ["latin"] });
+const bebasNeue = Bebas_Neue({ weight: "400", variable: "--font-bebas", subsets: ["latin"] });
 
 export const metadata: Metadata = {
   title: "GigShield | Parametric Income Insurance",
@@ -24,10 +18,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${inter.variable} ${outfit.variable}`}>
-      <body className="main-layout">
-        <Sidebar />
-        <main className="content-wrapper">{children}</main>
+    <html lang="en" className={cn(jetbrainsMono.variable, bebasNeue.variable, "font-sans", "dark", "scroll-smooth")}>
+      <body className="antialiased min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
+        <TooltipProvider>
+          {children}
+        </TooltipProvider>
       </body>
     </html>
   );

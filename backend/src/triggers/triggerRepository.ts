@@ -73,7 +73,8 @@ export async function logTriggerEvent(event: TriggerEvent): Promise<TriggerEvent
 export async function getRecentTriggerEvents(
   limit: number = 50,
   triggerType?: string,
-  zoneId?: string
+  zoneId?: string,
+  includeMock: boolean = false
 ): Promise<any[]> {
   let query = 'SELECT * FROM trigger_events WHERE 1=1';
   const params: any[] = [];
@@ -86,6 +87,9 @@ export async function getRecentTriggerEvents(
   if (zoneId) {
     query += ` AND zone_id = $${paramIdx++}`;
     params.push(zoneId);
+  }
+  if (!includeMock) {
+    query += ` AND data_source NOT IN ('MockData', 'manual_seed')`;
   }
 
   query += ` ORDER BY timestamp DESC LIMIT $${paramIdx}`;

@@ -215,7 +215,15 @@
 .cl-internal-b3fm6y,
 .cl-footerPortion,
 [data-test-id="dev-mode-badge"],
-.cl-internal-h9v6kv {
+.cl-internal-h9v6kv,
+.cl-internal-1fpq5at,
+.cl-internal-y44tp9,
+.cl-internal-dt53uo,
+.cl-internal-114jbce,
+.cl-internal-1scq7x4,
+.cl-internal-1scxde7,
+.cl-internal-5ghyhf,
+.cl-footer {
   display: none !important;
 }
 
@@ -231,6 +239,21 @@
 .cl-userButtonTrigger { color: white !important; }
 .cl-identityPreview { color: white !important; }
 
+
+.cl-userPreviewMainIdentifier,
+.cl-userPreviewSecondaryIdentifier,
+.cl-userPreviewMainIdentifierText,
+.cl-userPreviewSecondaryIdentifierText,
+.cl-internal-qnmbzh,
+.cl-internal-n9kjv,
+.cl-internal-i4dmvb,
+.cl-userButtonPopoverActionButton,
+.cl-userButtonPopoverActionButtonText,
+.cl-internal-7rya2,
+.cl-userButtonPopoverActionButtonIconBox,
+.cl-userPreviewTextContainer * {
+  color: white !important;
+}
 
 .cl-rootBox * { color: white; }
 .cl-formFieldLabel { color: #94a3b8 !important; }

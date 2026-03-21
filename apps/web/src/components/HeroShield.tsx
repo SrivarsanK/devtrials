@@ -84,10 +84,9 @@ function GeometricShield({ mouse }: { mouse: React.MutableRefObject<[number, num
 function Scene({ mouse }: { mouse: React.MutableRefObject<[number, number]> }) {
   return (
     <>
-      <ambientLight intensity={0.2} />
-      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={100} color="#ff4625" />
-      <pointLight position={[-10, -10, -10]} intensity={50} color="#00d8ff" />
-      <Environment preset="city" />
+      <ambientLight intensity={0.5} />
+      <spotLight position={[10, 10, 10]} angle={0.15} penumbra={1} intensity={150} color="#ff4625" />
+      <pointLight position={[-10, -10, -10]} intensity={100} color="#00d8ff" />
       <GeometricShield mouse={mouse} />
     </>
   );

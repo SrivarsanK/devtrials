@@ -45,7 +45,9 @@ export default function RootLayout({
           identityPreviewText: "text-white font-bold",
           identityPreviewEditButton: "text-primary font-bold",
           badge: "bg-white/10 text-slate-300 font-bold border border-white/10 px-2 py-0.5 rounded-full text-[10px]",
+          footer: "hidden",
           footerPortion: "hidden",
+          devModeBadge: "hidden",
           internal: "hidden",
         }
       }}

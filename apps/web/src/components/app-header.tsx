@@ -21,12 +21,20 @@ import {
   SignUpButton,
   useAuth
 } from "@clerk/nextjs";
+import { useSidebar } from "@/components/ui/sidebar";
+import { cn } from "@/lib/utils";
+
 export function AppHeader() {
   const isMobile = useIsMobile();
   const { userId } = useAuth();
+  const { state } = useSidebar();
+  const isCollapsed = state === "collapsed";
   
   return (
-    <header className="sticky top-0 z-30 flex h-16 w-full shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#0a0a12]/70 backdrop-blur-2xl px-4 md:px-10 transition-all">
+    <header className={cn(
+      "sticky top-0 z-30 flex h-16 w-full shrink-0 items-center justify-between border-b border-white/[0.06] bg-[#0a0a12]/70 backdrop-blur-2xl transition-all duration-500",
+      isCollapsed ? "pl-2 px-4 md:px-10" : "px-4 md:px-10"
+    )}>
       <div className="flex items-center gap-4">
         {isMobile ? (
           <Link href="/" className="flex items-center gap-2 group mr-2">

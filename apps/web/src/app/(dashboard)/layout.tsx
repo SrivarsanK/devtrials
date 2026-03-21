@@ -70,7 +70,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       <AppSidebar />
       <SidebarInset className={cn(
         "bg-background flex flex-col overflow-hidden relative transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
-        "peer-data-[state=collapsed]:md:ml-[var(--sidebar-width-icon)] peer-data-[state=expanded]:md:ml-[var(--sidebar-width)]",
+        "peer-data-[state=expanded]:md:ml-[var(--sidebar-width)] ml-0",
         isMobile ? "ml-0" : ""
       )}>
         <AppHeader />

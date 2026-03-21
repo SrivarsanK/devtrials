@@ -10,27 +10,34 @@ import HeroShield from "@/components/HeroShield";
 export default function SignInPage() {
   React.useEffect(() => {
     const tl = anime.timeline({
-      easing: 'easeOutExpo',
-      duration: 1000
+      easing: "easeOutQuint",
     });
 
     tl.add({
-      targets: '.anime-auth-card',
-      scale: [0.95, 1],
+      targets: ".anime-auth-nav",
+      translateY: [-10, 0],
       opacity: [0, 1],
-      translateY: [20, 0],
-      duration: 1200
+      duration: 400,
     })
     .add({
-      targets: '.anime-auth-nav',
-      translateY: [-20, 0],
+      targets: ".anime-auth-header-item",
+      translateY: [10, 0],
       opacity: [0, 1],
-    }, '-=800')
+      duration: 400,
+      delay: anime.stagger(40),
+    }, "-=350")
     .add({
-      targets: '.anime-auth-bg',
+      targets: ".anime-auth-card",
+      scale: [0.99, 1],
       opacity: [0, 1],
-      duration: 2000
-    }, '-=1500');
+      translateY: [5, 0],
+      duration: 450,
+    }, "-=380")
+    .add({
+      targets: ".anime-auth-bg",
+      opacity: [0, 0.5],
+      duration: 500,
+    }, "-=400");
   }, []);
 
   return (
@@ -69,12 +76,12 @@ export default function SignInPage() {
       <main className="flex-1 flex items-center justify-center p-6 relative z-10">
         <div className="w-full max-w-[440px] anime-auth-card opacity-0">
           <div className="mb-10 flex flex-col items-center text-center space-y-4">
-            <div className="inline-flex items-center gap-2.5 glass-subtle border border-white/5 rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-secondary shadow-lg">
+            <div className="inline-flex items-center gap-2.5 glass-subtle border border-white/5 rounded-full px-5 py-2 text-[10px] font-black uppercase tracking-[0.2em] text-secondary shadow-lg anime-auth-header-item opacity-0">
               <Sparkles size={12} className="text-secondary animate-pulse" />
               <span>Identity Synchronization</span>
             </div>
-            <h1 className="text-5xl font-display font-black tracking-tighter uppercase leading-[0.8] drop-shadow-2xl">Authorized <span className="text-primary italic">Access</span></h1>
-            <p className="text-sm text-muted-foreground font-medium max-w-[280px] leading-relaxed opacity-80">
+            <h1 className="text-5xl font-display font-black tracking-tighter uppercase leading-[0.8] drop-shadow-2xl anime-auth-header-item opacity-0">Authorized <span className="text-primary italic">Access</span></h1>
+            <p className="text-sm text-muted-foreground font-medium max-w-[280px] leading-relaxed opacity-0 anime-auth-header-item">
               Secure authentication for the autonomous safety net protocol.
             </p>
           </div>

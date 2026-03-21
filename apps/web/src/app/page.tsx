@@ -101,11 +101,11 @@ export default function HomePage() {
       <main className="flex-1 flex flex-col pt-24 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto w-full gap-16 md:gap-28 relative z-10">
         <section className="relative flex flex-col items-start min-h-[65vh] md:min-h-[85vh] gap-8">
           {/* 3D Hero Element - Precisely positioned to touch the 'E' in 'SHIELD' */}
-          <div className="absolute top-[22%] translate-y-[-50%] left-[45%] lg:left-[48%] z-0 pointer-events-none anime-hero-image opacity-0 overflow-visible scale-[0.6] lg:scale-[0.85] w-full max-w-[800px] flex items-center justify-start">
+          <div className="absolute top-[18%] translate-y-[-50%] left-[45%] lg:left-[48%] z-0 pointer-events-none anime-hero-image opacity-0 overflow-visible scale-[0.7] lg:scale-[1] w-[400px] h-[400px] lg:w-[800px] lg:h-[800px] flex items-center justify-start">
             <div className="absolute inset-0 bg-gradient-to-tr from-primary/15 to-secondary/15 rounded-full blur-[100px] opacity-20 animate-glow-pulse scale-75" />
-            <div className="h-[400px] w-[400px] lg:h-[700px] lg:w-[700px] relative">
+            <div className="w-full h-full relative">
               <HeroShield />
-              <div className="absolute inset-x-0 bottom-0 h-1/2 bg-gradient-to-t from-background via-transparent to-transparent" />
+              <div className="absolute inset-x-0 bottom-0 h-1/4 bg-gradient-to-t from-background via-transparent to-transparent" />
             </div>
           </div>
 

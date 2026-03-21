@@ -82,14 +82,14 @@ export default function TriggersPage() {
   }
 
   return (
-    <div className="flex flex-col gap-10">
+    <div className="flex flex-col gap-12">
       <header className="flex flex-col md:flex-row md:items-end justify-between gap-10">
         <div className="space-y-4">
           <div className="flex items-center gap-3 opacity-0 anime-header-item">
             <div className="h-[2px] w-10 bg-gradient-to-r from-primary to-transparent rounded-full" />
             <span className="text-[10px] font-medium uppercase tracking-[0.12em] text-muted-foreground opacity-60">Audit logs & event streaming</span>
           </div>
-          <h1 className="text-4xl sm:text-6xl font-display font-black tracking-tight text-foreground uppercase leading-[0.85] opacity-0 anime-header-item">
+          <h1 className="text-4xl sm:text-6xl md:text-7xl font-display font-black tracking-tight text-foreground uppercase leading-[0.85] opacity-0 anime-header-item">
             Event <br /> <span className="text-secondary italic">Stream</span>
           </h1>
           <p className="max-w-xl text-sm text-muted-foreground leading-relaxed font-medium opacity-0 anime-header-item">

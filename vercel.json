@@ -1,4 +1,5 @@
 {
+  "name": "devtrials-deployment",
   "buildCommand": "pnpm --filter web build",
   "outputDirectory": "apps/web/.next",
   "framework": "nextjs"

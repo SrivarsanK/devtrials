@@ -9,6 +9,19 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
+// Root Route
+app.get('/', (req, res) => {
+  res.json({
+    message: '🛡️ GigShield Core API is active',
+    version: '1.0.0',
+    endpoints: {
+      health: '/health',
+      triggers: '/api/triggers',
+      zones: '/api/triggers/zones'
+    }
+  });
+});
+
 // Public Routes
 app.get('/health', (req, res) => {
   res.json({

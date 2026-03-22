@@ -1,8 +1,12 @@
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Load environment variables from .env file
-dotenv.config({ path: path.join(__dirname, '../../.env') });
+// Load environment variables from .env file ONLY if it exists (for local dev)
+import fs from 'fs';
+const envPath = path.join(__dirname, '../../.env');
+if (fs.existsSync(envPath)) {
+  dotenv.config({ path: envPath });
+}
 
 export const config = {
   port: process.env.PORT || 3001,

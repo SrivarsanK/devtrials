@@ -4,10 +4,7 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
-  // @ts-ignore
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
+  // ESLint is managed by ESLint separately from Next.js in v16+
   experimental: {
   },
 };

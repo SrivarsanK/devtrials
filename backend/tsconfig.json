@@ -13,8 +13,9 @@
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*", "src/*"]
-    }
+    },
+    "types": ["node", "jest", "supertest"]
   },
-  "include": ["src/**/*"],
-  "exclude": ["node_modules"]
+  "include": ["src/**/*", "src/**/*.test.ts"],
+  "exclude": ["node_modules", "dist"]
 }

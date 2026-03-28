@@ -13,8 +13,11 @@ function GeometricShield({ mouse }: { mouse: React.MutableRefObject<[number, num
   const { size } = useThree();
   const responsiveScale = Math.min(Math.max(size.width / 1100, 0.8), 1.4);
 
+  const timer = React.useMemo(() => new THREE.Timer(), []);
+
   useFrame((state, delta) => {
-    const t = state.clock.getElapsedTime();
+    timer.update();
+    const t = timer.getElapsed();
     
     // Smooth magnetic interpolation based on mouse
     const targetRotationX = mouse.current[1] * 0.3;

@@ -1,74 +1,77 @@
 # Technology Stack
 
-**Analysis Date:** 2026-03-21
+**Analysis Date:** 2026-03-28
 
 ## Languages
 
 **Primary:**
-- TypeScript - Frontend and Backend API code
-- Python - ML/AI Service
-- SQL - Database migrations and queries
+- TypeScript 5.x - All application code across apps/web, backend, and shared packages
+- JSX/TSX - React component development in apps/web
+
+**Secondary:**
+- JavaScript - Build scripts, CI config
+- SQL - Database schema and migration scripts
 
 ## Runtime
 
 **Environment:**
-- Node.js (for Next.js and Express)
-- Python 3.10+ (for FastAPI and ML models)
+- Node.js 24.x (apps/web)
+- Node.js 22.x (backend)
+- pnpm 10.x - Package management with workspace support
 
 **Package Manager:**
-- npm
-- pip
+- pnpm 10.x
+- Lockfile: `pnpm-lock.yaml` present
 
 ## Frameworks
 
 **Core:**
-- Next.js + React - Frontend application framework (Worker PWA, Platform Portal, Insurer Dashboard)
-- Express.js - Backend API framework
-- FastAPI - Python ML Model serving framework
+- Next.js 16.2.1 - Web application framework
+- React 19.x - UI library
+- Express 4.18.2 - Backend API framework
+
+**Testing:**
+- Jest 29.7.0 - Backend unit and integration testing
+- ts-jest 29.1.1 - TypeScript support for Jest
 
 **Build/Dev:**
-- Docker & Docker Compose - Local development and containerization
-- TypeScript compiler
+- TypeScript 5.x - Static typing
+- TailwindCSS 3.4.19 - Styling
+- Shadcn/UI - UI component library
 
 ## Key Dependencies
 
-**Frontend:**
-- TailwindCSS + shadcn/ui - UI styling and component library
-- Zustand - State management
-- Recharts + D3.js - Data visualization for Insurer Dashboard
-- Leaflet.js - Interactive maps
+**Critical:**
+- @clerk/nextjs 7.0.6 - Authentication/user management
+- Leaflet 1.9.4 & react-leaflet 5.0.0 - Map visualization
+- Three.js 0.183.2 - 3D rendering
+- Anime.js 3.2.2 - Animation library
+- Socket.io 4.7.2 - Real-time communication
+- PostgreSQL (pg 8.11.3) & TimescaleDB - Primary database
 
-**Backend:**
-- Socket.io - Real-time events and trigger alerts
-- Node-cron - Scheduled jobs and API polling
-- JWT + bcrypt - Authentication and security
-
-**ML/AI:**
-- scikit-learn + XGBoost - Dynamic premium calculation
-- Isolation Forest - Fraud detection scoring
-- TensorFlow / Keras (LSTM) - Reserve forecasting
-- Pandas + NumPy - Feature engineering and data processing
+**Infrastructure:**
+- Zod 3.22.4 - Data validation/schema
+- Redis 4.6.10 - Caching and session storage
+- Helmet 8.1.0 & cors 2.8.5 - Backend security
 
 ## Configuration
 
 **Environment:**
-- `.env` files for environment variables configuration
-- Key configs: DATABASE_URL, REDIS_URL, OPENWEATHER_API_KEY, AQICN_API_KEY, RAZORPAY_KEY_ID, ML_API_URL
+- `.env` files for secrets and environment-specific configs
+- `next.config.ts`, `tailwind.config.ts`, `tsconfig.json` for frontend
+- `jest.config.js`, `tsconfig.json` for backend
 
 ## Platform Requirements
 
 **Development:**
-- Node.js 18+
-- Python 3.10+
-- PostgreSQL 15+
-- Redis
+- Any platform with Node.js and pnpm
+- Local PostgreSQL and Redis recommended
 
 **Production:**
-- Vercel - Frontend hosting (Next.js applications)
-- Render - Backend APIs and worker services hosting
-- Managed PostgreSQL + Redis (e.g. Supabase, Upstash)
+- Hybrid deployment: Next.js (likely Vercel/Netlify), API (likely Docker/Docker Compose/GCP)
+- Vercel and Netlify config files present
 
 ---
 
-*Stack analysis: 2026-03-21*
+*Stack analysis: 2026-03-28*
 *Update after major dependency changes*

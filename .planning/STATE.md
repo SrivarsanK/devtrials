@@ -2,23 +2,24 @@
 
 ## Current Position
 
-**Phase:** 2 - Parametric Trigger Monitoring (Completed)
-**Plan:** —
-**Status:** Phase 2 Complete. Ready for Phase 3.
-**Last activity:** 2026-03-21 — Rainfall, AQI, Heat Index monitors + cron scheduler implemented.
+**Phase:** 8 - Worker Experience Expansion (Planned)
+**Plan:** `.planning/phases/08-worker-exp-expansion/08-PLAN.md`
+**Status:** Adding new views for Zones, History, and Settings.
+**Last activity:** 2026-04-04 — Phase 8 added
 
-## Milestone v1.0: Core Parametric Engine
+## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
 
-**Goal:** Establish the technical foundation and the automated parametric trigger system.
+**Goal:** Complete the worker-facing user experience including the multi-step enrollment flow and the main PWA dashboard view.
 
 **Target Features:**
 
-- Backend Infrastructure (API, TimescaleDB, Redis, Cron)
-- Parametric Trigger Monitoring (Rainfall, AQI, Heat)
-- Core ML Inference (Dynamic Premium, Fraud Scoring)
+- Enrollment Wizard (`/page`) for Partner ID, Plan Selection, and UPI linking
+- PWA Worker Dashboard for viewing coverage status and claims
+- Fully functional EN/Tamil Localization Integration
 
 ## Accumulated Context
 
 - **Project Type:** Parametric Insurance for Gig Workers
 - **Stack:** Node.js/TypeScript, Python/FastAPI, PostgreSQL/TimescaleDB
-- **Key Decision:** Focusing on the data-driven engine first before the UI layer.
+- **UI Progress:** The `/` landing page UI marketing shell is fully designed and operational.
+- **Key Decision:** Transitioning to build out the front-end user experience to connect the existing backend triggers.

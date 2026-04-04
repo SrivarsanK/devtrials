@@ -1,14 +1,14 @@
 # GigShield
 
-## Current Milestone: v1.0 Core Parametric Engine
+## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
 
-**Goal:** Establish the technical foundation and the automated parametric trigger system.
+**Goal:** Complete the worker-facing user experience including the multi-step enrollment flow and the main PWA dashboard view.
 
 **Target features:**
 
-- Backend Infrastructure (API, TimescaleDB, Redis, Cron)
-- Parametric Trigger Monitoring (Rainfall, AQI, Heat)
-- Core ML Inference (Dynamic Premium, Fraud Scoring)
+- Enrollment Wizard (`/page`) for Partner ID, Plan Selection, and UPI linking
+- PWA Worker Dashboard for viewing coverage status and claims
+- Fully functional EN/Tamil Localization Integration
 
 ## What This Is
 
@@ -24,7 +24,14 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] WE-001: Worker registration with Swiggy/Zomato Partner ID (Phase 4)
+- [x] WE-002: Risk profile calculation from GPS and earning history (Simulated in Phase 4)
+- [x] WE-003: Plan selection (Guard Lite/Plus/Max) (Phase 4)
+- [x] WE-004: 3-day waiting period enforcement (Mocked in Success screen)
+- [x] DW-001: Live zone risk alerts (Phase 5)
+- [x] DW-002: Real-time coverage status (Phase 5)
+- [x] DW-003: Earnings and claims history (Phase 5)
+- [x] PWA-001: Mobile-first installable experience (Phase 5)
 
 ### Active
 

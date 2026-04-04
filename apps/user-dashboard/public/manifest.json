@@ -1,0 +1,17 @@
+{
+  "name": "GigShield | Delivery Worker Income Protection",
+  "short_name": "GigShield",
+  "description": "Premium income protection for delivery workers in India.",
+  "start_url": "/dashboard",
+  "display": "standalone",
+  "background_color": "#0e0e0e",
+  "theme_color": "#0e0e0e",
+  "icons": [
+    {
+      "src": "/icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

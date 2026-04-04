@@ -1,39 +1,43 @@
-# Milestone v1.0 Requirements: Core Parametric Engine
+# Project Requirements
 
-This document tracks the requirements specifically scoped for Milestone v1.0.
+This document tracks all validated, active, and out-of-scope requirements for GigShield.
 
-## Backend Infrastructure (BI)
+## Milestone v1.1 Requirements: Worker Enrollment & Dashboard Experience
 
-- [x] **BI-001**: RESTful API setup with Express and TypeScript.
-- [x] **BI-002**: JWT-based authentication for core service communication.
-- [x] **BI-003**: TimescaleDB setup for storing high-frequency trigger data.
-- [x] **BI-004**: Redis integration for caching and rate limiting.
+### Enrollment Flow
+- [ ] **ENR-01**: User can enter their Partner ID to initiate verification.
+- [ ] **ENR-02**: User can select between Guard Lite, Guard Plus, and Guard Max plans.
+- [ ] **ENR-03**: User can securely input and verify their UPI ID.
+- [ ] **ENR-04**: Entire flow includes input validation and error feedback.
 
-## Parametric Trigger Monitoring (TM)
+### Worker Dashboard
+- [ ] **WD-01**: User can view their active plan and next recurring premium date.
+- [ ] **WD-02**: User can view a feed of active weather/system triggers for their zone.
+- [ ] **WD-03**: User can view a historical list of processed and auto-approved claims.
+- [ ] **WD-04**: PWA manifests are implemented mimicking Native App styling.
 
-- [x] **TM-001**: Implement Rainfall monitor pulling from OpenWeather API (>50mm/3hrs).
-- [x] **TM-002**: Implement AQI monitor (>300 sustained 4hrs).
-- [x] **TM-003**: Implement Heat Index monitor (>45°C sustained 3hrs).
-- [x] **TM-004**: Node-cron worker for 5-minute polling and logging to TimescaleDB.
+### Localization & UI Standardization
+- [ ] **LOC-01**: All text routes through `LanguageContext` translating between EN/Tamil.
+- [ ] **LOC-02**: The App Shell header includes a sticky navigation with EN/Tamil toggle.
+- [ ] **LOC-03**: Shadcn/ui elements correctly adhere to the `0e0e0e` dark theme and `primary` tokens.
 
-## ML Core (ML)
-
-- [ ] **ML-001**: FastAPI service for model serving.
-- [ ] **ML-002**: XGBoost dynamic pricing inference endpoint.
-- [ ] **ML-003**: Isolation Forest fraud detector inference endpoint.
-
-## Traceability
+## Traceability Tracker
 
 | REQ-ID | Phase | Status |
-| --- | --- | --- |
-| BI-001 | 1 | Completed |
-| BI-002 | 1 | Completed |
-| BI-003 | 1 | Completed |
-| BI-004 | 1 | Completed |
-| TM-001 | 2 | Completed |
-| TM-002 | 2 | Completed |
-| TM-003 | 2 | Completed |
-| TM-004 | 2 | Completed |
-| ML-001 | 3 | Pending |
-| ML-002 | 3 | Pending |
-| ML-003 | 3 | Pending |
+|--------|-------|--------|
+| ENR-01 | Phase 4 | Pending |
+| ENR-02 | Phase 4 | Pending |
+| ENR-03 | Phase 4 | Pending |
+| ENR-04 | Phase 4 | Pending |
+| WD-01 | Phase 5 | Pending |
+| WD-02 | Phase 5 | Pending |
+| WD-03 | Phase 5 | Pending |
+| WD-04 | Phase 5 | Pending |
+| LOC-01 | Phase 6 | Pending |
+| LOC-02 | Phase 6 | Pending |
+| LOC-03 | Phase 6 | Pending |
+
+## Future Extensibility / Out of Scope (This Milestone)
+- Native Mobile Build (React Native) is excluded.
+- Live external banking API connectivity is excluded.
+- Language support beyond English / Tamil.

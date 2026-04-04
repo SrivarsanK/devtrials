@@ -1,45 +1,59 @@
-# Project Roadmap: Milestone v1.0
+# Project Roadmap: Milestone v1.1
 
-## Milestone v1.0: Core Parametric Engine
+## Milestone v1.1: Worker Enrollment & Dashboard Experience
 
-**Goal:** Build the high-performance data engine that powers GigShield's parametric triggers and ML pricing.
+**Goal:** Complete the worker-facing user experience including the multi-step enrollment flow and the main PWA dashboard view.
 
-### Phase 1: Foundation & Infrastructure
+### Phase 4: Enrollment Flow Implementation
 
-**Goal:** Setup the core backend services, database, and authentication.
+**Goal:** Build the `/page` enrollment wizard allowing workers to enter ID, select plan, and link UPI.
 
-- **Requirements:** BI-001, BI-002, BI-003, BI-004
-
-- **Success Criteria:**
-  1. REST API is alive and reachable.
-  2. TimescaleDB is provisioned with initial trigger tables.
-  3. JWT auth successfully protects a test endpoint.
-  4. Redis is connected and caching a test key.
-
-**Target features:**
-
-- Backend Infrastructure (API, TimescaleDB, Redis, Cron)
-- Parametric Trigger Monitoring (Rainfall, AQI, Heat)
-- Core ML Inference (Dynamic Premium, Fraud Scoring)
-
-## What This Is
-
-### Phase 2: Parametric Trigger Monitoring
-
-**Goal:** Implement the automated data fetching and logging system.
-
-- **Requirements:** TM-001, TM-002, TM-003, TM-004
+- **Requirements:** ENR-01, ENR-02, ENR-03, ENR-04
 
 - **Success Criteria:**
-  1. Cron job runs every 5 minutes.
-  2. Weather/AQI data is successfully stored in TimescaleDB.
-  3. Anomalies (threshold breaches) are logged correctly.
+  1. User can land on `/page` and enter a mock Partner ID securely.
+  2. The UI allows selection of Guard Lite, Plus, or Max tiers dynamically.
+  3. Form validation triggers correctly on the UPI linkage screen.
 
-### Phase 3: ML Inference Service
+### Phase 5: Worker Dashboard & PWA Capabilities
 
-**Goal:** Deploy the Python-based intelligence layer.
+**Goal:** Create the authenticated view where workers check coverage status and recent triggers.
 
-- **Requirements:** ML-001, ML-002, ML-003
+- **Requirements:** WD-01, WD-02, WD-03, WD-04
+
 - **Success Criteria:**
-  1. FastAPI service returns scores for mock pricing/fraud requests.
-  2. Integration tests between Node.js and FastAPI pass.
+  1. The dashboard correctly displays active Guard plan data.
+  2. The active claims / weather triggers feed is populated via dummy state.
+  3. PWA manifest correctly serves standard icons and layout config.
+
+### Phase 6: Full Application Localization
+
+**Goal:** Connect all new pages to the global `LanguageContext`.
+
+- **Requirements:** LOC-01, LOC-02, LOC-03
+
+- **Success Criteria:**
+  1. The dashboard and enrollment pages translate completely when "தமிழ்" is toggled in the header.
+  2. Translations persist reasonably, or default dictionary is expanded for structural texts.
+  3. No visual layout breaking occurs when Tamil is rendered.
+
+### Phase 7: Parametric Trigger Engine Implementation
+
+**Goal:** Establish the core backend services to monitor spatial triggers (Rainfall, AQI, Heat) and match them against active worker zones.
+
+- **Requirements:** TM-001, TM-002, TM-003
+
+- **Success Criteria:**
+  1. Background workers can fetch and deduplicate data from primary weather sources.
+  2. The system triggers "Imminent Disruption" alerts for matched zones.
+  3. Real-time trigger data is persisted in TimescaleDB for historical analysis.
+
+### Phase 8: Worker Experience - Zones, History, & Settings
+
+**Goal:** Expand the Worker PWA with dedicated views for managing coverage zones, reviewing detailed payout history, and configuring account settings.
+
+- **Requirements:** WD-05, WD-06, WD-07
+- **Success Criteria:**
+  1. Users can view and switch between monitored zones in `/zones`.
+  2. A dedicated `/history` page provides a searchable/filterable list of all past triggers and payouts.
+  3. The `/settings` page allows workers to manage language, profile, and notification preferences.

@@ -54,6 +54,11 @@ const data = {
       url: "/dashboard/risk-map",
       icon: MapIcon,
     },
+    {
+      title: "Payout Support",
+      url: "/payout",
+      icon: ShieldCheck,
+    },
   ],
 };
 

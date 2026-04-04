@@ -24,7 +24,10 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 
 ### Validated
 
-(None yet — ship to validate)
+- [x] WE-001: Worker registration with Swiggy/Zomato Partner ID (Phase 4)
+- [x] WE-002: Risk profile calculation from GPS and earning history (Simulated in Phase 4)
+- [x] WE-003: Plan selection (Guard Lite/Plus/Max) (Phase 4)
+- [x] WE-004: 3-day waiting period enforcement (Mocked in Success screen)
 
 ### Active
 

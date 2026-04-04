@@ -37,8 +37,8 @@ Worker PWA (mobile-first)     Platform Portal              Insurer Dashboard
 
 ### ML/AI Service
 - **Framework**: Python + FastAPI
-- **Models**: XGBoost (premium pricing), Isolation Forest (fraud detection), LSTM (reserve forecasting)
-- **Data Processing**: Pandas + NumPy
+- **Models**: Neural Network (ResNet) (premium pricing), Isolation Forest (fraud detection), LSTM (reserve forecasting)
+- **Data Processing**: Pandas + NumPy, Feature Engineering Pipeline
 
 ### Infrastructure
 - **Frontend Hosting**: Vercel
@@ -62,7 +62,7 @@ External API (OpenWeatherMap/IMD/CPCB) → Trigger Engine → Zone Matching
 - **Claims Service**: Claims processing pipeline, eligibility verification, payout execution
 - **Trigger Service**: Parametric API polling (5-min intervals), event logging to TimescaleDB
 - **Fraud Detection**: GPS spoofing detection, Isolation Forest scoring, manual review queue
-- **Premium Service**: Dynamic weekly pricing via XGBoost, auto-deduction coordination
+- **Premium Service**: Dynamic weekly pricing via Neural Network (ResNet), auto-deduction coordination
 
 ## Development Commands
 
@@ -78,9 +78,9 @@ npm run dev        # Start Express server
 npm run db:migrate # Run database migrations
 npm test           # Run tests
 
-# ML Service (from backend/ml)
+# ML Service (from ml_service)
 pip install -r requirements.txt
-uvicorn main:app --reload  # Start FastAPI server
+python -m uvicorn main:app --reload  # Start FastAPI server
 pytest                      # Run ML tests
 
 # Docker (from root)
@@ -102,9 +102,11 @@ gigshield/
 ├── packages/
 │   ├── ui/                   # Shared shadcn/ui components
 │   └── types/                # Shared TypeScript types
+├── Dynamic_pricing_model/   # Unified ML directory
+│   ├── ml_service/           # FastAPI + Neural Network (ResNet) models
+│   └── ml_pipeline/          # Model storage (shieldguard_scripted.pt)
 ├── backend/
 │   ├── api/                  # Express REST API
-│   ├── ml/                   # FastAPI + ML models
 │   └── triggers/            # Parametric trigger engine
 ├── supabase/
 │   ├── migrations/          # DB schema (PostgreSQL + TimescaleDB)

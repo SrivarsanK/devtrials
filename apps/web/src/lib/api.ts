@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5678";
+const ML_URL = process.env.NEXT_PUBLIC_ML_URL || "http://localhost:8000";
 
 export interface Trigger {
   id: string;
@@ -32,18 +33,29 @@ export interface Zone {
   monitoredServices: string[];
 }
 
-export interface FraudRequest {
-  id: string;
-  worker_id: number;
-  zone_name: string;
-  request_type: string;
-  amount: number;
-  status: 'PENDING' | 'PROCESSED' | 'REJECTED' | 'APPROVED';
-  fraud_score?: number;
-  category?: string; // allow any string for decision/category
-  top_signals?: string[];
-  raw_features?: any;
-  created_at: string;
+export interface PredictionFeatures {
+  flood_risk_score?: number;
+  rainfall_last_7d_mm?: number;
+  cyclone_in_forecast?: number;
+  reservoir_release_mm?: number;
+  aqi_level?: number;
+  consecutive_rain_days?: number;
+  week_of_year?: number;
+  is_monsoon_season?: number;
+  avg_daily_earnings_rs?: number;
+  hours_per_week?: number;
+}
+
+export interface PredictionResponse {
+  ai_adjustment_factor: number;
+  final_premium_rs: number;
+  risk_tier: 'LOW' | 'MEDIUM' | 'HIGH';
+  tier_probabilities: {
+    LOW: number;
+    MEDIUM: number;
+    HIGH: number;
+  };
+  status: string;
 }
 
 const MOCK_ZONES: Zone[] = [
@@ -203,25 +215,36 @@ export async function manualPoll() {
   }
 }
 
-export async function fetchFraudRequests(): Promise<FraudRequest[]> {
+export async function fetchPrediction(features: PredictionFeatures): Promise<PredictionResponse | null> {
   try {
-    const res = await fetch(`${BASE_URL}/api/fraud/requests`, { cache: 'no-store' });
-    if (!res.ok) throw new Error();
+    const res = await fetch(`${ML_URL}/predict`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        flood_risk_score: 0.1,
+        rainfall_last_7d_mm: 0,
+        cyclone_in_forecast: 0,
+        reservoir_release_mm: 0,
+        aqi_level: 50,
+        consecutive_rain_days: 0,
+        week_of_year: new Date().getMonth() * 4,
+        is_monsoon_season: [5,6,7,8,9].includes(new Date().getMonth()) ? 1 : 0,
+        avg_daily_earnings_rs: 1500,
+        hours_per_week: 40,
+        ...features
+      }),
+      cache: 'no-store'
+    });
+    if (!res.ok) throw new Error("ML Predict failed");
     return await res.json();
   } catch (err) {
-    console.warn("Backend fraud service unaccessible, returning mock requests");
-    return [
-      { id: "req_mock_1", worker_id: 1024, zone_name: "Tambaram", request_type: "CLAIM", amount: 1500, status: "PENDING", created_at: new Date().toISOString() },
-      { id: "req_mock_2", worker_id: 2048, zone_name: "T. Nagar", request_type: "CLAIM", amount: 2200, status: "PENDING", created_at: new Date().toISOString() },
-    ];
+    console.warn("ML Service unaccessible, using heuristic fallback");
+    return {
+      ai_adjustment_factor: 1.0,
+      final_premium_rs: 35.0,
+      risk_tier: 'MEDIUM',
+      tier_probabilities: { LOW: 0.2, MEDIUM: 0.7, HIGH: 0.1 },
+      status: 'fallback'
+    };
   }
-}
-
-export async function scoreFraudRequest(id: string): Promise<FraudRequest> {
-  const res = await fetch(`${BASE_URL}/api/fraud/score/${id}`, {
-    method: "POST",
-    headers: { "Content-Type": "application/json" },
-  });
-  if (!res.ok) throw new Error("Failed to score request");
-  return await res.json();
 }

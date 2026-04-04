@@ -34,7 +34,7 @@ function BottomNav() {
     { title: "Dashboard", url: "/dashboard", icon: LayoutDashboard },
     { title: "Risk Map", url: "/dashboard/risk-map", icon: MapIcon },
     { title: "Triggers", url: "/triggers", icon: Activity },
-    { title: "Zones", url: "/zones", icon: LayoutDashboard },
+    { title: "Payout", url: "/payout", icon: ShieldCheck },
   ];
 
   return (

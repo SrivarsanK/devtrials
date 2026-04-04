@@ -54,6 +54,11 @@ const data = {
       url: "/requests",
       icon: ShieldCheck,
     },
+    {
+      title: "Payout Support",
+      url: "/payout",
+      icon: ShieldCheck,
+    },
   ],
 };
 

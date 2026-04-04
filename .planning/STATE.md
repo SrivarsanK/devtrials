@@ -2,9 +2,9 @@
 
 ## Current Position
 
-**Phase:** 5 - Worker Dashboard & PWA Capabilities (Completed)
-**Plan:** `.planning/phases/05-worker-dashboard-experience/05-PLAN.md`
-**Status:** Completed. Ready for Phase 6 - Full Application Localization.
+**Phase:** 6 - Full Application Localization (Planned)
+**Plan:** `.planning/phases/06-full-application-localization/06-PLAN.md`
+**Status:** Requirements, Context, and Plan completed for final phase (v1.1 Milestone). Ready for build.
 **Last activity:** 2026-04-04 — Milestone v1.1 (Worker Enrollment & Dashboard Experience) started
 
 ## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience

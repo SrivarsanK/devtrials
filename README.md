@@ -1,7 +1,7 @@
-# 🛡️ GigShield — Parametric Income Insurance for India's Gig Delivery Workers
+# 🛡️ RideSuraksha — Parametric Income Insurance for India's Gig Delivery Workers
 
 > **Guidewire DEVTrails 2026 | University Hackathon**
-> *When the rain stops Raju from working, GigShield pays — automatically, instantly, no questions asked.*
+> *When the rain stops Raju from working, RideSuraksha pays — automatically, instantly, no questions asked.*
 
 ---
 
@@ -11,13 +11,13 @@ India has over 11 million gig delivery workers on platforms like Zomato, Swiggy,
 
 Traditional insurance products are inaccessible — they require paperwork, bank accounts, fixed salaries, and weeks-long claim processing. When a worker loses a day's income to a flood, they have no recourse.
 
-GigShield solves this with a parametric income insurance product — one where payouts are triggered automatically by verified external disruptions (weather, pollution, civil events), with no claims form, no adjuster, and no waiting period for approval.
+RideSuraksha solves this with a parametric income insurance product — one where payouts are triggered automatically by verified external disruptions (weather, pollution, civil events), with no claims form, no adjuster, and no waiting period for approval.
 
 ---
 
 ## ✨ What It Does
 
-**GigShield** is a fully automated parametric income insurance platform that protects food delivery workers from income loss caused by external disruptions beyond their control.
+**RideSuraksha** is a fully automated parametric income insurance platform that protects food delivery workers from income loss caused by external disruptions beyond their control.
 
 ### Key Features
 
@@ -32,11 +32,11 @@ GigShield solves this with a parametric income insurance product — one where p
 
 ## 🏗️ Architecture
 
-GigShield is a three-sided platform serving three stakeholders simultaneously:
+RideSuraksha is a three-sided platform serving three stakeholders simultaneously:
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                   GIGSHIELD PLATFORM                        │
+│                   RideSuraksha PLATFORM                        │
 │                                                             │
 │  [Worker App]      [Platform Portal]   [Insurer Dashboard]  │
 │  Mobile PWA        Swiggy/Zomato       ShieldLife Admin     │
@@ -187,7 +187,7 @@ Used by: Insurer dashboard — reserve adequacy warning system
 ```bash
 # Clone the repository
 git clone https://github.com/your-org/devtrials.git
-cd gigshield
+cd RideSuraksha
 
 # Install frontend dependencies
 cd frontend
@@ -236,7 +236,7 @@ ML_API_URL=http://localhost:8000
 ### Repository Structure
 
 ```text
-gigshield/
+RideSuraksha/
 ├── apps/
 │   ├── worker-app/          # Next.js — Worker PWA
 │   ├── platform-portal/     # Next.js — Swiggy/Zomato view
@@ -262,8 +262,8 @@ gigshield/
 ### Worker Enrollment Flow
 
 ```text
-1. Worker opens Zomato partner app → sees GigShield banner
-2. Taps "Protect my earnings" → redirected to GigShield PWA
+1. Worker opens Zomato partner app → sees RideSuraksha banner
+2. Taps "Protect my earnings" → redirected to RideSuraksha PWA
 3. Tamil-language onboarding — 3 screens, 2 min 45 sec avg
 4. Selects weekly plan (₹99 – ₹130 based on zone risk)
 5. Confirms auto-deduction from weekly Zomato payout (Fridays)
@@ -281,7 +281,7 @@ gigshield/
 4. 3-day waiting period passed ✓ [Monthly cap: 1/3 events used ✓]
 5. Claim auto-approved — no form, no phone call
 6. ₹800 credited to Raju's UPI within 90 minutes
-7. Raju receives SMS in Tamil: "GigShield ge ₹800 credit pannachi 🛡️"
+7. Raju receives SMS in Tamil: "RideSuraksha ge ₹800 credit pannachi 🛡️"
 ```
 
 ### Insurer Monitoring Flow
@@ -333,7 +333,7 @@ npm run mock:trigger -- --type=rainfall --zone=chennai --intensity=high
 
 ### Decision: Progressive Web App (PWA) via Next.js
 
-Rationale: Raju already has the Zomato partner app — we embed GigShield as a linked PWA, not a separate native app download. PWA works on Android without Play Store approval delays. Single codebase serves worker (mobile-first), platform admin (tablet/desktop), and insurer (desktop). Offline-capable: worker can view coverage status without internet. For Phase 2/3: if native features are needed (push notifications), Next.js PWA supports them.
+Rationale: Raju already has the Zomato partner app — we embed RideSuraksha as a linked PWA, not a separate native app download. PWA works on Android without Play Store approval delays. Single codebase serves worker (mobile-first), platform admin (tablet/desktop), and insurer (desktop). Offline-capable: worker can view coverage status without internet. For Phase 2/3: if native features are needed (push notifications), Next.js PWA supports them.
 
 ---
 
@@ -399,7 +399,7 @@ Based on document data:
 
 ## 👥 Team
 
-### DEVTrails 2026 — GigShield
+### DEVTrails 2026 — RideSuraksha
 
 Built with the belief that a delivery worker's income deserves the same protection as a corporate executive's salary.
 
@@ -413,8 +413,8 @@ Built with the belief that a delivery worker's income deserves the same protecti
 
 ## 🛡️ Disclaimer
 
-GigShield is a hackathon prototype. Insurance products in production would require IRDAI regulatory approval, actuarial certification, and platform partnership agreements.
+RideSuraksha is a hackathon prototype. Insurance products in production would require IRDAI regulatory approval, actuarial certification, and platform partnership agreements.
 
 ---
 
-**GigShield — Because every delivery partner deserves a safety net.**
+**RideSuraksha — Because every delivery partner deserves a safety net.**

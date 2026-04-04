@@ -9,7 +9,7 @@ describe('API Endpoints', () => {
       const res = await request(app).get('/health');
       expect(res.status).toBe(200);
       expect(res.body.status).toBe('UP');
-      expect(res.body.service).toBe('GigShield Core API');
+      expect(res.body.service).toBe('RideSuraksha Core API');
     });
   });
 

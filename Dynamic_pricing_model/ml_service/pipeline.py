@@ -2,7 +2,7 @@ import numpy as np
 import pandas as pd
 from typing import Dict, List, Any
 
-class ShieldGuardPipeline:
+class RideSurakshaPipeline:
     def __init__(self, target_input_size=38):
         self.target_input_size = target_input_size
         
@@ -85,4 +85,4 @@ class ShieldGuardPipeline:
         # Ensure we have a numpy array of shape (1, 38)
         return np.array(all_features, dtype=np.float32).reshape(1, -1)
 
-pipeline = ShieldGuardPipeline(target_input_size=38)
+pipeline = RideSurakshaPipeline(target_input_size=38)

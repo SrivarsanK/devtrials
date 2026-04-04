@@ -7,8 +7,8 @@ sys.path.append(os.getcwd())
 
 import model as shield_model
 
-model_path = r"..\ml_pipeline\models\shieldguard_scripted.pt"
-net_path = r"..\ml_pipeline\models\shieldguard_net.pt"
+model_path = r"..\ml_pipeline\models\RideSuraksha_scripted.pt"
+net_path = r"..\ml_pipeline\models\RideSuraksha_net.pt"
 
 print(f"Checking {model_path}...")
 if os.path.exists(model_path):
@@ -24,7 +24,7 @@ print(f"\nChecking {net_path}...")
 if os.path.exists(net_path):
     try:
         # Need the actual class for state_dict
-        model = shield_model.ShieldGuardNet(input_dim=38)
+        model = shield_model.RideSurakshaNet(input_dim=38)
         model.load_state_dict(torch.load(net_path, map_location=torch.device('cpu')))
         print("SUCCESS: State dict loaded!")
     except Exception as e:

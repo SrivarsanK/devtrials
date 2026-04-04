@@ -6,7 +6,7 @@ from xgboost import XGBClassifier
 import lightgbm as lgb
 import os
 
-class GigShieldFraudEngine:
+class RideSurakshaFraudEngine:
     def __init__(self, model_dir="exports"):
         self.model_dir = model_dir
         self.scaler = None
@@ -25,20 +25,20 @@ class GigShieldFraudEngine:
     def load_artifacts(self):
         """Loads all trained models and lookup tables."""
         try:
-            self.scaler = joblib.load(os.path.join(self.model_dir, "scaler_gigshield.pkl"))
+            self.scaler = joblib.load(os.path.join(self.model_dir, "scaler_RideSuraksha.pkl"))
             
             # Load XGBoost (JSON)
             self.xgb_model = XGBClassifier()
-            self.xgb_model.load_model(os.path.join(self.model_dir, "xgb_model_gigshield.json"))
+            self.xgb_model.load_model(os.path.join(self.model_dir, "xgb_model_RideSuraksha.json"))
             
             # Load LightGBM (txt booster)
-            self.lgbm_model = lgb.Booster(model_file=os.path.join(self.model_dir, "lgbm_model_gigshield.txt"))
+            self.lgbm_model = lgb.Booster(model_file=os.path.join(self.model_dir, "lgbm_model_RideSuraksha.txt"))
             
             # Load Zone Lookup
             self.zone_lookup = pd.read_csv(os.path.join(self.model_dir, "zone_priority_lookup.csv"))
             
             self.is_loaded = True
-            print("GigShield Engine: All artifacts loaded successfully.")
+            print("RideSuraksha Engine: All artifacts loaded successfully.")
         except Exception as e:
             print(f"Error loading artifacts: {e}")
             self.is_loaded = False

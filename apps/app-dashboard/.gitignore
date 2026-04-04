@@ -121,3 +121,4 @@ skills-lock.json
 /test-results/
 /coverage/
 *.lcov
+.vercel

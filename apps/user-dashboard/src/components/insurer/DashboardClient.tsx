@@ -29,7 +29,7 @@ export function DashboardClient() {
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-3">
               <div className="h-[2px] w-8 bg-gradient-to-r from-primary to-transparent rounded-full" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-60">ShieldGuard Protocol v4.2.0</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-60">RideSuraksha Protocol v4.2.0</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1 rounded-full glass-strong border border-white/[0.05]">
               <div className="size-1.5 rounded-full bg-success neon-success animate-pulse" />

@@ -1,6 +1,6 @@
 # Milestones
 
-This document tracks the high-level progress and shipment history of the GigShield project.
+This document tracks the high-level progress and shipment history of the RideSuraksha project.
 
 ## Current Milestone
 

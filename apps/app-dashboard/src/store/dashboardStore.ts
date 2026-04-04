@@ -140,6 +140,6 @@ export const useDashboardStore = create<DashboardState>()(
         return get().activeTriggers.filter((t) => t.status === 'TRIGGERED').length;
       },
     })),
-    { name: 'ShieldGuard Dashboard' }
+    { name: 'RideSuraksha Dashboard' }
   )
 );

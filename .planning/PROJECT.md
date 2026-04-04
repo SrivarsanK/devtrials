@@ -1,4 +1,4 @@
-# GigShield
+# RideSuraksha
 
 ## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
 
@@ -12,7 +12,7 @@
 
 ## What This Is
 
-**GigShield** is a parametric income insurance platform for India's 11+ million gig delivery workers (Zomato, Swiggy, Zepto). When verified external disruptions occur — heavy rainfall, floods, air quality crises, civil disruptions, or extreme heat — workers receive automatic payouts to their UPI accounts within 2-24 hours. No claims forms, no adjusters, no waiting for approval.
+**RideSuraksha** is a parametric income insurance platform for India's 11+ million gig delivery workers (Zomato, Swiggy, Zepto). When verified external disruptions occur — heavy rainfall, floods, air quality crises, civil disruptions, or extreme heat — workers receive automatic payouts to their UPI accounts within 2-24 hours. No claims forms, no adjusters, no waiting for approval.
 
 This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **production-ready, startup-quality standards**. Every feature must work end-to-end.
 
@@ -81,7 +81,7 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 
 - [ ] PP-001: Worker data integration (GPS, order flow)
 - [ ] PP-002: Premium deduction coordination
-- [ ] PP-003: GigShield banner in partner app
+- [ ] PP-003: RideSuraksha banner in partner app
 
 #### Backend Infrastructure
 

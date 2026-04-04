@@ -23,11 +23,11 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
 
   const handleComplete = () => {
     if (!upi.includes("@")) {
-      setError(t("Please enter a valid UPI ID (e.g. worker@bank).", "Please enter a valid UPI ID (e.g. worker@bank)."));
+      setError(t("Please enter a valid UPI ID (e.g. worker@bank)."));
       return;
     }
     if (!agreed) {
-      setError(t("You must agree to the auto-deduction to proceed.", "You must agree to the auto-deduction to proceed."));
+      setError(t("You must agree to the auto-deduction to proceed."));
       return;
     }
 
@@ -63,7 +63,7 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
           <Input 
             value={upi} 
             onChange={(e) => setUpi(e.target.value)}
-            placeholder={t("e.g. 9845012345@paytm", "e.g. 9845012345@paytm")} 
+            placeholder={t("e.g. 9845012345@paytm")} 
             className="bg-[#0e0e0e] border-white/10 h-14 text-lg focus:border-primary transition-all rounded-xl"
             disabled={loading}
           />
@@ -82,7 +82,7 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
                 <Translate text="Enable Auto-Deduction" />
               </label>
               <p className="text-xs text-white/40 leading-relaxed font-medium">
-                <Translate text="I authorize GigShield to deduct the weekly premium automatically from my delivery platform earnings or via UPI mandate." />
+                <Translate text="I authorize RideSuraksha to deduct the weekly premium automatically from my delivery platform earnings or via UPI mandate." />
               </p>
             </div>
           </div>

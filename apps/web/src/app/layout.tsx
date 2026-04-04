@@ -11,7 +11,7 @@ const jetbrainsMono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin
 const nunito = Nunito({ weight: ["400", "700", "900"], variable: "--font-display", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "GigShield | Parametric Income Insurance",
+  title: "RideSuraksha | Parametric Income Insurance",
   description: "Monitor disaster triggers and manage parametric insurance payouts for the gig economy.",
 };
 

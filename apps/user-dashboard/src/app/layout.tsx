@@ -18,7 +18,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "GigShield | Your income. Protected. Automatically.",
+  title: "RideSuraksha | Your income. Protected. Automatically.",
   description: "Advanced income protection for India's gig economy workers.",
   manifest: "/manifest.json",
   icons: {
@@ -28,7 +28,7 @@ export const metadata: Metadata = {
   appleWebApp: {
     capable: true,
     statusBarStyle: "black-translucent",
-    title: "GigShield",
+    title: "RideSuraksha",
   },
 };
 

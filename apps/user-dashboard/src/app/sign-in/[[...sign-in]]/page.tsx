@@ -12,7 +12,7 @@ export default function SignInPage() {
         <div className="w-16 h-16 bg-white/5 border border-white/10 rounded-2xl flex items-center justify-center backdrop-blur-xl">
            <Shield className="w-8 h-8 text-primary shadow-[0_0_20px_-5px_rgba(249,115,22,0.8)]" />
         </div>
-        <h1 className="text-2xl font-manrope font-black text-white tracking-tight uppercase">Gig<span className="text-primary">Shield</span> Access</h1>
+        <h1 className="text-2xl font-manrope font-black text-white tracking-tight uppercase">Ride<span className="text-primary">Suraksha</span> Access</h1>
       </div>
 
       <div className="relative z-10 animate-in fade-in zoom-in-95 duration-1000">

@@ -34,7 +34,7 @@ export default function WorkerDashboardPage() {
 
   // SYNC WITH LOCALSTORAGE (POST-ONBOARDING)
   useEffect(() => {
-    const savedUpi = localStorage.getItem('gigshield_upi');
+    const savedUpi = localStorage.getItem('RideSuraksha_upi');
     if (savedUpi) {
       setEnrollmentData(prev => ({ ...prev, upiId: savedUpi }));
     }

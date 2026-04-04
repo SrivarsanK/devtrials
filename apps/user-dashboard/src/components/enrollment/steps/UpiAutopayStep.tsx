@@ -90,7 +90,7 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
                <div className="space-y-2">
                   <h4 className="text-sm font-black text-white uppercase tracking-tight italic leading-none"><Translate text="2hr Parametric Mandate" /></h4>
                   <p className="text-[10px] font-bold text-white/30 uppercase leading-relaxed tracking-wider">
-                     <Translate text="By enabling Autopay, you authorize GigShield to automatically deposit verified claims to this ID and renew your policy window." />
+                     <Translate text="By enabling Autopay, you authorize RideSuraksha to automatically deposit verified claims to this ID and renew your policy window." />
                   </p>
                </div>
             </div>

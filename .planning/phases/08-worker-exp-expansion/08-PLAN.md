@@ -19,7 +19,7 @@ This phase implements three core pages to round out the worker PWA experience.
 - **Step 3.2:** Implement Profile Header (Partner ID, Name).
 - **Step 3.3:** Build Language Preference Selector (syncing with `LanguageContext`).
 - **Step 3.4:** Add Notification Toggles (SMS/Push - currently UI-only mocks).
-- **Step 3.5:** Include "About GigShield" and "Help & Support" sections.
+- **Step 3.5:** Include "About RideSuraksha" and "Help & Support" sections.
 
 ## 4. Navigation & Global Linking
 - **Step 4.1:** Update `sidebar` or `dashboard` header to provide links to these new pages.

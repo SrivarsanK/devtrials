@@ -124,7 +124,7 @@ export default function ZonesPage() {
               Expanding to <br /> New Territories
             </h3>
             <p className="max-w-md text-sm text-muted-foreground font-medium">
-              GigShield is actively onboarding 14 additional metropolitan clusters for the 2025 monsoon season.
+              RideSuraksha is actively onboarding 14 additional metropolitan clusters for the 2025 monsoon season.
             </p>
           </div>
           <RegisterZoneModal onSuccess={load} />

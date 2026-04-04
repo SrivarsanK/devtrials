@@ -1,7 +1,7 @@
 {
-  "name": "gigshield-backend",
+  "name": "RideSuraksha-backend",
   "version": "1.0.0",
-  "description": "Core Backend for GigShield Parametric Insurance",
+  "description": "Core Backend for RideSuraksha Parametric Insurance",
   "main": "dist/index.js",
   "engines": {
     "node": "22.x"

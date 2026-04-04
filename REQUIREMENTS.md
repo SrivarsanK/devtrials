@@ -1,4 +1,4 @@
-# GigShield — Product Requirements Document
+# RideSuraksha — Product Requirements Document
 
 > **Version**: 1.0  
 > **Last Updated**: March 2026  
@@ -16,7 +16,7 @@
 
 ### Solution
 
-<cite index="1-3">GigShield solves this with a parametric income insurance product — one where payouts are triggered automatically by verified external disruptions (weather, pollution, civil events), with no claims form, no adjuster, and no waiting period for approval.</cite>
+<cite index="1-3">RideSuraksha solves this with a parametric income insurance product — one where payouts are triggered automatically by verified external disruptions (weather, pollution, civil events), with no claims form, no adjuster, and no waiting period for approval.</cite>
 
 ### Target User
 
@@ -205,9 +205,9 @@
 - System SHALL handle insufficient balance scenarios gracefully
 - System SHALL notify worker if premium deduction fails
 
-**REQ-PP-003**: GigShield Banner Integration
-- System SHALL display GigShield enrollment banner in partner app
-- System SHALL provide deep link to GigShield PWA
+**REQ-PP-003**: RideSuraksha Banner Integration
+- System SHALL display RideSuraksha enrollment banner in partner app
+- System SHALL provide deep link to RideSuraksha PWA
 - System SHALL track conversion rate from banner to enrollment
 
 ---
@@ -349,7 +349,7 @@
 - GPS verification and location tracking
 - Order flow monitoring
 - Premium deduction coordination
-- GigShield banner display in partner app
+- RideSuraksha banner display in partner app
 
 **Technical Requirements**:
 - RESTful API integration with platform backends

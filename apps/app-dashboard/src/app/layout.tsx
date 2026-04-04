@@ -13,7 +13,7 @@ const jetbrainsMono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin
 const nunito = Nunito({ weight: ["400", "700", "900"], variable: "--font-display", subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "ShieldGuard | Insurer Dashboard",
+  title: "RideSuraksha | Insurer Dashboard",
   description: "Real-time parametric insurance operations monitoring — ShieldLife General Insurance",
 };
 

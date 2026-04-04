@@ -20,7 +20,7 @@ export function VerificationStep({ onNext }: VerificationStepProps) {
 
   const handleVerify = () => {
     if (partnerId.length < 5) {
-      setError(t("Please enter a valid Partner ID (minimum 5 characters).", "Please enter a valid Partner ID (minimum 5 characters)."));
+      setError(t("Please enter a valid Partner ID (minimum 5 characters)."));
       return;
     }
 
@@ -45,7 +45,7 @@ export function VerificationStep({ onNext }: VerificationStepProps) {
           <Translate text="Worker Verification" />
         </CardTitle>
         <CardDescription className="text-white/50 text-base">
-          <Translate text="Enter your platform-assigned Partner ID to link your GigShield account." />
+          <Translate text="Enter your platform-assigned Partner ID to link your RideSuraksha account." />
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-6 pb-12 px-8">
@@ -56,7 +56,7 @@ export function VerificationStep({ onNext }: VerificationStepProps) {
           <Input 
             value={partnerId} 
             onChange={(e) => setPartnerId(e.target.value)}
-            placeholder={t("e.g. SZ-98231", "e.g. SZ-98231")} 
+            placeholder={t("e.g. SZ-98231")} 
             className="bg-[#0e0e0e] border-white/10 h-14 text-lg focus:border-primary transition-all rounded-xl"
             disabled={loading}
           />

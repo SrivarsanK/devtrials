@@ -1,0 +1,1709 @@
+Γû▓ Next.js 16.2.1 (Turbopack)
+
+ΓÜá The "middleware" file convention is deprecated. Please use "proxy" instead. Learn more: https://nextjs.org/docs/messages/middleware-to-proxy
+  Creating an optimized production build ...
+
+> Build error occurred
+Error: Turbopack build failed with 64 errors:
+./apps/user-dashboard/src/app/globals.css
+Error evaluating Node.js code
+Error: Cannot find module '@tailwindcss/postcss'
+Require stack:
+- C:\Users\Arunavo\Desktop\devtrials\apps\user-dashboard\.next\build\chunks\[root-of-the-server]__0s3gc8b._.js
+- C:\Users\Arunavo\Desktop\devtrials\apps\user-dashboard\.next\build\chunks\[turbopack]_runtime.js
+- C:\Users\Arunavo\Desktop\devtrials\apps\user-dashboard\.next\build\postcss.js
+    [at Function._resolveFilename (node:internal/modules/cjs/loader:1365:15)]
+    [at defaultResolveImpl (node:internal/modules/cjs/loader:1021:19)]
+    [at resolveForCJSWithHooks (node:internal/modules/cjs/loader:1026:22)]
+    [at Function._load (node:internal/modules/cjs/loader:1175:37)]
+    [at TracingChannel.traceSync (node:diagnostics_channel:322:14)]
+    [at wrapModuleLoad (node:internal/modules/cjs/loader:235:24)]
+    [at Module.require (node:internal/modules/cjs/loader:1445:12)]
+    [at require (node:internal/modules/helpers:135:16)]
+    at require (turbopack:///[turbopack-node]/transforms/postcss.ts:49:25) [C:\Users\Arunavo\Desktop\devtrials\apps\user-dashboard\.next\build\chunks\[root-of-the-server]__0s3gc8b._.js:134:33]
+    [at <anonymous>]
+
+Import trace:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/globals.css [Client Component Browser]
+    ./apps/user-dashboard/src/app/layout.tsx [Server Component]
+
+
+./apps/user-dashboard/src/components/ui/button.tsx:3:1
+Module not found: Can't resolve '@base-ui/react/button'
+  1 | "use client"
+  2 |
+> 3 | import { Button as ButtonPrimitive } from "@base-ui/react/button"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { cva, type VariantProps } from "class-variance-authority"
+  5 |
+  6 | import { cn } from "@/lib/utils"
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/dialog.tsx:4:1
+Module not found: Can't resolve '@base-ui/react/dialog'
+  2 |
+  3 | import * as React from "react"
+> 4 | import { Dialog as DialogPrimitive } from "@base-ui/react/dialog"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | import { cn } from "@/lib/utils"
+  7 | import { Button } from "@/components/ui/button"
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/dialog.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/dialog.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/input.tsx:2:1
+Module not found: Can't resolve '@base-ui/react/input'
+  1 | import * as React from "react"
+> 2 | import { Input as InputPrimitive } from "@base-ui/react/input"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | import { cn } from "@/lib/utils"
+  5 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/input.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/input.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/badge.tsx:1:1
+Module not found: Can't resolve '@base-ui/react/merge-props'
+> 1 | import { mergeProps } from "@base-ui/react/merge-props"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { useRender } from "@base-ui/react/use-render"
+  3 | import { cva, type VariantProps } from "class-variance-authority"
+  4 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/badge.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/badge.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/switch.tsx:3:1
+Module not found: Can't resolve '@base-ui/react/switch'
+  1 | "use client"
+  2 |
+> 3 | import { Switch as SwitchPrimitive } from "@base-ui/react/switch"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | import { cn } from "@/lib/utils"
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/switch.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/switch.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/badge.tsx:2:1
+Module not found: Can't resolve '@base-ui/react/use-render'
+  1 | import { mergeProps } from "@base-ui/react/merge-props"
+> 2 | import { useRender } from "@base-ui/react/use-render"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { cva, type VariantProps } from "class-variance-authority"
+  4 |
+  5 | import { cn } from "@/lib/utils"
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/badge.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/badge.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx:8:1
+Module not found: Can't resolve '@clerk/nextjs'
+   6 |   BadgeCheck, Edit3, AlertCircle, Loader2
+   7 | } from "lucide-react";
+>  8 | import { useUser } from "@clerk/nextjs";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | import { Translate } from "@/components/ui/translate";
+  10 | import { Button } from "@/components/ui/button";
+  11 | import { Card } from "@/components/ui/card";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/layout.tsx:5:1
+Module not found: Can't resolve '@clerk/nextjs'
+  3 | import React, { useState, useEffect } from "react";
+  4 | import { Sidebar } from "@/components/dashboard/Sidebar";
+> 5 | import { useUser, UserButton } from "@clerk/nextjs";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { Loader2, Menu, Bell, Shield } from "lucide-react";
+  7 | import { Button } from "@/components/ui/button";
+  8 | import { useLanguage } from "@/contexts/LanguageContext";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx:11:1
+Module not found: Can't resolve '@clerk/nextjs'
+   9 | import { Badge } from "@/components/ui/badge";
+  10 | import { Switch } from "@/components/ui/switch";
+> 11 | import { useUser } from "@clerk/nextjs";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  12 |
+  13 | export default function SettingsPage() {
+  14 |   const { language, setLanguage } = useLanguage();
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/layout.tsx:3:1
+Module not found: Can't resolve '@clerk/nextjs'
+  1 | import type { Metadata, Viewport } from "next";
+  2 | import { Geist, Geist_Mono, Inter, Manrope } from "next/font/google";
+> 3 | import { ClerkProvider } from "@clerk/nextjs";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 | import { LanguageProvider } from "@/contexts/LanguageContext";
+  5 | import "./globals.css";
+  6 |
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/page.tsx:6:1
+Module not found: Can't resolve '@clerk/nextjs'
+  4 | import Link from "next/link";
+  5 | import { Shield, Smartphone, ArrowDown, Droplet, Wind, AlertTriangle, ShieldCheck, Banknote...
+> 6 | import { Show, SignInButton, UserButton } from "@clerk/nextjs";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Translate } from "@/components/ui/translate";
+  8 | import { useLanguage } from "@/contexts/LanguageContext";
+  9 | import { Button } from "@/components/ui/button";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/sign-in/[[...sign-in]]/page.tsx:1:1
+Module not found: Can't resolve '@clerk/nextjs'
+> 1 | import { SignIn } from "@clerk/nextjs";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { Shield } from "lucide-react";
+  3 |
+  4 | export default function SignInPage() {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/sign-up/[[...sign-up]]/page.tsx:1:1
+Module not found: Can't resolve '@clerk/nextjs'
+> 1 | import { SignUp } from "@clerk/nextjs";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { ShieldAlert } from "lucide-react";
+  3 |
+  4 | export default function SignUpPage() {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/middleware.ts:1:1
+Module not found: Can't resolve '@clerk/nextjs/server'
+> 1 | import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 |
+  3 | const isPublicRoute = createRouteMatcher([
+  4 |   "/",
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/badge.tsx:3:1
+Module not found: Can't resolve 'class-variance-authority'
+  1 | import { mergeProps } from "@base-ui/react/merge-props"
+  2 | import { useRender } from "@base-ui/react/use-render"
+> 3 | import { cva, type VariantProps } from "class-variance-authority"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  4 |
+  5 | import { cn } from "@/lib/utils"
+  6 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/badge.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/badge.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/button.tsx:4:1
+Module not found: Can't resolve 'class-variance-authority'
+  2 |
+  3 | import { Button as ButtonPrimitive } from "@base-ui/react/button"
+> 4 | import { cva, type VariantProps } from "class-variance-authority"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 |
+  6 | import { cn } from "@/lib/utils"
+  7 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/lib/utils.ts:1:1
+Module not found: Can't resolve 'clsx'
+> 1 | import { clsx, type ClassValue } from "clsx"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  2 | import { twMerge } from "tailwind-merge"
+  3 |
+  4 | export function cn(...inputs: ClassValue[]) {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/lib/utils.ts [Client Component Browser]
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/lib/utils.ts [Client Component SSR]
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx:4:1
+Module not found: Can't resolve 'framer-motion'
+  2 |
+  3 | import React, { useState } from "react";
+> 4 | import { motion, AnimatePresence } from "framer-motion";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { 
+  6 |   AlertCircle, LayoutDashboard, History, 
+  7 |   ShieldAlert, ShieldCheck, Zap, ArrowRight,
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx:12:1
+Module not found: Can't resolve 'framer-motion'
+  10 | import { Button } from "@/components/ui/button";
+  11 | import { Card } from "@/components/ui/card";
+> 12 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 |
+  14 | // COMPONENTS
+  15 | import { RiskFeed } from "@/components/dashboard/RiskFeed";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/history/page.tsx:12:1
+Module not found: Can't resolve 'framer-motion'
+  10 | import { TriggerService, TriggerEvent } from "@/lib/api";
+  11 | import { Skeleton } from "@/components/ui/skeleton";
+> 12 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  13 |
+  14 | export default function PayoutHistoryPage() {
+  15 |   const [loading, setLoading] = useState(true);
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/layout.tsx:10:1
+Module not found: Can't resolve 'framer-motion'
+   8 | import { useLanguage } from "@/contexts/LanguageContext";
+   9 | import { Translate } from "@/components/ui/translate";
+> 10 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 | import Link from "next/link";
+  12 |
+  13 | export default function DashboardLayout({ children }: { children: React.ReactNode }) {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx:14:1
+Module not found: Can't resolve 'framer-motion'
+  12 | import { TriggerService, TriggerEvent } from "@/lib/api";
+  13 | import { Skeleton } from "@/components/ui/skeleton";
+> 14 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  15 |
+  16 | export default function ZonesPage() {
+  17 |   const [loading, setLoading] = useState(true);
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/onboarding/page.tsx:10:1
+Module not found: Can't resolve 'framer-motion'
+   8 | import { Button } from "@/components/ui/button";
+   9 | import { StepIndicator } from "@/components/enrollment/StepIndicator";
+> 10 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  11 |
+  12 | // STEP COMPONENTS
+  13 | import { PartnerSelectionStep } from "@/components/enrollment/steps/PartnerSelectionStep";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/Sidebar.tsx:13:1
+Module not found: Can't resolve 'framer-motion'
+  11 | import { Translate } from "@/components/ui/translate";
+  12 | import { Button } from "@/components/ui/button";
+> 13 | import { motion } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  14 |
+  15 | interface SidebarProps {
+  16 |   onClose?: () => void;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/Sidebar.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/Sidebar.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx:4:1
+Module not found: Can't resolve 'framer-motion'
+  2 |
+  3 | import React, { useState, useRef } from "react";
+> 4 | import { motion, AnimatePresence } from "framer-motion";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { 
+  6 |   Upload, FileText, CheckCircle, AlertCircle, 
+  7 |   Video, X, Trash2, Shield, Info
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx:4:1
+Module not found: Can't resolve 'framer-motion'
+  2 |
+  3 | import React, { useState } from "react";
+> 4 | import { motion, AnimatePresence } from "framer-motion";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | import { 
+  6 |   History, Clock, AlertCircle, CheckCircle, 
+  7 |   XCircle, ChevronRight, Video, FileText,
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx:8:1
+Module not found: Can't resolve 'framer-motion'
+   6 | import { Button } from "@/components/ui/button";
+   7 | import { ShieldCheck, ArrowRight, Loader2, KeyRound } from "lucide-react";
+>  8 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | interface AadharStepProps {
+  11 |   onNext: (aadhar: string) => void;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx:7:1
+Module not found: Can't resolve 'framer-motion'
+   5 | import { Button } from "@/components/ui/button";
+   6 | import { Camera, Upload, RefreshCw, CheckCircle2, ArrowRight, Loader2, X, AlertCircle } fr...
+>  7 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | interface CaptureStepProps {
+  10 |   onComplete: (image: string) => void;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx:7:1
+Module not found: Can't resolve 'framer-motion'
+   5 | import { Button } from "@/components/ui/button";
+   6 | import { FileText, Upload, CheckCircle2, ArrowRight, X, Loader2 } from "lucide-react";
+>  7 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | interface DocumentUploadStepProps {
+  10 |   onNext: (file: any) => void;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx:9:1
+Module not found: Can't resolve 'framer-motion'
+   7 | import { Switch } from "@/components/ui/switch";
+   8 | import { Smartphone, MapPin, Bell, ArrowRight, ShieldCheck } from "lucide-react";
+>  9 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  10 |
+  11 | interface IdentityStepProps {
+  12 |   onNext: (data: { mobile: string; location: boolean; notification: boolean }) => void;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx:8:1
+Module not found: Can't resolve 'framer-motion'
+   6 | import { Button } from "@/components/ui/button";
+   7 | import { ShieldCheck, ArrowRight, Loader2 } from "lucide-react";
+>  8 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | interface PartnerIdStepProps {
+  11 |   onNext: (id: string) => void;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx:6:1
+Module not found: Can't resolve 'framer-motion'
+  4 | import { Translate } from "@/components/ui/translate";
+  5 | import { Button } from "@/components/ui/button";
+> 6 | import { motion } from "framer-motion";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Smartphone, Zap, Truck, Bike, Car, ShoppingBag, Box, Package } from "lucide-react";
+  8 |
+  9 | const PARTNERS = [
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx:8:1
+Module not found: Can't resolve 'framer-motion'
+   6 | import { Button } from "@/components/ui/button";
+   7 | import { Search, MapPin, CheckCircle2, AlertTriangle, ArrowRight, ShieldCheck } from "luci...
+>  8 | import { motion, AnimatePresence } from "framer-motion";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | import { Badge } from "@/components/ui/badge";
+  10 |
+  11 | const ALL_ZONES = [
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+   3 | import React, { useState } from "react";
+   4 | import { motion, AnimatePresence } from "framer-motion";
+>  5 | import { 
+     | ^^^^^^^^
+>  6 |   AlertCircle, LayoutDashboard, History, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  7 |   ShieldAlert, ShieldCheck, Zap, ArrowRight,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  8 |   Info
+     | ^^^^^^
+>  9 | } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { ClaimForm } from "@/components/dashboard/claims/ClaimForm";
+  11 | import { ClaimHistory } from "@/components/dashboard/claims/ClaimHistory";
+  12 | import { Button } from "@/components/ui/button";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx:4:1
+Module not found: Can't resolve 'lucide-react'
+   2 |
+   3 | import React, { useState, useMemo, useEffect } from "react";
+>  4 | import { 
+     | ^^^^^^^^
+>  5 |   ShieldCheck, Zap, TrendingUp, CloudRain, Globe, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  6 |   BadgeCheck, Edit3, AlertCircle, Loader2
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  7 | } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { useUser } from "@clerk/nextjs";
+   9 | import { Translate } from "@/components/ui/translate";
+  10 | import { Button } from "@/components/ui/button";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/history/page.tsx:4:1
+Module not found: Can't resolve 'lucide-react'
+  2 | ...
+  3 | ...ate, useEffect } from "react";
+> 4 | ...rch, Filter, Download, TrendingUp, Zap, ArrowUpRight, IndianRupee, MapPin, ShieldCheck }...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | ...from "@/components/ui/translate";
+  6 | ...m "@/components/ui/button";
+  7 | ..."@/components/ui/card";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/history/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/layout.tsx:6:1
+Module not found: Can't resolve 'lucide-react'
+  4 | import { Sidebar } from "@/components/dashboard/Sidebar";
+  5 | import { useUser, UserButton } from "@clerk/nextjs";
+> 6 | import { Loader2, Menu, Bell, Shield } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { Button } from "@/components/ui/button";
+  8 | import { useLanguage } from "@/contexts/LanguageContext";
+  9 | import { Translate } from "@/components/ui/translate";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/layout.tsx:159:1
+Module not found: Can't resolve 'lucide-react'
+  157 | ...
+  158 | ...RTS FOR FOOTER
+> 159 | ...eldCheck, History as HistoryIcon, LayoutDashboard, Settings as SettingsIcon } from "lu...
+      |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  160 | ...
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx:4:1
+Module not found: Can't resolve 'lucide-react'
+  2 | ...
+  3 | ...e } from "react";
+> 4 | ...ield, MessageSquare, LogOut, ChevronRight, Phone, Fingerprint, Languages, Zap, BadgeChec...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | ...om "@/components/ui/translate";
+  6 | ...from "@/contexts/LanguageContext";
+  7 | ..."@/components/ui/button";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx:4:1
+Module not found: Can't resolve 'lucide-react'
+   2 |
+   3 | import React, { useState, useEffect } from "react";
+>  4 | import { 
+     | ^^^^^^^^
+>  5 |   Globe, Search, MapPin, CheckCircle2, AlertTriangle, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  6 |   ShieldCheck, TrendingUp, Sun, CloudRain 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  7 | } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { Translate } from "@/components/ui/translate";
+   9 | import { Button } from "@/components/ui/button";
+  10 | import { Badge } from "@/components/ui/badge";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx:231:1
+Module not found: Can't resolve 'lucide-react'
+  229 |
+  230 | // ICON IMPORT
+> 231 | import { IndianRupee } from "lucide-react";
+      | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  232 |
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/not-found.tsx:2:1
+Module not found: Can't resolve 'lucide-react'
+  1 | import Link from "next/link";
+> 2 | import { Shield, ArrowRight } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 | import { Viewport } from "next";
+  4 |
+  5 | export const viewport: Viewport = {
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/onboarding/page.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+  3 | import React, { useState, useEffect } from "react";
+  4 | import Link from "next/link";
+> 5 | import { Shield, ArrowRight, ShieldCheck, BadgeCheck } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | import { Translate } from "@/components/ui/translate";
+  7 | import { useLanguage } from "@/contexts/LanguageContext";
+  8 | import { Button } from "@/components/ui/button";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/page.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+  3 | ...t, useState } from "react";
+  4 | ...ink";
+> 5 | ...one, ArrowDown, Droplet, Wind, AlertTriangle, ShieldCheck, Banknote, MapPin, Star, Menu,...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | ...ton, UserButton } from "@clerk/nextjs";
+  7 | ...m "@/components/ui/translate";
+  8 | ...rom "@/contexts/LanguageContext";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/app/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/app/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/sign-in/[[...sign-in]]/page.tsx:2:1
+Module not found: Can't resolve 'lucide-react'
+  1 | import { SignIn } from "@clerk/nextjs";
+> 2 | import { Shield } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function SignInPage() {
+  5 |   return (
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/app/sign-up/[[...sign-up]]/page.tsx:2:1
+Module not found: Can't resolve 'lucide-react'
+  1 | import { SignUp } from "@clerk/nextjs";
+> 2 | import { ShieldAlert } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export default function SignUpPage() {
+  5 |   return (
+
+
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/RiskFeed.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+  3 | ...eState, useEffect } from "react";
+  4 | ... } from "@/components/ui/translate";
+> 5 | ..., AlertTriangle, Info, RefreshCw, Smartphone, TrendingUp, Sun, CloudLightning, Wind } fr...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 | ...dHeader, CardTitle, CardContent } from "@/components/ui/card";
+  7 | ...rom "@/components/ui/badge";
+  8 | ...from "@/components/ui/button";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/RiskFeed.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/RiskFeed.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/Sidebar.tsx:6:1
+Module not found: Can't resolve 'lucide-react'
+   4 | import Link from "next/link";
+   5 | import { usePathname } from "next/navigation";
+>  6 | import { 
+     | ^^^^^^^^
+>  7 |   Shield, LayoutDashboard, History, Globe, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  8 |   Settings, Zap, ShieldCheck, Info, X, LogOut,
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  9 |   AlertCircle
+     | ^^^^^^^^^^^^^
+> 10 | } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^
+  11 | import { Translate } from "@/components/ui/translate";
+  12 | import { Button } from "@/components/ui/button";
+  13 | import { motion } from "framer-motion";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/Sidebar.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/Sidebar.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/StatsHistory.tsx:6:1
+Module not found: Can't resolve 'lucide-react'
+  4 | ... "next/link";
+  5 | ...te } from "@/components/ui/translate";
+> 6 | ...upee, ShieldCheck, TrendingUp, ArrowUpRight, History, Zap, ShieldAlert, BadgeInfo } from...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | ...ardHeader, CardTitle, CardContent } from "@/components/ui/card";
+  8 | ... from "@/components/ui/badge";
+  9 | ...Service, TriggerEvent } from "@/lib/api";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/StatsHistory.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/StatsHistory.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+   3 | import React, { useState, useRef } from "react";
+   4 | import { motion, AnimatePresence } from "framer-motion";
+>  5 | import { 
+     | ^^^^^^^^
+>  6 |   Upload, FileText, CheckCircle, AlertCircle, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  7 |   Video, X, Trash2, Shield, Info
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  8 | } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^
+   9 | import { Button } from "@/components/ui/button";
+  10 | import { Card, CardContent } from "@/components/ui/card";
+  11 | import { Input } from "@/components/ui/input";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+   3 | import React, { useState } from "react";
+   4 | import { motion, AnimatePresence } from "framer-motion";
+>  5 | import { 
+     | ^^^^^^^^
+>  6 |   History, Clock, AlertCircle, CheckCircle, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  7 |   XCircle, ChevronRight, Video, FileText, 
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  8 |   MapPin, Shield, Calendar, Info, Play
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+>  9 | } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^
+  10 | import { Badge } from "@/components/ui/badge";
+  11 | import { Button } from "@/components/ui/button";
+  12 | import { Translate } from "@/components/ui/translate";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/StepIndicator.tsx:5:1
+Module not found: Can't resolve 'lucide-react'
+  3 | import React from "react";
+  4 | import { Translate } from "@/components/ui/translate";
+> 5 | import { Check } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  6 |
+  7 | interface StepIndicatorProps {
+  8 |   currentStep: number;
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/StepIndicator.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/StepIndicator.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx:7:1
+Module not found: Can't resolve 'lucide-react'
+   5 | import { Input } from "@/components/ui/input";
+   6 | import { Button } from "@/components/ui/button";
+>  7 | import { ShieldCheck, ArrowRight, Loader2, KeyRound } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { motion, AnimatePresence } from "framer-motion";
+   9 |
+  10 | interface AadharStepProps {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx:6:1
+Module not found: Can't resolve 'lucide-react'
+  4 | ...ranslate } from "@/components/ui/translate";
+  5 | ...utton } from "@/components/ui/button";
+> 6 | ...amera, Upload, RefreshCw, CheckCircle2, ArrowRight, Loader2, X, AlertCircle } from "luci...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | ...otion, AnimatePresence } from "framer-motion";
+  8 | ...
+  9 | ...CaptureStepProps {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx:6:1
+Module not found: Can't resolve 'lucide-react'
+  4 | import { Translate } from "@/components/ui/translate";
+  5 | import { Button } from "@/components/ui/button";
+> 6 | import { FileText, Upload, CheckCircle2, ArrowRight, X, Loader2 } from "lucide-react";
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | import { motion, AnimatePresence } from "framer-motion";
+  8 |
+  9 | interface DocumentUploadStepProps {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx:8:1
+Module not found: Can't resolve 'lucide-react'
+   6 | import { Button } from "@/components/ui/button";
+   7 | import { Switch } from "@/components/ui/switch";
+>  8 | import { Smartphone, MapPin, Bell, ArrowRight, ShieldCheck } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 | import { motion, AnimatePresence } from "framer-motion";
+  10 |
+  11 | interface IdentityStepProps {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx:7:1
+Module not found: Can't resolve 'lucide-react'
+   5 | import { Input } from "@/components/ui/input";
+   6 | import { Button } from "@/components/ui/button";
+>  7 | import { ShieldCheck, ArrowRight, Loader2 } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | import { motion, AnimatePresence } from "framer-motion";
+   9 |
+  10 | interface PartnerIdStepProps {
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx:7:1
+Module not found: Can't resolve 'lucide-react'
+   5 | import { Button } from "@/components/ui/button";
+   6 | import { motion } from "framer-motion";
+>  7 | import { Smartphone, Zap, Truck, Bike, Car, ShoppingBag, Box, Package } from "lucide-react";
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 |
+   9 | const PARTNERS = [
+  10 |   { id: "swiggy", name: "Swiggy", icon: ShoppingBag, color: "text-[#fc8019]" },
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/RideSurakshaStep.tsx:6:1
+Module not found: Can't resolve 'lucide-react'
+  4 | ...anslate } from "@/components/ui/translate";
+  5 | ...tton } from "@/components/ui/button";
+> 6 | ...ield, Clock, MapPin, Check, Info, ArrowRight, Zap, TrendingUp, AlertTriangle } from "luc...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  7 | ...tion, AnimatePresence } from "framer-motion";
+  8 | ...
+  9 | ...ISTRY (Sync with ZoneSelectionStep)
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/RideSurakshaStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/RideSurakshaStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/UpiAutopayStep.tsx:4:1
+Module not found: Can't resolve 'lucide-react'
+  2 | ...
+  3 | ... React, { useState } from "react";
+> 4 | ... { CreditCard, Smartphone, Check, Loader2, ArrowRight, ShieldCheck, Zap } from "lucide-r...
+    |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  5 | ... { Translate } from "@/components/ui/translate";
+  6 | ... { Button } from "@/components/ui/button";
+  7 | ... { Input } from "@/components/ui/input";
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/UpiAutopayStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/UpiAutopayStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx:7:1
+Module not found: Can't resolve 'lucide-react'
+   5 | ...{ Input } from "@/components/ui/input";
+   6 | ...{ Button } from "@/components/ui/button";
+>  7 | ...{ Search, MapPin, CheckCircle2, AlertTriangle, ArrowRight, ShieldCheck } from "lucide-r...
+     |    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   8 | ...{ motion, AnimatePresence } from "framer-motion";
+   9 | ...{ Badge } from "@/components/ui/badge";
+  10 | ...
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/onboarding/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/components/ui/dialog.tsx:8:1
+Module not found: Can't resolve 'lucide-react'
+   6 | import { cn } from "@/lib/utils"
+   7 | import { Button } from "@/components/ui/button"
+>  8 | import { XIcon } from "lucide-react"
+     | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+   9 |
+  10 | function Dialog({ ...props }: DialogPrimitive.Root.Props) {
+  11 |   return <DialogPrimitive.Root data-slot="dialog" {...props} />
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/components/ui/dialog.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/components/ui/dialog.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+./apps/user-dashboard/src/lib/utils.ts:2:1
+Module not found: Can't resolve 'tailwind-merge'
+  1 | import { clsx, type ClassValue } from "clsx"
+> 2 | import { twMerge } from "tailwind-merge"
+    | ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  3 |
+  4 | export function cn(...inputs: ClassValue[]) {
+  5 |   return twMerge(clsx(inputs))
+
+
+
+Import traces:
+  Client Component Browser:
+    ./apps/user-dashboard/src/lib/utils.ts [Client Component Browser]
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component Browser]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+  Client Component SSR:
+    ./apps/user-dashboard/src/lib/utils.ts [Client Component SSR]
+    ./apps/user-dashboard/src/components/ui/button.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Client Component SSR]
+    ./apps/user-dashboard/src/app/(dashboard)/layout.tsx [Server Component]
+
+https://nextjs.org/docs/messages/module-not-found
+
+
+    at require (turbopack:///[turbopack-node]/transforms/postcss.ts:49:25) [C:\Users\Arunavo\Desktop\devtrials\apps\user-dashboard\.next\build\chunks\[root-of-the-server]__0s3gc8b._.js:134:33])
+    at <unknown> (./apps/user-dashboard/src/components/ui/button.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/dialog.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/input.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/badge.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/switch.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/badge.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/layout.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx:11:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/layout.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/page.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/sign-in/[[...sign-in]]/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/sign-up/[[...sign-up]]/page.tsx:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/middleware.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/badge.tsx:3:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/button.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/lib/utils.ts:1:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx:12:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/history/page.tsx:12:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/layout.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx:14:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/onboarding/page.tsx:10:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/Sidebar.tsx:13:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx:9:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/claims/page.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/dashboard/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/history/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/layout.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/layout.tsx:159:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/settings/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/(dashboard)/zones/page.tsx:231:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/not-found.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/onboarding/page.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/page.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/sign-in/[[...sign-in]]/page.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/app/sign-up/[[...sign-up]]/page.tsx:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/RiskFeed.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/Sidebar.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/StatsHistory.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/claims/ClaimForm.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/dashboard/claims/ClaimHistory.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/StepIndicator.tsx:5:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/AadharStep.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/CaptureStep.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/DocumentUploadStep.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/IdentityStep.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/PartnerIdStep.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/PartnerSelectionStep.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/RideSurakshaStep.tsx:6:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/UpiAutopayStep.tsx:4:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/enrollment/steps/ZoneSelectionStep.tsx:7:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/components/ui/dialog.tsx:8:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)
+    at <unknown> (./apps/user-dashboard/src/lib/utils.ts:2:1)
+    at <unknown> (https://nextjs.org/docs/messages/module-not-found)

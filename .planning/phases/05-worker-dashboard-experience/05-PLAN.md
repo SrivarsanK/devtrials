@@ -23,8 +23,8 @@ Implement the main authenticated dashboard (`/dashboard`) for delivery workers, 
 - apps/user-dashboard/src/app/layout.tsx
 </read_first>
 <action>
-Create `apps/user-dashboard/public/manifest.json` with GigShield branding.
-Update `apps/user-dashboard/src/app/layout.tsx` with PWA meta tags: `theme-color: #0e0e0e`, `application-name: GigShield`.
+Create `apps/user-dashboard/public/manifest.json` with RideSuraksha branding.
+Update `apps/user-dashboard/src/app/layout.tsx` with PWA meta tags: `theme-color: #0e0e0e`, `application-name: RideSuraksha`.
 </action>
 <acceptance_criteria>
 - `manifest.json` exists with correct icons/name.

@@ -70,7 +70,7 @@ export default function EnrollmentWizard() {
         <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
           <Link href="/" className="flex items-center gap-2 group transition-transform active:scale-95">
             <Shield className="w-8 h-8 text-primary group-hover:rotate-12 transition-transform" />
-            <span className="font-manrope font-extrabold text-2xl tracking-tighter text-white">Gig<span className="text-primary">Shield</span></span>
+            <span className="font-manrope font-extrabold text-2xl tracking-tighter text-white">Ride<span className="text-primary">Suraksha</span></span>
           </Link>
 
           <div className="flex items-center gap-6">
@@ -225,7 +225,7 @@ export default function EnrollmentWizard() {
                   </div>
 
                   <h2 className="text-4xl md:text-5xl font-manrope font-black text-white mb-6 tracking-tight">
-                     <Translate text="Welcome to GigShield" />
+                     <Translate text="Welcome to RideSuraksha" />
                   </h2>
                   <p className="text-xl text-white/50 max-w-md mx-auto mb-10 leading-relaxed font-medium">
                      <Translate text="Your identity is verified and income is now protected. Coverage starts in 3 days." />
@@ -257,7 +257,7 @@ export default function EnrollmentWizard() {
                   <div className="w-full px-12">
                      <Button 
                         onClick={() => {
-                           localStorage.setItem('gigshield_upi', formData.upiId);
+                           localStorage.setItem('RideSuraksha_upi', formData.upiId);
                            window.location.href = '/dashboard';
                         }}
                         className="w-full h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 transition-all font-black text-xl rounded-[32px] flex items-center justify-center gap-3 shadow-[0_0_50px_-5px_rgba(249,115,22,0.5)] border-none"

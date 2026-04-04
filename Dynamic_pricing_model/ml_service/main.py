@@ -7,10 +7,10 @@ import os
 from pipeline import pipeline
 import model as shield_model
 
-app = FastAPI(title="GigShield Dynamic Pricing API", version="1.0.0")
+app = FastAPI(title="RideSuraksha Dynamic Pricing API", version="1.0.0")
 
 # Model path relative to root
-MODEL_PATH = os.getenv("MODEL_PATH", "../ml_pipeline/models/shieldguard_scripted.pt")
+MODEL_PATH = os.getenv("MODEL_PATH", "../ml_pipeline/models/RideSuraksha_scripted.pt")
 
 # Initialize model
 model = None
@@ -23,8 +23,8 @@ try:
         except Exception as jit_e:
             print(f"Failed to load scripted model: {jit_e}")
             # Try loading non-scripted model as fallback
-            model = shield_model.ShieldGuardNet(input_dim=38)
-            state_dict_path = "../ml_pipeline/models/shieldguard_net.pt"
+            model = shield_model.RideSurakshaNet(input_dim=38)
+            state_dict_path = "../ml_pipeline/models/RideSuraksha_net.pt"
             if os.path.exists(state_dict_path):
                 model.load_state_dict(torch.load(state_dict_path, map_location=torch.device('cpu'), weights_only=False))
                 print(f"Successfully loaded model state dict from {state_dict_path}")
@@ -67,7 +67,7 @@ class RiderInput(BaseModel):
 
 @app.get("/")
 def read_root():
-    return {"message": "GigShield Dynamic Pricing API is online"}
+    return {"message": "RideSuraksha Dynamic Pricing API is online"}
 
 @app.get("/health")
 @app.get("/system")
@@ -78,7 +78,7 @@ def health_check():
         "model_path": MODEL_PATH,
         "device": "cpu", # Force CPU as per model mapping
         "version": "1.0.0",
-        "service": "gigshield-ml-pricing"
+        "service": "RideSuraksha-ml-pricing"
     }
 
 @app.get("/dashboard", response_class=HTMLResponse)
@@ -93,7 +93,7 @@ def health_dashboard():
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>GigShield ML Dashboard</title>
+        <title>RideSuraksha ML Dashboard</title>
         <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&family=Outfit:wght@500;700&display=swap" rel="stylesheet">
         <style>
             :root {{
@@ -206,7 +206,7 @@ def health_dashboard():
     <body>
         <div class="dashboard">
             <header>
-                <h1>GigShield ML Core</h1>
+                <h1>RideSuraksha ML Core</h1>
                 <p class="tagline">Dynamic Pricing Engine Status</p>
             </header>
             
@@ -240,7 +240,7 @@ def health_dashboard():
             </div>
             
             <footer style="text-align: center;">
-                &copy; 2026 GigShield Insurance Technology. All systems nominal.
+                &copy; 2026 RideSuraksha Insurance Technology. All systems nominal.
             </footer>
         </div>
     </body>

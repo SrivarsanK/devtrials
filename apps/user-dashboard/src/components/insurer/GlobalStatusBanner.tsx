@@ -43,7 +43,7 @@ export function GlobalStatusBanner() {
   const config = statusConfig[reserveHealth.globalStatus as keyof typeof statusConfig];
   const StatusIcon = config.icon;
   const timeStr = lastUpdated
-    ? lastUpdated.toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' }) + ' IST'
+    ? new Date(lastUpdated).toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', timeZone: 'Asia/Kolkata' }) + ' IST'
     : '';
 
   return (

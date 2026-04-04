@@ -41,7 +41,7 @@ export function Sidebar({ onClose }: SidebarProps) {
             <Shield className="w-6 h-6 text-primary group-hover:rotate-12 transition-all duration-500 relative" />
           </div>
           <span className="font-manrope font-black text-2xl tracking-tighter text-white uppercase italic">
-            Gig<span className="text-primary NOT-italic">Shield</span>
+            Ride<span className="text-primary NOT-italic">Suraksha</span>
           </span>
         </Link>
         {onClose && (
@@ -114,7 +114,7 @@ export function Sidebar({ onClose }: SidebarProps) {
          
          <div className="flex flex-col items-center gap-2 opacity-10 grayscale hover:grayscale-0 hover:opacity-30 transition-all cursor-default">
             <p className="text-[8px] font-black uppercase tracking-[0.6em] text-white italic">
-               Gig<span className="text-primary NOT-italic">Shield</span> v8.4.1
+               Ride<span className="text-primary NOT-italic">Suraksha</span> v8.4.1
             </p>
             <p className="text-[7px] font-black uppercase tracking-widest text-white/40">Obsidiana Engine</p>
          </div>

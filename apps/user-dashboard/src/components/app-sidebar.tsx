@@ -24,7 +24,7 @@ import {
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { getGlobalReserves as fetchHealth } from "@/services/api";
+import { TriggerService as ApiService } from "@/lib/api";
 import { createTimeline, stagger } from "animejs";
 
 const data = {
@@ -72,8 +72,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         return;
       }
       try {
-        const status = await fetchHealth();
-        setIsOnline(!!status);
+        const status = await ApiService.getZones();
+        setIsOnline(!!status && status.length > 0);
       } catch (e) {
         setIsOnline(false);
       }
@@ -114,7 +114,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
           </div>
           <div className="flex flex-col gap-0 leading-tight group-data-[collapsible=icon]:hidden animate-in fade-in slide-in-from-left-2 duration-300">
-            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Gig<span className="text-primary italic">Shield</span></span>
+            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Ride<span className="text-primary italic">Suraksha</span></span>
             <span className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground uppercase opacity-60 whitespace-nowrap">Parametric Oracle</span>
           </div>
         </Link>

@@ -72,7 +72,7 @@ export default function PayoutPage() {
           Payout <span className="text-primary">Support</span>
         </h1>
         <p className="text-muted-foreground font-medium max-w-xl">
-          Verified income protection for climate disruptions. Your tier and coverage are dynamically adjusted by the ShieldGuard AI.
+          Verified income protection for climate disruptions. Your tier and coverage are dynamically adjusted by the RideSuraksha AI.
         </p>
       </section>
 
@@ -224,7 +224,7 @@ export default function PayoutPage() {
               <div className="flex flex-col gap-1">
                 <span className="text-sm font-bold mb-1">How it works</span>
                 <p className="text-xs text-muted-foreground leading-relaxed">
-                  Payouts are automatically validated by the ShieldGuard Oracle. Your risk multiplier ({prediction?.ai_adjustment_factor.toFixed(2)}) is recalculated weekly based on your activity and regional climate signals.
+                  Payouts are automatically validated by the RideSuraksha Oracle. Your risk multiplier ({prediction?.ai_adjustment_factor.toFixed(2)}) is recalculated weekly based on your activity and regional climate signals.
                 </p>
               </div>
             </div>

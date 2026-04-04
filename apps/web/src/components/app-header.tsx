@@ -75,7 +75,7 @@ export function AppHeader() {
             <div className="flex aspect-square size-8 items-center justify-center shrink-0 rounded-lg bg-primary shadow-[0_0_10px_rgba(255,70,37,0.2)]">
               <ShieldCheck className="size-5 text-white" strokeWidth={2.5} />
             </div>
-            <span className="text-sm font-display font-black tracking-tight text-foreground uppercase">Gig<span className="text-primary italic">Shield</span></span>
+            <span className="text-sm font-display font-black tracking-tight text-foreground uppercase">Ride<span className="text-primary italic">Suraksha</span></span>
           </Link>
         ) : (
           <SidebarTrigger className="hover:bg-primary/10 transition-colors rounded-lg" />

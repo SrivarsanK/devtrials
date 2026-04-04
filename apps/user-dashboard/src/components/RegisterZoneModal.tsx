@@ -79,7 +79,7 @@ export default function RegisterZoneModal({ onSuccess, children }: RegisterZoneM
           </div>
           <DialogTitle className="text-2xl font-display font-black uppercase text-foreground">Register Territory</DialogTitle>
           <DialogDescription className="text-muted-foreground font-medium">
-            Expand GigShield&apos;s parametric coverage to a new metropolitan cluster.
+            Expand RideSuraksha&apos;s parametric coverage to a new metropolitan cluster.
           </DialogDescription>
         </DialogHeader>
 

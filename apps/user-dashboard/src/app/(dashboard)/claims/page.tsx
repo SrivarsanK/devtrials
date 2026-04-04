@@ -181,7 +181,7 @@ export default function ClaimsPage() {
          <div className="flex items-center gap-5 p-3 px-8 bg-white/5 border border-white/5 rounded-full backdrop-blur-xl group hover:border-white/10 transition-all cursor-default scale-90">
             <Info className="w-4 h-4 text-white/20 group-hover:text-primary transition-colors" />
             <p className="text-[8px] font-black text-white/20 uppercase tracking-[0.4em] leading-none pt-0.5 whitespace-nowrap">
-               <Translate text="All claims are subject to biometric and geospatial verification by GigShield AI" />
+               <Translate text="All claims are subject to biometric and geospatial verification by RideSuraksha AI" />
             </p>
          </div>
       </div>

@@ -44,7 +44,7 @@ export default function LandingPage() {
           
           <div className="flex items-center gap-2">
             <Shield className="w-8 h-8 text-primary" />
-            <span className="font-manrope font-extrabold text-2xl tracking-tight text-white">Gig<span className="text-primary">Shield</span></span>
+            <span className="font-manrope font-extrabold text-2xl tracking-tight text-white">Ride<span className="text-primary">Suraksha</span></span>
           </div>
 
           {/* Desktop Nav */}
@@ -136,7 +136,7 @@ export default function LandingPage() {
         </h1>
         
         <p className="text-lg md:text-xl text-white/60 max-w-2xl mb-12 leading-relaxed">
-          <Translate text="GigShield pays you the moment rain, floods or curfew stops your deliveries. No forms. No calls. Just money in your UPI." />
+          <Translate text="RideSuraksha pays you the moment rain, floods or curfew stops your deliveries. No forms. No calls. Just money in your UPI." />
         </p>
 
         <div className="flex flex-wrap justify-center gap-4 mb-12">
@@ -341,7 +341,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                text: "It rained for 3 days straight. I got ₹8,500 in my UPI before I even checked my phone. GigShield is real.",
+                text: "It rained for 3 days straight. I got ₹8,500 in my UPI before I even checked my phone. RideSuraksha is real.",
                 author: "Ravi",
                 platform: "Swiggy",
                 city: "Chennai"
@@ -391,7 +391,7 @@ export default function LandingPage() {
          <div className="container mx-auto max-w-4xl relative z-10 text-center">
             <h2 className="font-manrope font-extrabold text-4xl md:text-5xl text-white mb-6">
               <Translate text="Every delivery you miss costs money." /> <br className="hidden md:block"/>
-              <Translate text="GigShield gives it back." />
+              <Translate text="RideSuraksha gives it back." />
             </h2>
             <p className="text-xl text-white/70 mb-10 max-w-2xl mx-auto">
               <Translate text="Join thousands of delivery workers already protected across India." />
@@ -415,7 +415,7 @@ export default function LandingPage() {
           <div className="flex flex-col items-center md:items-start gap-2">
             <div className="flex items-center gap-2">
               <Shield className="w-6 h-6 text-primary" />
-              <span className="font-manrope font-bold text-xl text-white">Gig<span className="text-primary">Shield</span></span>
+              <span className="font-manrope font-bold text-xl text-white">Ride<span className="text-primary">Suraksha</span></span>
             </div>
             <p className="text-white/40 text-sm">
               <Translate text="Parametric income insurance for India's gig workers." />

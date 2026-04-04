@@ -1,6 +1,6 @@
 # Project Requirements
 
-This document tracks all validated, active, and out-of-scope requirements for GigShield.
+This document tracks all validated, active, and out-of-scope requirements for RideSuraksha.
 
 ## Milestone v1.1 Requirements: Worker Enrollment & Dashboard Experience
 

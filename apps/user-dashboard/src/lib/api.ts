@@ -1,5 +1,5 @@
 /**
- * API Service for GigShield DashBoard
+ * API Service for RideSuraksha DashBoard
  */
 
 export interface TriggerEvent {

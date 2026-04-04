@@ -1,4 +1,4 @@
-# Manual Test Scenarios for GigShield ML API
+# Manual Test Scenarios for RideSuraksha ML API
 
 You can test the API by sending POST requests to `http://localhost:8000/predict` with the following JSON payloads.
 

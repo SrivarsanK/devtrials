@@ -160,7 +160,7 @@ export default function SettingsPage() {
                   
                   <div className="flex flex-col items-center gap-3 opacity-20 grayscale hover:grayscale-0 transition-all cursor-default">
                      <p className="text-[9px] font-black uppercase tracking-[1em] text-white flex items-center gap-2">
-                        Gig<span className="text-primary italic">Shield</span> v8.4.1
+                        Ride<span className="text-primary italic">Suraksha</span> v8.4.1
                      </p>
                      <p className="text-[8px] font-black text-white/40 leading-none tracking-widest uppercase">Obsidian Protocol Enabled</p>
                   </div>

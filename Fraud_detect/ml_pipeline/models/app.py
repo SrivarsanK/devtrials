@@ -10,14 +10,14 @@ import psutil
 import platform
 import time
 from fastapi.responses import HTMLResponse
-from inference_engine import GigShieldFraudEngine
+from inference_engine import RideSurakshaFraudEngine
 
 # Start time for uptime calculation
 START_TIME = time.time()
 
 # Define FastAPI App
 app = FastAPI(
-    title="GigShield Advanced Fraud Detection API",
+    title="RideSuraksha Advanced Fraud Detection API",
     description="ML Scoring Engine for Claim Disruption Fraud Detection (v2.0)",
     version="2.0"
 )
@@ -28,8 +28,8 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 PROJECT_ROOT = os.path.dirname(BASE_DIR)
 export_path = os.path.join(PROJECT_ROOT, "exports")
 
-print(f"GigShield: Searching for model artifacts in: {export_path}")
-engine = GigShieldFraudEngine(model_dir=export_path)
+print(f"RideSuraksha: Searching for model artifacts in: {export_path}")
+engine = RideSurakshaFraudEngine(model_dir=export_path)
 engine.load_artifacts()
 
 # Pydantic Models for Input Validation
@@ -93,7 +93,7 @@ async def health_check():
 @app.get("/health/dashboard", response_class=HTMLResponse)
 async def health_dashboard():
     """
-    Visual System Health Dashboard for GigShield.
+    Visual System Health Dashboard for RideSuraksha.
     """
     health = await health_check()
     metrics = health["system_metrics"]
@@ -103,7 +103,7 @@ async def health_dashboard():
     html_content = f"""
     <html>
         <head>
-            <title>GigShield Health Dashboard</title>
+            <title>RideSuraksha Health Dashboard</title>
             <script src="https://cdn.tailwindcss.com"></script>
             <meta http-equiv="refresh" content="5">
             <style>
@@ -117,7 +117,7 @@ async def health_dashboard():
                 <div class="flex justify-between items-center mb-8">
                     <h1 class="text-3xl font-bold text-white flex items-center">
                         <span class="w-4 h-4 rounded-full mr-3 animate-pulse" style="background-color: {status_color}"></span>
-                        GigShield <span class="text-indigo-400 ml-2">System Health</span>
+                        RideSuraksha <span class="text-indigo-400 ml-2">System Health</span>
                     </h1>
                     <div class="text-right">
                         <p class="text-slate-400 text-sm">Last Updated</p>
@@ -278,7 +278,7 @@ async def reserve_forecast():
 @app.get("/")
 async def root():
     return {
-        "message": "Welcome to GigShield Advanced Fraud Detection API v2.0",
+        "message": "Welcome to RideSuraksha Advanced Fraud Detection API v2.0",
         "docs": "/docs",
         "status": "online"
     }

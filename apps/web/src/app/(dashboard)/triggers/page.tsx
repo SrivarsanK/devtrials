@@ -80,7 +80,7 @@ export default function TriggersPage() {
             Event <br /> <span className="text-secondary italic">Stream</span>
           </h1>
           <p className="max-w-xl text-sm text-muted-foreground leading-relaxed font-medium opacity-0 anime-header-item">
-            Detailed immutable log of all environmental events and their corresponding payout adjustments monitored by GigShield.
+            Detailed immutable log of all environmental events and their corresponding payout adjustments monitored by RideSuraksha.
           </p>
         </div>
         <div className="opacity-0 anime-header-item">

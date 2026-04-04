@@ -13,7 +13,7 @@ const startServer = async () => {
     // 2. Start Listening (Start early so we can respond to health checks)
     app.listen(config.port, () => {
       console.log(`
-🛡️ GigShield Core API is running!
+🛡️ RideSuraksha Core API is running!
 🚀 Port: ${config.port}
 🌍 Environment: ${config.nodeEnv}
       `);

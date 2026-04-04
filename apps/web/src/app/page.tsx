@@ -65,7 +65,7 @@ export default function HomePage() {
             <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
           </div>
           <div className="flex flex-col gap-0 leading-tight">
-            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Gig<span className="text-primary italic">Shield</span></span>
+            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Ride<span className="text-primary italic">Suraksha</span></span>
             <span className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground uppercase opacity-60 whitespace-nowrap">Parametric Oracle</span>
           </div>
         </div>
@@ -238,7 +238,7 @@ export default function HomePage() {
               Covering the <br /> <span className="text-secondary italic">Pan-African</span>
             </h2>
             <p className="text-sm sm:text-base text-white/60 leading-relaxed font-medium max-w-lg">
-              By EOFY 2026, GigShield will provide parametric protection to over 4 million gig workers across the African continent and reaching the Global South.
+              By EOFY 2026, RideSuraksha will provide parametric protection to over 4 million gig workers across the African continent and reaching the Global South.
             </p>
             <Button className="h-14 px-10 rounded-xl bg-secondary hover:bg-secondary/90 text-white font-black uppercase shadow-[0_10px_30px_rgba(0,216,255,0.3)] border-none transition-all hover:scale-105 active:scale-95 w-full sm:w-auto flex items-center justify-center gap-3">
               Explore Africa <MapPin size={18} />
@@ -269,7 +269,7 @@ export default function HomePage() {
                 <div className="size-9 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(255,70,37,0.3)]">
                   <Zap className="size-5 text-white fill-current" />
                 </div>
-                <h4 className="text-3xl font-display font-black tracking-tight uppercase">GigShield</h4>
+                <h4 className="text-3xl font-display font-black tracking-tight uppercase">RideSuraksha</h4>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 The world&apos;s first decentralized parametric insurance oracle built specifically for the vulnerable gig-economy nodes.
@@ -297,7 +297,7 @@ export default function HomePage() {
           </div>
 
           <div className="flex flex-col md:flex-row justify-between items-center py-10 border-t border-white/5 gap-6">
-            <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground opacity-40">© 2026 GigShield Autonomous DAO. All Rights Reserved.</span>
+            <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground opacity-40">© 2026 RideSuraksha Autonomous DAO. All Rights Reserved.</span>
             <div className="flex items-center gap-6">
               <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1 glass rounded-full text-success border border-success/20 neon-success">Oracle Sync: Active</span>
               <div className="flex gap-5">

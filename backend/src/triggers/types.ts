@@ -28,7 +28,7 @@ export interface ZoneConfig {
   accuWeatherKey?: string;
 }
 
-/** Monitored zones — expandable as GigShield scales. */
+/** Monitored zones — expandable as RideSuraksha scales. */
 export const MONITORED_ZONES: ZoneConfig[] = [
   { id: 'chennai_tambaram', name: 'Tambaram', city: 'Chennai', lat: 12.9249, lon: 80.1000, accuWeatherKey: '2799768' },
   { id: 'chennai_tnagar', name: 'T. Nagar', city: 'Chennai', lat: 13.0418, lon: 80.2341, accuWeatherKey: '206671' },

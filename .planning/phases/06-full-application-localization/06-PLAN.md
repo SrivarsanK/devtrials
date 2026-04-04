@@ -18,7 +18,7 @@ autonomous: true
 # Phase 6 Plan: Full Application Localization
 
 ## Objective
-Establish 100% localization parity for the GigShield worker experience (Enrollment & Dashboard) between English and Tamil, ensuring structural integrity and visual excellence in both modes.
+Establish 100% localization parity for the RideSuraksha worker experience (Enrollment & Dashboard) between English and Tamil, ensuring structural integrity and visual excellence in both modes.
 
 ## Tasks
 

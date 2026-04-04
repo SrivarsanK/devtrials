@@ -31,19 +31,19 @@ df_zones.to_csv(os.path.join(export_path, "zone_priority_lookup.csv"), index=Fal
 dummy_features = pd.DataFrame(np.random.rand(10, 30)) # 30 cols to match engineered features
 scaler = StandardScaler()
 scaler.fit(dummy_features)
-joblib.dump(scaler, os.path.join(export_path, "scaler_gigshield.pkl"))
+joblib.dump(scaler, os.path.join(export_path, "scaler_RideSuraksha.pkl"))
 
 # 3. Create and Save XGBoost (Section 13)
 xgb_model = XGBClassifier(n_estimators=10)
 y_dummy = np.random.randint(0, 2, 10)
 xgb_model.fit(dummy_features, y_dummy)
-xgb_model.save_model(os.path.join(export_path, "xgb_model_gigshield.json"))
+xgb_model.save_model(os.path.join(export_path, "xgb_model_RideSuraksha.json"))
 
 # 4. Create and Save LightGBM (Section 13)
 # Creating a text booster file
 import lightgbm as lgb
 lgbm_model = lgb.LGBMClassifier(n_estimators=10)
 lgbm_model.fit(dummy_features, y_dummy)
-lgbm_model.booster_.save_model(os.path.join(export_path, "lgbm_model_gigshield.txt"))
+lgbm_model.booster_.save_model(os.path.join(export_path, "lgbm_model_RideSuraksha.txt"))
 
 print("Bootstrap complete. All artifacts generated in /exports/.")

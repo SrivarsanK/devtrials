@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**GigShield** is a parametric income insurance platform for India's gig delivery workers (Zomato, Swiggy, Zepto). It provides automatic payouts triggered by verified external disruptions (weather, pollution, civil events) - no claims forms, instant payouts via UPI.
+**RideSuraksha** is a parametric income insurance platform for India's gig delivery workers (Zomato, Swiggy, Zepto). It provides automatic payouts triggered by verified external disruptions (weather, pollution, civil events) - no claims forms, instant payouts via UPI.
 
 This is a **Guidewire DEVTrails 2026 Hackathon** project currently in Phase 1 (ideation & documentation). The codebase has detailed specifications in README.md, REQUIREMENTS.md, and DESIGN.md.
 
@@ -94,7 +94,7 @@ npm run mock:trigger -- --type=rainfall --zone=chennai --intensity=high
 ## Repository Structure (Planned)
 
 ```
-gigshield/
+RideSuraksha/
 ├── apps/
 │   ├── worker-app/           # Next.js — Worker PWA (Tamil-first)
 │   ├── platform-portal/      # Next.js — Swiggy/Zomato integration
@@ -104,7 +104,7 @@ gigshield/
 │   └── types/                # Shared TypeScript types
 ├── Dynamic_pricing_model/   # Unified ML directory
 │   ├── ml_service/           # FastAPI + Neural Network (ResNet) models
-│   └── ml_pipeline/          # Model storage (shieldguard_scripted.pt)
+│   └── ml_pipeline/          # Model storage (RideSuraksha_scripted.pt)
 ├── backend/
 │   ├── api/                  # Express REST API
 │   └── triggers/            # Parametric trigger engine

@@ -92,7 +92,7 @@ export default function DashboardPage() {
           <div className="flex flex-wrap items-center gap-4">
             <div className="flex items-center gap-3">
               <div className="h-[2px] w-8 bg-gradient-to-r from-primary to-transparent rounded-full" />
-              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-60">GigShield Protocol v2.4</span>
+              <span className="text-[10px] font-black uppercase tracking-[0.2em] text-muted-foreground opacity-60">RideSuraksha Protocol v2.4</span>
             </div>
             <div className="flex items-center gap-2 px-3 py-1 rounded-full glass-strong border border-white/[0.05]">
               <div className={`size-1.5 rounded-full ${health ? 'bg-success neon-success animate-pulse' : 'bg-warning'}`} />

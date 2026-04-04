@@ -16,7 +16,7 @@ export const config = {
     expiresIn: process.env.JWT_EXPIRES_IN || '7d',
   },
   db: {
-    url: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/gigshield',
+    url: process.env.DATABASE_URL || 'postgresql://postgres:password@localhost:5432/RideSuraksha',
   },
   redis: {
     url: process.env.REDIS_URL || 'redis://localhost:6379',

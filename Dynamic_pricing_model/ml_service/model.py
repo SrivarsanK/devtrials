@@ -24,9 +24,9 @@ class ResidualBlock(nn.Module):
         out += residual
         return F.relu(out)
 
-class ShieldGuardNet(nn.Module):
+class RideSurakshaNet(nn.Module):
     def __init__(self, input_dim=38):
-        super(ShieldGuardNet, self).__init__()
+        super(RideSurakshaNet, self).__init__()
         
         # The Shared Brain (Residual Encoder)
         self.layer1 = ResidualBlock(input_dim, 256)

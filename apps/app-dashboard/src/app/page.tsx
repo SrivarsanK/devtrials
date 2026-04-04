@@ -85,7 +85,7 @@ export default function HomePage() {
             <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
           </div>
           <div className="flex flex-col gap-0 leading-tight">
-            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Shield<span className="text-secondary italic">Guard</span></span>
+            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Ride<span className="text-secondary italic">Suraksha</span></span>
             <span className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground uppercase opacity-60 whitespace-nowrap">Insurer Portal</span>
           </div>
         </div>
@@ -277,7 +277,7 @@ export default function HomePage() {
               Underwriting at <br /> <span className="text-primary italic">Web-Scale</span>
             </h2>
             <p className="text-sm sm:text-base text-white/60 leading-relaxed font-medium max-w-lg">
-              ShieldGuard manages over $420M in dynamic capital pools, serving as the parametric liquidity backbone for the gig workforce ecosystem.
+              RideSuraksha manages over $420M in dynamic capital pools, serving as the parametric liquidity backbone for the gig workforce ecosystem.
             </p>
             <Button className="h-14 px-10 rounded-xl bg-primary hover:bg-primary/90 text-white font-black uppercase shadow-[0_10px_30px_rgba(255,70,37,0.3)] border-none transition-all hover:scale-105 active:scale-95 w-full sm:w-auto flex items-center justify-center gap-3">
               Institutional Deck <MapPin size={18} />
@@ -309,7 +309,7 @@ export default function HomePage() {
                 <div className="size-9 rounded-xl bg-secondary flex items-center justify-center shadow-[0_0_15px_rgba(0,216,255,0.3)]">
                   <Activity className="size-5 text-white fill-current" />
                 </div>
-                <h4 className="text-3xl font-display font-black tracking-tight uppercase">ShieldGuard</h4>
+                <h4 className="text-3xl font-display font-black tracking-tight uppercase">RideSuraksha</h4>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed">
                 The world&apos;s most advanced parametric insurance infrastructure for institutional-grade risk management.

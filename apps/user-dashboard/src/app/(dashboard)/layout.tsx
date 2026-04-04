@@ -91,7 +91,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             {/* BRAND LOGO FOR TABLET (Hidden on Mobile/Huge Desktop) */}
             <div className="lg:hidden xl:hidden flex items-center gap-3">
                <Shield className="w-6 h-6 text-primary" />
-               <span className="font-manrope font-black text-xl tracking-tighter text-white uppercase italic">Gig<span className="text-primary NOT-italic">Shield</span></span>
+               <span className="font-manrope font-black text-xl tracking-tighter text-white uppercase italic">Ride<span className="text-primary NOT-italic">Suraksha</span></span>
             </div>
 
             <div className="flex items-center gap-4">

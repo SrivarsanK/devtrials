@@ -1,4 +1,4 @@
-![alt text](image.png)# GigShield — Technical Design Document
+![alt text](image.png)# RideSuraksha — Technical Design Document
 
 > **Version**: 1.0  
 > **Last Updated**: March 2026  
@@ -133,14 +133,14 @@ graph TB
 
 ### 2.2 Platform Portal (Swiggy/Zomato Integration)
 
-**Purpose**: Integration layer between GigShield and delivery platforms for data exchange and premium collection.
+**Purpose**: Integration layer between RideSuraksha and delivery platforms for data exchange and premium collection.
 
 **Key Responsibilities**:
 - Worker authentication via platform Partner ID
 - GPS location data streaming
 - Order flow monitoring
 - Weekly premium deduction coordination
-- GigShield banner display in partner app
+- RideSuraksha banner display in partner app
 
 **API Endpoints** (Mocked for Hackathon):
 ```
@@ -906,7 +906,7 @@ sequenceDiagram
     participant ML as ML Service
     participant DB as Database
     
-    W->>PWA: Opens GigShield link
+    W->>PWA: Opens RideSuraksha link
     PWA->>W: Show Tamil language welcome
     W->>PWA: Enter Partner ID
     PWA->>API: POST /api/workers/enroll
@@ -1739,7 +1739,7 @@ import winston from 'winston';
 const logger = winston.createLogger({
   level: 'info',
   format: winston.format.json(),
-  defaultMeta: { service: 'gigshield-api' },
+  defaultMeta: { service: 'RideSuraksha-api' },
   transports: [
     new winston.transports.File({ filename: 'error.log', level: 'error' }),
     new winston.transports.File({ filename: 'combined.log' })
@@ -1846,7 +1846,7 @@ services:
     ports:
       - "4000:4000"
     environment:
-      - DATABASE_URL=postgresql://postgres:password@db:5432/gigshield
+      - DATABASE_URL=postgresql://postgres:password@db:5432/RideSuraksha
       - REDIS_URL=redis://redis:6379
       - ML_API_URL=http://ml-service:8000
     depends_on:
@@ -1867,7 +1867,7 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_DB=gigshield
+      - POSTGRES_DB=RideSuraksha
       - POSTGRES_PASSWORD=password
     volumes:
       - pgdata:/var/lib/postgresql/data
@@ -2274,7 +2274,7 @@ const retentionPolicy = {
 ```yaml
 openapi: 3.0.0
 info:
-  title: GigShield API
+  title: RideSuraksha API
   version: 1.0.0
   description: Parametric income insurance platform API
 
@@ -2323,10 +2323,10 @@ paths:
 # Application
 NODE_ENV=production
 PORT=4000
-API_URL=https://api.gigshield.in
+API_URL=https://api.RideSuraksha.in
 
 # Database
-DATABASE_URL=postgresql://user:pass@host:5432/gigshield
+DATABASE_URL=postgresql://user:pass@host:5432/RideSuraksha
 REDIS_URL=redis://host:6379
 
 # JWT
@@ -2370,4 +2370,4 @@ SENTRY_DSN=your-sentry-dsn
 
 **Document Status**: Draft v1.0  
 **Next Review**: Post-Phase 1 Implementation  
-**Maintained By**: GigShield Engineering Team
+**Maintained By**: RideSuraksha Engineering Team

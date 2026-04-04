@@ -34,7 +34,7 @@ const triggerLimiter = rateLimit({
 // Root Route
 app.get('/', (req, res) => {
   res.json({
-    message: '🛡️ GigShield Core API is active',
+    message: '🛡️ RideSuraksha Core API is active',
     version: '1.0.0',
     endpoints: {
       health: '/health',
@@ -49,7 +49,7 @@ app.get('/health', (req, res) => {
   res.json({
     status: 'UP',
     timestamp: new Date().toISOString(),
-    service: 'GigShield Core API'
+    service: 'RideSuraksha Core API'
   });
 });
 

@@ -1,573 +1,223 @@
 "use client";
 
-import React, { useState } from "react";
-import { useRouter } from "next/navigation";
-import {
-  ShieldCheck,
-  ArrowRight,
-  ArrowLeft,
-  CloudRain,
-  Eye,
-  Zap,
-  CheckCircle2,
-  ChevronDown,
-  Percent,
-  Clock,
-  Sparkles,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
+import React, { useState, useEffect } from "react";
+import Link from "next/link";
+import { Shield, ArrowRight, CheckCircle2, ChevronLeft, Smartphone, Globe, ShieldCheck, BadgeCheck } from "lucide-react";
+import { Translate } from "@/components/ui/translate";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
+import { StepIndicator } from "@/components/enrollment/StepIndicator";
+import { VerificationStep } from "@/components/enrollment/VerificationStep";
+import { PlanSelection } from "@/components/enrollment/PlanSelection";
+import { UPIStep } from "@/components/enrollment/UPIStep";
+import { motion, AnimatePresence } from "framer-motion";
 
-/* ════════════════════════════════════════════
-   ONBOARDING — 3-step flow
-   Step 1: Welcome
-   Step 2: Link Your Account
-   Step 3: Choose Plan + UPI
-   ════════════════════════════════════════════ */
-
-const platforms = ["Swiggy", "Zomato", "Uber", "Dunzo", "Rapido", "Porter"];
-const cities = [
-  "Chennai",
-  "Mumbai",
-  "Bengaluru",
-  "Delhi",
-  "Hyderabad",
-  "Kolkata",
-  "Pune",
-  "Ahmedabad",
-];
-
-const plans = [
-  {
-    id: "lite",
-    name: "Guard Lite",
-    price: "₹79",
-    period: "/week",
-    coverage: "50%",
-    payout: "24hr payout",
-    color: "secondary",
-    benefits: [
-      "Rain & flood coverage",
-      "UPI direct payout",
-      "Basic zone monitoring",
-    ],
-  },
-  {
-    id: "plus",
-    name: "Guard Plus",
-    price: "₹119",
-    period: "/week",
-    coverage: "70%",
-    payout: "12hr payout",
-    color: "primary",
-    popular: true,
-    benefits: [
-      "Rain, flood & curfew coverage",
-      "Priority UPI payout",
-      "Multi-zone monitoring",
-    ],
-  },
-  {
-    id: "max",
-    name: "Guard Max",
-    price: "₹159",
-    period: "/week",
-    coverage: "80%",
-    payout: "2hr payout",
-    color: "accent",
-    benefits: [
-      "All-hazard coverage",
-      "Instant UPI payout",
-      "24/7 premium monitoring",
-    ],
-  },
-];
-
-export default function OnboardingPage() {
-  const router = useRouter();
+export default function EnrollmentWizard() {
   const [step, setStep] = useState(1);
+  const [scrolled, setScrolled] = useState(false);
   const [formData, setFormData] = useState({
     partnerId: "",
-    platform: "",
-    city: "",
     plan: "plus",
     upiId: "",
   });
-  const [platformOpen, setPlatformOpen] = useState(false);
-  const [cityOpen, setCityOpen] = useState(false);
 
-  const canProceedStep2 =
-    formData.partnerId.trim() !== "" &&
-    formData.platform !== "" &&
-    formData.city !== "";
-  const canProceedStep3 = formData.plan !== "" && formData.upiId.trim() !== "";
+  const { language, setLanguage } = useLanguage();
 
-  const handleComplete = () => {
-    // Simulate saving and redirect to dashboard
-    localStorage.setItem("gigshield_onboarded", "true");
-    localStorage.setItem("gigshield_user", JSON.stringify(formData));
-    router.push("/dashboard");
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  const handleVerificationNext = (id: string) => {
+    setFormData({ ...formData, partnerId: id });
+    setStep(2);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handlePlanNext = (plan: string) => {
+    setFormData({ ...formData, plan });
+    setStep(3);
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  const handleUPINext = (upi: string) => {
+    setFormData({ ...formData, upiId: upi });
+    setStep(4);
+    window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
   return (
-    <div className="min-h-screen bg-background text-foreground flex flex-col items-center justify-center px-4 sm:px-6 relative overflow-hidden">
-      {/* Ambient glow */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-1/4 left-1/3 w-[500px] h-[500px] bg-primary/6 rounded-full blur-[180px] animate-glow-pulse" />
-        <div
-          className="absolute bottom-1/4 right-1/3 w-[400px] h-[400px] bg-secondary/5 rounded-full blur-[140px] animate-glow-pulse"
-          style={{ animationDelay: "1.5s" }}
-        />
+    <div className="min-h-screen bg-[#0e0e0e] text-foreground font-sans relative overflow-x-hidden selection:bg-primary/30">
+      
+      {/* Dynamic Background */}
+      <div className="fixed inset-0 pointer-events-none -z-10">
+        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full animate-pulse" />
+        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full animate-pulse decoration-[10s]" />
       </div>
 
-      {/* Content */}
-      <div className="relative z-10 w-full max-w-xl flex flex-col items-center">
-        {/* Logo */}
-        <div className="flex items-center gap-3 mb-10 animate-fade-in">
-          <div className="size-10 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_20px_rgba(255,70,37,0.3)] rotate-6">
-            <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
-          </div>
-          <span className="text-2xl font-display font-black tracking-tight uppercase text-foreground">
-            Gig<span className="text-primary italic">Shield</span>
-          </span>
-        </div>
+      {/* NAVBAR */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#0e0e0e]/95 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-7"}`}>
+        <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
+          <Link href="/" className="flex items-center gap-2 group transition-transform active:scale-95">
+            <Shield className="w-8 h-8 text-primary group-hover:rotate-12 transition-transform" />
+            <span className="font-manrope font-extrabold text-2xl tracking-tighter text-white">Gig<span className="text-primary">Shield</span></span>
+          </Link>
 
-        {/* Step Indicator */}
-        <StepIndicator currentStep={step} />
-
-        {/* Step Content */}
-        <div className="w-full mt-10 animate-fade-in-up">
-          {step === 1 && <StepWelcome />}
-          {step === 2 && (
-            <StepLinkAccount
-              formData={formData}
-              setFormData={setFormData}
-              platformOpen={platformOpen}
-              setPlatformOpen={setPlatformOpen}
-              cityOpen={cityOpen}
-              setCityOpen={setCityOpen}
-            />
-          )}
-          {step === 3 && (
-            <StepChoosePlan formData={formData} setFormData={setFormData} />
-          )}
-        </div>
-
-        {/* Navigation Buttons */}
-        <div className="w-full flex items-center gap-4 mt-10 animate-fade-in-up delay-200">
-          {step > 1 && (
-            <button
-              onClick={() => setStep(step - 1)}
-              className="h-14 px-6 rounded-xl bg-muted hover:bg-muted/80 text-foreground font-bold uppercase text-sm flex items-center gap-2 transition-all active:scale-95 cursor-pointer"
-            >
-              <ArrowLeft className="size-4" />
-              Back
-            </button>
-          )}
-
-          {step < 3 && (
-            <button
-              onClick={() => setStep(step + 1)}
-              disabled={step === 2 && !canProceedStep2}
-              className={cn(
-                "flex-1 h-14 rounded-xl font-bold uppercase text-sm flex items-center justify-center gap-3 transition-all active:scale-95 cursor-pointer",
-                step === 2 && !canProceedStep2
-                  ? "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
-                  : "bg-primary hover:bg-primary/90 text-white shadow-[0_10px_25px_rgba(255,70,37,0.3)] neon-primary"
-              )}
-            >
-              {step === 1 ? "Get Started" : "Continue"}
-              <ArrowRight className="size-4" />
-            </button>
-          )}
-
-          {step === 3 && (
-            <button
-              onClick={handleComplete}
-              disabled={!canProceedStep3}
-              className={cn(
-                "flex-1 h-14 rounded-xl font-bold uppercase text-sm flex items-center justify-center gap-3 transition-all active:scale-95 cursor-pointer",
-                !canProceedStep3
-                  ? "bg-muted text-muted-foreground cursor-not-allowed opacity-50"
-                  : "bg-primary hover:bg-primary/90 text-white shadow-[0_10px_25px_rgba(255,70,37,0.3)] neon-primary"
-              )}
-            >
-              <Zap className="size-4 fill-current" />
-              Activate Protection
-            </button>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Step Indicator ─── */
-function StepIndicator({ currentStep }: { currentStep: number }) {
-  const steps = [
-    { num: 1, label: "Welcome" },
-    { num: 2, label: "Link Account" },
-    { num: 3, label: "Choose Plan" },
-  ];
-
-  return (
-    <div className="flex items-center gap-3">
-      {steps.map((s, i) => (
-        <React.Fragment key={s.num}>
-          <div className="flex items-center gap-2">
-            <div
-              className={cn(
-                "size-8 rounded-full flex items-center justify-center text-xs font-black transition-all duration-300",
-                currentStep >= s.num
-                  ? "bg-primary text-white neon-primary"
-                  : "bg-muted text-muted-foreground"
-              )}
-            >
-              {currentStep > s.num ? (
-                <CheckCircle2 className="size-4" />
-              ) : (
-                s.num
-              )}
-            </div>
-            <span
-              className={cn(
-                "text-[10px] font-bold uppercase tracking-widest hidden sm:block transition-colors",
-                currentStep >= s.num
-                  ? "text-foreground"
-                  : "text-muted-foreground"
-              )}
-            >
-              {s.label}
-            </span>
-          </div>
-          {i < steps.length - 1 && (
-            <div
-              className={cn(
-                "w-8 sm:w-14 h-0.5 rounded-full transition-colors",
-                currentStep > s.num ? "bg-primary" : "bg-muted"
-              )}
-            />
-          )}
-        </React.Fragment>
-      ))}
-    </div>
-  );
-}
-
-/* ─── Step 1: Welcome ─── */
-function StepWelcome() {
-  return (
-    <div className="text-center space-y-8">
-      {/* Hero Shield */}
-      <div className="flex justify-center">
-        <div className="relative">
-          <div className="size-32 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-[0_0_60px_rgba(255,70,37,0.15)]">
-            <ShieldCheck className="size-16 text-primary" strokeWidth={1.5} />
-          </div>
-          <div className="absolute -top-2 -right-2 size-8 rounded-full bg-success flex items-center justify-center neon-success animate-pulse">
-            <Zap className="size-4 text-white fill-current" />
-          </div>
-        </div>
-      </div>
-
-      <div className="space-y-4">
-        <h1 className="text-4xl sm:text-5xl font-display font-black tracking-tight text-foreground leading-tight uppercase">
-          Welcome to{" "}
-          <span className="text-primary italic">GigShield</span>
-        </h1>
-        <p className="text-lg text-muted-foreground leading-relaxed max-w-md mx-auto">
-          Your income. Protected. Automatically.
-        </p>
-      </div>
-
-      {/* Feature pills */}
-      <div className="flex flex-wrap justify-center gap-3">
-        {[
-          { icon: CloudRain, text: "Weather Protection" },
-          { icon: Eye, text: "24/7 Monitoring" },
-          { icon: Zap, text: "Instant Payouts" },
-        ].map((f, i) => (
-          <div
-            key={i}
-            className="flex items-center gap-2 px-4 py-2.5 rounded-full glass-subtle text-sm font-semibold text-foreground"
-          >
-            <f.icon className="size-4 text-secondary" />
-            {f.text}
-          </div>
-        ))}
-      </div>
-
-      <p className="text-xs text-muted-foreground/60 pt-4">
-        Takes less than 2 minutes to set up. No paperwork needed.
-      </p>
-    </div>
-  );
-}
-
-/* ─── Step 2: Link Account ─── */
-function StepLinkAccount({
-  formData,
-  setFormData,
-  platformOpen,
-  setPlatformOpen,
-  cityOpen,
-  setCityOpen,
-}: {
-  formData: any;
-  setFormData: any;
-  platformOpen: boolean;
-  setPlatformOpen: any;
-  cityOpen: boolean;
-  setCityOpen: any;
-}) {
-  return (
-    <div className="space-y-8">
-      <div className="text-center space-y-3">
-        <h2 className="text-3xl font-display font-black tracking-tight text-foreground uppercase">
-          Link Your Account
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Enter your delivery partner details so we can monitor your zone.
-        </p>
-      </div>
-
-      <div className="space-y-6">
-        {/* Partner ID */}
-        <div className="space-y-2">
-          <label
-            htmlFor="partnerId"
-            className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground"
-          >
-            Partner ID <span className="text-primary">*</span>
-          </label>
-          <input
-            id="partnerId"
-            type="text"
-            value={formData.partnerId}
-            onChange={(e) =>
-              setFormData({ ...formData, partnerId: e.target.value })
-            }
-            placeholder="e.g. SW-1234567"
-            className="w-full h-14 px-5 rounded-xl bg-muted/60 text-foreground placeholder:text-muted-foreground/40 font-medium focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all text-base"
-          />
-        </div>
-
-        {/* Platform Selector */}
-        <div className="space-y-2 relative">
-          <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
-            Platform <span className="text-primary">*</span>
-          </label>
-          <button
-            onClick={() => {
-              setPlatformOpen(!platformOpen);
-              setCityOpen(false);
-            }}
-            className="w-full h-14 px-5 rounded-xl bg-muted/60 text-left font-medium flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all cursor-pointer text-base"
-          >
-            <span
-              className={
-                formData.platform
-                  ? "text-foreground"
-                  : "text-muted-foreground/40"
-              }
-            >
-              {formData.platform || "Select your platform"}
-            </span>
-            <ChevronDown
-              className={cn(
-                "size-4 text-muted-foreground transition-transform",
-                platformOpen && "rotate-180"
-              )}
-            />
-          </button>
-          {platformOpen && (
-            <div className="absolute top-full mt-2 left-0 right-0 z-50 rounded-xl glass-strong overflow-hidden shadow-2xl animate-fade-in max-h-60 overflow-y-auto">
-              {platforms.map((p) => (
-                <button
-                  key={p}
-                  onClick={() => {
-                    setFormData({ ...formData, platform: p });
-                    setPlatformOpen(false);
-                  }}
-                  className={cn(
-                    "w-full text-left px-5 py-3.5 text-sm font-medium transition-colors cursor-pointer",
-                    formData.platform === p
-                      ? "bg-primary/20 text-primary"
-                      : "text-foreground hover:bg-white/5"
-                  )}
-                >
-                  {p}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-
-        {/* City Selector */}
-        <div className="space-y-2 relative">
-          <label className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground">
-            City <span className="text-primary">*</span>
-          </label>
-          <button
-            onClick={() => {
-              setCityOpen(!cityOpen);
-              setPlatformOpen(false);
-            }}
-            className="w-full h-14 px-5 rounded-xl bg-muted/60 text-left font-medium flex items-center justify-between focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all cursor-pointer text-base"
-          >
-            <span
-              className={
-                formData.city ? "text-foreground" : "text-muted-foreground/40"
-              }
-            >
-              {formData.city || "Select your city"}
-            </span>
-            <ChevronDown
-              className={cn(
-                "size-4 text-muted-foreground transition-transform",
-                cityOpen && "rotate-180"
-              )}
-            />
-          </button>
-          {cityOpen && (
-            <div className="absolute top-full mt-2 left-0 right-0 z-50 rounded-xl glass-strong overflow-hidden shadow-2xl animate-fade-in max-h-60 overflow-y-auto">
-              {cities.map((c) => (
-                <button
-                  key={c}
-                  onClick={() => {
-                    setFormData({ ...formData, city: c });
-                    setCityOpen(false);
-                  }}
-                  className={cn(
-                    "w-full text-left px-5 py-3.5 text-sm font-medium transition-colors cursor-pointer",
-                    formData.city === c
-                      ? "bg-primary/20 text-primary"
-                      : "text-foreground hover:bg-white/5"
-                  )}
-                >
-                  {c}
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
-      </div>
-    </div>
-  );
-}
-
-/* ─── Step 3: Choose Plan ─── */
-function StepChoosePlan({
-  formData,
-  setFormData,
-}: {
-  formData: any;
-  setFormData: any;
-}) {
-  return (
-    <div className="space-y-8">
-      <div className="text-center space-y-3">
-        <h2 className="text-3xl font-display font-black tracking-tight text-foreground uppercase">
-          Choose Your Plan
-        </h2>
-        <p className="text-sm text-muted-foreground">
-          Select coverage and enter your UPI ID for instant payouts.
-        </p>
-      </div>
-
-      {/* Plan Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-        {plans.map((plan) => (
-          <button
-            key={plan.id}
-            onClick={() => setFormData({ ...formData, plan: plan.id })}
-            className={cn(
-              "relative p-5 rounded-2xl flex flex-col gap-4 text-left transition-all duration-300 cursor-pointer group",
-              formData.plan === plan.id
-                ? "glass-strong ring-2 ring-primary/50 scale-[1.02] shadow-[0_0_40px_-10px_rgba(255,70,37,0.2)]"
-                : "glass-subtle hover:bg-white/5"
-            )}
-          >
-            {plan.popular && (
-              <span className="absolute -top-2 left-1/2 -translate-x-1/2 bg-primary text-white text-[8px] font-black uppercase tracking-widest px-3 py-1 rounded-full neon-primary">
-                Recommended
-              </span>
-            )}
-
-            <div className="flex items-center justify-between">
-              <h3 className="text-sm font-bold uppercase tracking-wider text-foreground">
-                {plan.name}
-              </h3>
-              <div
-                className={cn(
-                  "size-5 rounded-full border-2 flex items-center justify-center transition-colors",
-                  formData.plan === plan.id
-                    ? "border-primary bg-primary"
-                    : "border-muted-foreground/30"
-                )}
+          <div className="flex items-center gap-6">
+            {/* Lang Toggle */}
+            <div className="flex bg-white/5 rounded-full p-0.5 border border-white/10">
+              <button 
+                onClick={() => setLanguage("en")}
+                className={`text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full transition-all duration-300 ${language === 'en' ? 'bg-primary text-white font-black' : 'text-white/40 hover:text-white'}`}
               >
-                {formData.plan === plan.id && (
-                  <CheckCircle2 className="size-3 text-white" />
-                )}
-              </div>
+                EN
+              </button>
+              <button 
+                onClick={() => setLanguage("ta")}
+                className={`text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full transition-all duration-300 ${language === 'ta' ? 'bg-primary text-white font-black' : 'text-white/40 hover:text-white'}`}
+              >
+                தமிழ்
+              </button>
             </div>
+            
+            <Link href="/">
+              <Button variant="ghost" size="sm" className="hidden sm:flex text-white/50 hover:text-white text-xs font-bold tracking-widest uppercase border-none hover:bg-white/5">
+                <Translate text="Exit Flow" />
+              </Button>
+            </Link>
+          </div>
+        </div>
+      </nav>
 
-            <div className="flex items-baseline gap-0.5">
-              <span className="text-3xl font-display font-black text-foreground tabular-nums tracking-tighter leading-none">
-                {plan.price}
-              </span>
-              <span className="text-xs text-muted-foreground font-medium">
-                {plan.period}
-              </span>
-            </div>
+      {/* CONTENT AREA */}
+      <main className="container mx-auto px-6 pt-32 pb-24 relative max-w-7xl min-h-[calc(100vh-100px)] flex flex-col items-center">
+        
+        {step < 4 && (
+          <motion.div 
+            initial={{ opacity: 0, y: -20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="w-full text-center mb-12"
+          >
+             <h4 className="text-primary font-black text-xs tracking-[0.3em] uppercase mb-4 opacity-80 decoration-primary decoration-offset-4 decoration-2">
+               <Translate text="Worker Enrollment" />
+             </h4>
+             <h1 className="text-4xl md:text-5xl font-manrope font-black text-white tracking-tighter mb-8 leading-tight">
+               <Translate text="Get Protected" /> <br className="sm:hidden" />
+               <span className="text-white/20 italic font-medium px-2">—</span>
+               <Translate text="Step" /> {step}
+             </h1>
+             <StepIndicator currentStep={step} />
+          </motion.div>
+        )}
 
-            <div className="flex items-center gap-3 text-xs text-muted-foreground">
-              <span className="flex items-center gap-1">
-                <Percent className="size-3 text-primary" />
-                {plan.coverage}
-              </span>
-              <span className="flex items-center gap-1">
-                <Clock className="size-3 text-secondary" />
-                {plan.payout}
-              </span>
-            </div>
+        <div className="w-full relative">
+          <AnimatePresence mode="wait">
+            {step === 1 && (
+              <motion.div 
+                key="step1"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="w-full"
+              >
+                <VerificationStep onNext={handleVerificationNext} />
+              </motion.div>
+            )}
 
-            <ul className="space-y-2 flex-1">
-              {plan.benefits.map((b, j) => (
-                <li
-                  key={j}
-                  className="flex items-start gap-2 text-xs text-muted-foreground"
-                >
-                  <ShieldCheck className="size-3 text-primary shrink-0 mt-0.5" />
-                  {b}
-                </li>
-              ))}
-            </ul>
-          </button>
-        ))}
-      </div>
+            {step === 2 && (
+              <motion.div 
+                key="step2"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="w-full"
+              >
+                <PlanSelection onSelect={handlePlanNext} onBack={() => setStep(1)} />
+              </motion.div>
+            )}
 
-      {/* UPI ID */}
-      <div className="space-y-2">
-        <label
-          htmlFor="upiId"
-          className="text-[11px] font-bold uppercase tracking-widest text-muted-foreground"
-        >
-          UPI ID <span className="text-primary">*</span>
-        </label>
-        <input
-          id="upiId"
-          type="text"
-          value={formData.upiId}
-          onChange={(e) =>
-            setFormData({ ...formData, upiId: e.target.value })
-          }
-          placeholder="e.g. yourname@upi"
-          className="w-full h-14 px-5 rounded-xl bg-muted/60 text-foreground placeholder:text-muted-foreground/40 font-medium focus:outline-none focus:ring-2 focus:ring-secondary/50 transition-all text-base"
-        />
-        <p className="text-[10px] text-muted-foreground/50 pl-1">
-          Payouts will be sent directly to this UPI ID.
-        </p>
-      </div>
+            {step === 3 && (
+              <motion.div 
+                key="step3"
+                initial={{ opacity: 0, x: 20 }}
+                animate={{ opacity: 1, x: 0 }}
+                exit={{ opacity: 0, x: -20 }}
+                transition={{ duration: 0.4 }}
+                className="w-full"
+              >
+                <UPIStep onComplete={handleUPINext} onBack={() => setStep(2)} />
+              </motion.div>
+            )}
+
+            {step === 4 && (
+              <motion.div 
+                key="step4"
+                initial={{ opacity: 0, scale: 0.9 }}
+                animate={{ opacity: 1, scale: 1 }}
+                transition={{ type: "spring", stiffness: 200, damping: 20 }}
+                className="w-full max-w-2xl mx-auto flex flex-col items-center text-center py-20 bg-surface-card border-white/5 rounded-[40px] shadow-2xl relative overflow-hidden"
+              >
+                 <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-orange-300 to-primary-dark" />
+                 
+                 <div className="w-32 h-32 rounded-full bg-primary/10 border-4 border-primary/20 flex items-center justify-center mb-10 shadow-inner group overflow-hidden">
+                    <motion.div
+                       initial={{ scale: 0, rotate: -45 }}
+                       animate={{ scale: 1, rotate: 0 }}
+                       transition={{ delay: 0.3, type: "spring" }}
+                    >
+                      <BadgeCheck className="w-20 h-20 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+                    </motion.div>
+                 </div>
+
+                 <h2 className="text-4xl md:text-5xl font-manrope font-black text-white mb-6 tracking-tight">
+                    <Translate text="Welcome to GigShield" />
+                 </h2>
+                 <p className="text-xl text-white/50 max-w-md mx-auto mb-10 leading-relaxed font-medium">
+                    <Translate text="Your income is now protected. Automatic payouts will arrive via your UPI for any disruptions in your zone." />
+                 </p>
+                 
+                 <div className="bg-[#0e0e0e] border border-white/5 rounded-3xl p-8 w-full max-w-sm mb-12 text-left space-y-4">
+                    <div className="flex items-center justify-between">
+                       <span className="text-sm font-bold text-white/30 uppercase tracking-widest"><Translate text="Active Plan" /></span>
+                       <span className="text-primary font-black uppercase tracking-tight text-lg">{formData.plan}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                       <span className="text-sm font-bold text-white/30 uppercase tracking-widest"><Translate text="Partner ID" /></span>
+                       <span className="text-white font-bold tracking-tight">{formData.partnerId}</span>
+                    </div>
+                    <div className="flex items-center justify-between">
+                       <span className="text-sm font-bold text-white/30 uppercase tracking-widest"><Translate text="UPI Linked" /></span>
+                       <span className="text-white font-bold tracking-tight truncate max-w-[150px]">{formData.upiId}</span>
+                    </div>
+                 </div>
+
+                 <Link href="/dashboard" className="w-full px-12">
+                   <Button className="w-full h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 transition-all font-black text-xl rounded-full flex items-center justify-center gap-3 shadow-[0_0_50px_-5px_rgba(249,115,22,0.5)] border-none">
+                     <Translate text="Go to Dashboard" /> <ArrowRight className="w-6 h-6" />
+                   </Button>
+                 </Link>
+
+                 <p className="mt-8 text-xs text-white/20 font-bold uppercase tracking-widest animate-pulse">
+                    <Translate text="Coverage activated: 3-day waiting period started" />
+                 </p>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </main>
+
+      {/* FOOTER */}
+      <footer className="py-12 bg-transparent text-center">
+         <p className="text-white/20 text-[10px] font-black tracking-[0.2em] uppercase">
+            Built for Guidewire DEVTrails 2024 — ShieldLife Secure Systems
+         </p>
+      </footer>
+
     </div>
   );
 }

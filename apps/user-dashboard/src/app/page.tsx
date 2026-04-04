@@ -2,957 +2,420 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import {
-  ShieldCheck,
-  CloudRain,
-  Eye,
-  Banknote,
-  Menu,
-  X,
-  Star,
-  ArrowRight,
-  ChevronDown,
-  ChevronRight,
-  Clock,
-  Percent,
-  Zap,
-  Users,
-  BadgeIndianRupee,
-  Sparkles,
-  Globe,
-  PlayCircle,
-} from "lucide-react";
-import { cn } from "@/lib/utils";
-import { LanguageProvider, useLanguage } from "@/contexts/LanguageContext";
+import { Shield, Smartphone, ArrowDown, Droplet, Wind, AlertTriangle, ShieldCheck, Banknote, MapPin, Star, Menu, X } from "lucide-react";
+import { Translate } from "@/components/ui/translate";
+import { useLanguage } from "@/contexts/LanguageContext";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import { Badge } from "@/components/ui/badge";
 
-/* ════════════════════════════════════════════
-   TRANSLATIONS
-   ════════════════════════════════════════════ */
-const content = {
-  nav: {
-    howItWorks: { en: "How it Works", ta: "எப்படி வேலை செய்கிறது" },
-    plans: { en: "Plans", ta: "திட்டங்கள்" },
-    getProtected: { en: "Get Protected", ta: "பாதுகாப்பு பெறுங்கள்" },
-  },
-  hero: {
-    badge: { en: "GUIDEWIRE DEVTRAILS 2026", ta: "GUIDEWIRE DEVTRAILS 2026" },
-    headlinePart1: { en: "SHIELD THE", ta: "பாதுகாக்கும்" },
-    headlinePart2: { en: "DRIVEN.", ta: "சாதகர்களை." },
-    subheadline: {
-      en: "GigShield pays you the moment rain, floods or curfew stops your deliveries. No forms. No calls. Just money in your UPI.",
-      ta: "மழை, வெள்ளம் அல்லது ஊரடங்கால் உங்கள் டெலிவரி நின்றால், GigShield உடனடியாக உங்களுக்கு பணம் செலுத்தும். படிவங்கள் இல்லை. அழைப்புகள் இல்லை. UPI-யில் பணம்.",
-    },
-    stat1: { en: "11M+ Workers Covered", ta: "11M+ தொழிலாளர்கள் பாதுகாப்பு" },
-    stat2: { en: "₹79/wk Starting Premium", ta: "₹79/வாரம் தொடக்க பிரீமியம்" },
-    stat3: { en: "2hr Auto Payout", ta: "2 மணி நேர தானியங்கி பணம்" },
-    cta: { en: "Get Protected Now", ta: "இப்போது பாதுகாப்பு பெறுங்கள்" },
-    secondary: { en: "See how it works", ta: "எப்படி வேலை செய்கிறது பாருங்கள்" },
-    protocol: { en: "The Protocol", ta: "நெறிமுறை" },
-  },
-  howItWorks: {
-    label: { en: "HOW IT WORKS", ta: "எப்படி வேலை செய்கிறது" },
-    heading: {
-      en: "Three steps. Zero paperwork.",
-      ta: "மூன்று படிகள். ஆவணங்கள் இல்லை.",
-    },
-    steps: [
-      {
-        title: { en: "Sign Up", ta: "பதிவு செய்யுங்கள்" },
-        desc: {
-          en: "Enter your Partner ID, pick a plan, link your UPI. Under 2 minutes.",
-          ta: "உங்கள் பார்ட்னர் ID உள்ளிடுங்கள், ஒரு திட்டத்தைத் தேர்ந்தெடுங்கள், உங்கள் UPI-ஐ இணைக்கவும். 2 நிமிடத்திற்குள்.",
-        },
-      },
-      {
-        title: { en: "We Watch", ta: "நாங்கள் கண்காணிக்கிறோம்" },
-        desc: {
-          en: "Our system monitors rainfall, floods and curfews in your zone 24/7.",
-          ta: "எங்கள் அமைப்பு உங்கள் பகுதியில் மழை, வெள்ளம் மற்றும் ஊரடங்கை 24/7 கண்காணிக்கிறது.",
-        },
-      },
-      {
-        title: { en: "You Get Paid", ta: "பணம் கிடைக்கும்" },
-        desc: {
-          en: "Disruption detected → payout sent to your UPI. You do nothing.",
-          ta: "இடையூறு கண்டறியப்பட்டது → உங்கள் UPI-க்கு பணம் அனுப்பப்படும். நீங்கள் எதுவும் செய்ய வேண்டாம்.",
-        },
-      },
-    ],
-  },
-  plans: {
-    label: { en: "PLANS", ta: "திட்டங்கள்" },
-    heading: {
-      en: "Pick the protection that fits you.",
-      ta: "உங்களுக்கு பொருத்தமான பாதுகாப்பைத் தேர்ந்தெடுங்கள்.",
-    },
-    choosePlan: { en: "Choose Plan", ta: "திட்டத்தைத் தேர்ந்தெடுங்கள்" },
-    mostPopular: { en: "MOST POPULAR", ta: "மிகவும் பிரபலமானது" },
-    items: [
-      {
-        name: { en: "Guard Lite", ta: "கார்ட் லைட்" },
-        price: "₹79",
-        period: { en: "/week", ta: "/வாரம்" },
-        coverage: "50%",
-        payout: { en: "24hr payout", ta: "24 மணி நேர பணம்" },
-        benefits: [
-          { en: "Rain & flood coverage", ta: "மழை & வெள்ள பாதுகாப்பு" },
-          { en: "UPI direct payout", ta: "UPI நேரடி பணம்" },
-          { en: "Basic zone monitoring", ta: "அடிப்படை மண்டல கண்காணிப்பு" },
-        ],
-        popular: false,
-      },
-      {
-        name: { en: "Guard Plus", ta: "கார்ட் பிளஸ்" },
-        price: "₹119",
-        period: { en: "/week", ta: "/வாரம்" },
-        coverage: "70%",
-        payout: { en: "12hr payout", ta: "12 மணி நேர பணம்" },
-        benefits: [
-          {
-            en: "Rain, flood & curfew coverage",
-            ta: "மழை, வெள்ளம் & ஊரடங்கு பாதுகாப்பு",
-          },
-          { en: "Priority UPI payout", ta: "முன்னுரிமை UPI பணம்" },
-          { en: "Multi-zone monitoring", ta: "பல மண்டல கண்காணிப்பு" },
-        ],
-        popular: true,
-      },
-      {
-        name: { en: "Guard Max", ta: "கார்ட் மேக்ஸ்" },
-        price: "₹159",
-        period: { en: "/week", ta: "/வாரம்" },
-        coverage: "80%",
-        payout: { en: "2hr payout", ta: "2 மணி நேர பணம்" },
-        benefits: [
-          { en: "All-hazard coverage", ta: "அனைத்து ஆபத்து பாதுகாப்பு" },
-          { en: "Instant UPI payout", ta: "உடனடி UPI பணம்" },
-          {
-            en: "24/7 premium monitoring",
-            ta: "24/7 பிரீமியம் கண்காணிப்பு",
-          },
-        ],
-        popular: false,
-      },
-    ],
-  },
-  testimonials: {
-    label: { en: "STORIES", ta: "கதைகள்" },
-    heading: {
-      en: "Workers who got paid when it mattered.",
-      ta: "தேவையான நேரத்தில் பணம் பெற்ற தொழிலாளர்கள்.",
-    },
-    items: [
-      {
-        quote: {
-          en: "It rained for 3 days straight. I got ₹8,500 in my UPI before I even checked my phone. GigShield is real.",
-          ta: "தொடர்ச்சியாக 3 நாட்கள் மழை பெய்தது. நான் என் போனைப் பார்ப்பதற்கு முன்பே ₹8,500 என் UPI-யில் வந்தது. GigShield உண்மையானது.",
-        },
-        name: "Ravi K.",
-        platform: "Swiggy",
-        city: { en: "Chennai", ta: "சென்னை" },
-      },
-      {
-        quote: {
-          en: "Floods hit our zone at 6am. By 8am the money was already there. No one called me. Nothing to fill.",
-          ta: "காலை 6 மணிக்கு எங்கள் பகுதியில் வெள்ளம். காலை 8 மணிக்கு பணம் ஏற்கனவே வந்துவிட்டது. யாரும் என்னை அழைக்கவில்லை. எதுவும் நிரப்ப வேண்டியதில்லை.",
-        },
-        name: "Priya S.",
-        platform: "Zomato",
-        city: { en: "Mumbai", ta: "மும்பை" },
-      },
-      {
-        quote: {
-          en: "I was skeptical. Then curfew was announced and ₹3,400 just appeared. Never going back.",
-          ta: "நான் சந்தேகமாக இருந்தேன். பின்னர் ஊரடங்கு அறிவிக்கப்பட்டது, ₹3,400 வந்தது. இனி பழையபடி போக மாட்டேன்.",
-        },
-        name: "Arjun M.",
-        platform: "Uber",
-        city: { en: "Bengaluru", ta: "பெங்களூரு" },
-      },
-    ],
-  },
-  ctaBanner: {
-    heading: {
-      en: "Every delivery you miss costs money. GigShield gives it back.",
-      ta: "நீங்கள் தவறவிடும் ஒவ்வொரு டெலிவரியும் பணம் செலவாகிறது. GigShield அதை திரும்பத் தருகிறது.",
-    },
-    subtext: {
-      en: "Join thousands of delivery workers already protected across India.",
-      ta: "இந்தியா முழுவதும் ஏற்கனவே பாதுகாக்கப்பட்ட ஆயிரக்கணக்கான டெலிவரி தொழிலாளர்களுடன் இணையுங்கள்.",
-    },
-    cta: { en: "Get Protected Now", ta: "இப்போது பாதுகாப்பு பெறுங்கள்" },
-    note: {
-      en: "Starting at ₹79/week. Cancel anytime.",
-      ta: "₹79/வாரம் முதல். எப்போது வேண்டுமானாலும் நிறுத்தலாம்.",
-    },
-  },
-  footer: {
-    tagline: {
-      en: "Parametric income insurance for India's gig workers.",
-      ta: "இந்தியாவின் கிக் தொழிலாளர்களுக்கான பாரமெட்ரிக் வருமான காப்பீடு.",
-    },
-    builtFor: {
-      en: "Built for Guidewire DEVTrails 2026 — Kavach Team",
-      ta: "Guidewire DEVTrails 2026 — Kavach அணிக்காக கட்டப்பட்டது",
-    },
-  },
-};
-
-function useIsOnboarded() {
-  const [isOnboarded, setIsOnboarded] = useState(false);
-  useEffect(() => {
-    const onboarded = localStorage.getItem("gigshield_onboarded") === "true";
-    setIsOnboarded(onboarded);
-  }, []);
-  return isOnboarded;
-}
-
-/* ════════════════════════════════════════════
-   LANDING PAGE
-   ════════════════════════════════════════════ */
 export default function LandingPage() {
-  return (
-    <div className="flex flex-col min-h-screen bg-background text-foreground overflow-x-hidden">
-      {/* Ambient background glow — same as apps/web */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/4 w-[600px] h-[600px] bg-primary/8 rounded-full blur-[150px] animate-glow-pulse" />
-        <div
-          className="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-secondary/6 rounded-full blur-[120px] animate-glow-pulse"
-          style={{ animationDelay: "1.5s" }}
-        />
-      </div>
-
-      <Navbar />
-      <main className="flex-1 relative z-10">
-        <HeroSection />
-        <BannerStrip />
-        <HowItWorksSection />
-        <PlansSection />
-        <TestimonialsSection />
-        <StatsSection />
-        <CTABannerSection />
-      </main>
-      <Footer />
-    </div>
-  );
-}
-
-/* ════════════════════════════════════════════
-   NAVBAR — same glass-strong style as apps/web
-   ════════════════════════════════════════════ */
-function Navbar() {
-  const { language, setLanguage, t } = useLanguage();
   const [scrolled, setScrolled] = useState(false);
-  const [mobileOpen, setMobileOpen] = useState(false);
-  const isOnboarded = useIsOnboarded();
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const { language, setLanguage } = useLanguage();
 
   useEffect(() => {
-    const handle = () => setScrolled(window.scrollY > 50);
-    window.addEventListener("scroll", handle, { passive: true });
-    return () => window.removeEventListener("scroll", handle);
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const scrollToSection = (e: React.MouseEvent<HTMLAnchorElement>, id: string) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "smooth" });
+      setMobileMenuOpen(false);
+    }
+  };
+
   return (
-    <nav
-      id="navbar"
-      className={cn(
-        "fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 transition-all duration-500",
-        scrolled ? "glass-strong shadow-lg shadow-black/20" : "bg-transparent"
-      )}
-    >
-      <div className="max-w-[1400px] mx-auto w-full flex items-center justify-between">
-        {/* Logo — same as apps/web */}
-        <Link href="/" className="flex items-center gap-3 group">
-          <div className="size-10 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(255,70,37,0.3)] rotate-6 group-hover:rotate-0 transition-transform">
-            <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
-          </div>
-          <div className="flex flex-col gap-0 leading-tight">
-            <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">
-              Gig<span className="text-primary italic">Shield</span>
-            </span>
-            <span className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground uppercase opacity-60 whitespace-nowrap">
-              Parametric Oracle
-            </span>
-          </div>
-        </Link>
+    <div className="min-h-screen bg-[#0e0e0e] text-foreground font-sans relative overflow-hidden">
+      
+      {/* Background Glow */}
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-[1000px] h-[500px] bg-primary/20 blur-[120px] rounded-full pointer-events-none -z-10" />
 
-        {/* Desktop Nav */}
-        <div className="hidden lg:flex items-center gap-10">
-          {[
-            {
-              label: t(content.nav.howItWorks.en, content.nav.howItWorks.ta),
-              href: "#how-it-works",
-            },
-            {
-              label: t(content.nav.plans.en, content.nav.plans.ta),
-              href: "#plans",
-            },
-          ].map((item) => (
-            <a
-              key={item.href}
-              href={item.href}
-              className="text-[11px] font-black uppercase tracking-[0.16em] text-white/50 hover:text-white transition-all duration-300 relative group"
-            >
-              {item.label}
-              <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-gradient-to-r from-primary to-secondary transition-all duration-500 group-hover:w-full" />
+      {/* NAVBAR */}
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#0e0e0e]/80 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-6"}`}>
+        <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
+          
+          <div className="flex items-center gap-2">
+            <Shield className="w-8 h-8 text-primary" />
+            <span className="font-manrope font-extrabold text-2xl tracking-tight text-white">Gig<span className="text-primary">Shield</span></span>
+          </div>
+
+          {/* Desktop Nav */}
+          <div className="hidden md:flex items-center gap-8">
+            <a href="#how-it-works" onClick={(e) => scrollToSection(e, "how-it-works")} className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+              <Translate text="How it Works" />
             </a>
-          ))}
+            <a href="#plans" onClick={(e) => scrollToSection(e, "plans")} className="text-sm font-medium text-white/70 hover:text-white transition-colors">
+              <Translate text="Plans" />
+            </a>
+            
+            <div className="flex bg-white/5 rounded-full p-1 border border-white/10">
+              <button 
+                onClick={() => setLanguage("en")}
+                className={`text-xs px-3 py-1.5 rounded-full transition-all ${language === 'en' ? 'bg-primary text-white font-bold' : 'text-white/60 hover:text-white'}`}
+              >
+                EN
+              </button>
+              <button 
+                onClick={() => setLanguage("ta")}
+                className={`text-xs px-3 py-1.5 rounded-full transition-all ${language === 'ta' ? 'bg-primary text-white font-bold' : 'text-white/60 hover:text-white'}`}
+              >
+                தமிழ்
+              </button>
+            </div>
 
-          {/* Language Toggle */}
-          <button
-            onClick={() => setLanguage(language === "en" ? "ta" : "en")}
-            className="text-[11px] font-black uppercase tracking-[0.16em] text-white/50 hover:text-white transition-all duration-300 cursor-pointer"
-            aria-label="Toggle language"
-          >
-            {language === "en" ? "EN / தமிழ்" : "தமிழ் / EN"}
+            <Link href="/onboarding">
+              <Button className="bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all text-white rounded-full px-6 font-semibold border-none">
+                <Translate text="Get Protected" />
+              </Button>
+            </Link>
+          </div>
+
+          {/* Mobile Nav Toggle */}
+          <button className="md:hidden text-white" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+            {mobileMenuOpen ? <X /> : <Menu />}
           </button>
         </div>
 
-        {/* Desktop CTA */}
-        <div className="hidden lg:flex items-center gap-3">
-          <Link href={isOnboarded ? "/dashboard" : "/onboarding"}>
-            <button className="rounded-xl glass border border-white/10 px-6 font-bold uppercase text-[11px] h-10 hover:bg-primary hover:text-white hover:border-primary/50 hover:neon-primary transition-all cursor-pointer">
-              {isOnboarded 
-                ? t("Go to Dashboard", "டேஷ்போர்டுக்குச் செல்லுங்கள்")
-                : t(content.nav.getProtected.en, content.nav.getProtected.ta)}
-            </button>
-          </Link>
-        </div>
-
-        {/* Mobile Hamburger */}
-        <button
-          onClick={() => setMobileOpen(!mobileOpen)}
-          className="lg:hidden text-foreground p-2 cursor-pointer"
-          aria-label="Toggle mobile menu"
-        >
-          {mobileOpen ? (
-            <X className="size-6" />
-          ) : (
-            <Menu className="size-6" />
-          )}
-        </button>
-      </div>
-
-      {/* Mobile Menu */}
-      {mobileOpen && (
-        <div className="lg:hidden absolute top-20 left-0 right-0 glass-strong animate-fade-in">
-          <div className="px-6 py-6 flex flex-col gap-4">
-            <a
-              href="#how-it-works"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-bold uppercase tracking-wider text-white/60 hover:text-white transition-colors py-2"
-            >
-              {t(content.nav.howItWorks.en, content.nav.howItWorks.ta)}
+        {/* Mobile Nav Dropdown */}
+        {mobileMenuOpen && (
+          <div className="absolute top-full left-0 w-full bg-[#0e0e0e] border-b border-white/10 p-6 flex flex-col gap-6 md:hidden shadow-2xl">
+            <a href="#how-it-works" onClick={(e) => scrollToSection(e, "how-it-works")} className="text-lg font-medium text-white">
+              <Translate text="How it Works" />
             </a>
-            <a
-              href="#plans"
-              onClick={() => setMobileOpen(false)}
-              className="text-sm font-bold uppercase tracking-wider text-white/60 hover:text-white transition-colors py-2"
-            >
-              {t(content.nav.plans.en, content.nav.plans.ta)}
+            <a href="#plans" onClick={(e) => scrollToSection(e, "plans")} className="text-lg font-medium text-white">
+              <Translate text="Plans" />
             </a>
-            <button
-              onClick={() => setLanguage(language === "en" ? "ta" : "en")}
-              className="text-sm font-bold uppercase tracking-wider text-white/60 hover:text-white transition-colors py-2 text-left cursor-pointer"
-            >
-              {language === "en" ? "EN / தமிழ்" : "தமிழ் / EN"}
-            </button>
-            <Link href={isOnboarded ? "/dashboard" : "/onboarding"} onClick={() => setMobileOpen(false)}>
-              <button className="w-full rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold uppercase h-12 text-sm shadow-[0_10px_30px_rgba(255,70,37,0.45)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-3 border-none mt-2 cursor-pointer">
-                {isOnboarded 
-                  ? t("Go to Dashboard", "டேஷ்போர்டுக்குச் செல்லுங்கள்")
-                  : t(content.nav.getProtected.en, content.nav.getProtected.ta)}
-                <ArrowRight className="size-4" />
-              </button>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm" onClick={() => setLanguage("en")} className={language === 'en' ? 'border-primary text-primary' : 'border-white/20'}>EN</Button>
+              <Button variant="outline" size="sm" onClick={() => setLanguage("ta")} className={language === 'ta' ? 'border-primary text-primary' : 'border-white/20'}>தமிழ்</Button>
+            </div>
+            <Link href="/onboarding" onClick={() => setMobileMenuOpen(false)}>
+              <Button className="w-full bg-gradient-to-r from-primary to-primary-dark text-white font-bold py-6 text-lg rounded-xl">
+                <Translate text="Get Protected" />
+              </Button>
             </Link>
           </div>
-        </div>
-      )}
-    </nav>
-  );
-}
+        )}
+      </nav>
 
-/* ════════════════════════════════════════════
-   HERO — same layout style as apps/web home
-   ════════════════════════════════════════════ */
-function HeroSection() {
-  const { t } = useLanguage();
-  const isOnboarded = useIsOnboarded();
+      {/* HERO SECTION */}
+      <section className="relative pt-40 pb-20 md:pt-52 md:pb-32 flex flex-col items-center justify-center min-h-[90vh] text-center px-6">
+        
+        <Badge variant="outline" className="text-primary border-primary/50 mb-8 px-4 py-1.5 rounded-full text-xs font-semibold tracking-widest uppercase bg-primary/10">
+          <Translate text="GUIDEWIRE DEVTRAILS 2026" />
+        </Badge>
+        
+        <h1 className="font-manrope font-extrabold text-[3.5rem] leading-[1.1] md:text-[5rem] tracking-tight text-white max-w-4xl mb-6">
+          <Translate text="Your income." /> <br className="md:hidden" />
+          <span className="text-transparent bg-clip-text bg-gradient-to-r from-primary to-orange-300">
+             <Translate text="Protected." />
+          </span> <br className="md:hidden" />
+          <Translate text="Automatically." />
+        </h1>
+        
+        <p className="text-lg md:text-xl text-white/60 max-w-2xl mb-12 leading-relaxed">
+          <Translate text="GigShield pays you the moment rain, floods or curfew stops your deliveries. No forms. No calls. Just money in your UPI." />
+        </p>
 
-  return (
-    <section
-      id="hero"
-      className="relative flex flex-col items-start min-h-screen gap-8 pt-24 pb-12 px-6 md:px-12 max-w-[1400px] mx-auto w-full"
-    >
-      {/* Background glow behind headline */}
-      <div className="absolute top-1/3 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[700px] h-[700px] bg-primary/8 rounded-full blur-[200px] animate-glow-pulse pointer-events-none" />
-
-      <div className="w-full lg:w-4/5 relative z-10 flex flex-col items-start text-left pt-12 md:pt-20">
-        <div className="space-y-10 w-full">
-          {/* Badge */}
-          <div className="animate-fade-in-up inline-flex items-center gap-2.5 glass rounded-full px-5 py-2 text-[10px] font-bold uppercase tracking-[0.1em] text-secondary self-start">
-            <Sparkles size={14} className="text-secondary animate-pulse" />
-            <span>
-              {t(content.hero.badge.en, content.hero.badge.ta)}
+        <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex items-center gap-2 bg-surface-card border border-white/5 px-5 py-2.5 rounded-full shadow-lg">
+            <ShieldCheck className="w-5 h-5 text-primary" />
+            <span className="text-sm font-medium text-white/90">
+              <Translate text="11M+ Workers Covered" />
             </span>
           </div>
-
-          {/* Headline — apps/web style */}
-          <div className="animate-fade-in-up delay-100 space-y-6 relative">
-            <h1 className="text-5xl sm:text-7xl md:text-8xl lg:text-[110px] font-display font-black tracking-tighter leading-[0.85] text-white uppercase drop-shadow-2xl flex flex-col">
-              <span className="relative">
-                {t(content.hero.headlinePart1.en, content.hero.headlinePart1.ta)}
-              </span>
-              <span className="text-primary italic">
-                {t(content.hero.headlinePart2.en, content.hero.headlinePart2.ta)}
-              </span>
-            </h1>
-            <div className="h-2 w-48 bg-primary rounded-full shadow-[0_0_20px_rgba(255,70,37,0.6)]" />
-          </div>
-
-          {/* Subheadline — same border-l style as apps/web */}
-          <p className="animate-fade-in-up delay-200 max-w-xl text-base md:text-lg text-white/70 leading-relaxed border-l-2 border-primary/40 pl-8 py-3 backdrop-blur-sm bg-white/[0.02] rounded-r-2xl">
-            {t(content.hero.subheadline.en, content.hero.subheadline.ta)}
-          </p>
-
-          {/* Stat pills */}
-          <div className="animate-fade-in-up delay-300 flex flex-wrap gap-3 sm:gap-4">
-            <StatPill icon={<Users className="size-3.5" />}>
-              {t(content.hero.stat1.en, content.hero.stat1.ta)}
-            </StatPill>
-            <StatPill icon={<BadgeIndianRupee className="size-3.5" />}>
-              {t(content.hero.stat2.en, content.hero.stat2.ta)}
-            </StatPill>
-            <StatPill icon={<Clock className="size-3.5" />}>
-              {t(content.hero.stat3.en, content.hero.stat3.ta)}
-            </StatPill>
-          </div>
-
-          {/* CTA Row — same layout as apps/web */}
-          <div className="animate-fade-in-up delay-400 flex flex-row items-center gap-3 md:gap-6 pt-6">
-            <Link href={isOnboarded ? "/dashboard" : "/onboarding"} className="flex-1 sm:flex-none">
-              <button className="w-full sm:w-auto rounded-xl sm:rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold uppercase h-12 sm:h-16 px-4 sm:px-12 text-[10px] sm:text-sm shadow-[0_10px_30px_rgba(255,70,37,0.45)] hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 sm:gap-4 border-none cursor-pointer">
-                {isOnboarded 
-                  ? t("Go to Dashboard", "டேஷ்போர்டுக்குச் செல்லுங்கள்")
-                  : t(content.hero.cta.en, content.hero.cta.ta)}
-                <ArrowRight className="size-4 sm:size-5" />
-              </button>
-            </Link>
-            <a href="#how-it-works" className="flex-1 sm:flex-none">
-              <button className="w-full sm:w-auto rounded-xl sm:rounded-2xl font-bold uppercase h-12 sm:h-16 px-4 sm:px-10 text-[10px] sm:text-sm hover:bg-secondary/10 hover:text-secondary transition-all flex items-center justify-center gap-2 sm:gap-4 group border border-white/5 backdrop-blur-md cursor-pointer text-foreground bg-transparent">
-                <div className="size-6 sm:size-10 rounded-full glass flex items-center justify-center group-hover:neon-secondary transition-all shadow-inner">
-                  <PlayCircle className="size-4 sm:size-6 text-secondary fill-current" />
-                </div>
-                {t(content.hero.secondary.en, content.hero.secondary.ta)}
-              </button>
-            </a>
-          </div>
-        </div>
-      </div>
-
-      {/* Floating tactical card — same as apps/web */}
-      <div className="absolute right-6 md:right-12 bottom-24 group hidden lg:block z-20 animate-float">
-        <div className="p-8 rounded-[2rem] glass-strong border border-white/10 flex items-center gap-10 shadow-2xl backdrop-blur-3xl">
-          <div className="space-y-2">
-            <p className="text-[10px] uppercase font-black text-muted-foreground tracking-[0.25em]">
-              Payout Velocity
-            </p>
-            <div className="flex items-center gap-4">
-              <p className="text-5xl font-bold text-white tabular-nums font-mono tracking-tighter shrink-0 leading-none">
-                0.14s
-              </p>
-              <div className="px-3 py-1.5 rounded-full bg-success/15 border border-success/20 text-[10px] font-black text-success uppercase neon-success whitespace-nowrap">
-                Instant
-              </div>
-            </div>
-          </div>
-          <div className="size-16 rounded-[1.25rem] bg-primary/15 flex items-center justify-center border border-primary/20 shrink-0 shadow-[0_0_30px_rgba(255,70,37,0.2)]">
-            <ShieldCheck className="size-9 text-primary" />
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-}
-
-function StatPill({
-  icon,
-  children,
-}: {
-  icon: React.ReactNode;
-  children: React.ReactNode;
-}) {
-  return (
-    <div className="flex items-center gap-2 px-4 py-2.5 rounded-full glass-subtle text-[11px] sm:text-sm font-semibold text-foreground">
-      <span className="text-primary">{icon}</span>
-      {children}
-    </div>
-  );
-}
-
-/* ════════════════════════════════════════════
-   BANNER STRIP — same as apps/web
-   ════════════════════════════════════════════ */
-function BannerStrip() {
-  const bannerItems = [
-    "AQI MONITORING",
-    "PRECIPITATION ORACLE",
-    "HEATWAVE PROTECTION",
-    "SMART CONTRACT PAYOUTS",
-  ];
-
-  return (
-    <section className="py-8 border-y border-white/5 relative overflow-hidden group max-w-[1400px] mx-auto w-full px-6 md:px-12">
-      <div className="absolute inset-0 bg-gradient-to-r from-primary/[0.03] via-transparent to-secondary/[0.03]" />
-      <div className="grid grid-cols-2 lg:grid-cols-4 gap-y-6 lg:gap-8 relative z-10">
-        {bannerItems.map((item, i) => (
-          <div
-            key={i}
-            className="flex items-center justify-center lg:justify-start gap-3 opacity-60 group-hover:opacity-100 transition-all duration-500 py-1 px-2"
-          >
-            <div className="size-1.5 bg-secondary rounded-full neon-secondary animate-pulse shrink-0" />
-            <span className="text-[8px] md:text-[10px] lg:text-[11px] font-black uppercase tracking-[0.15em] lg:tracking-[0.25em] text-white/40 group-hover:text-white/80 transition-colors text-center whitespace-nowrap">
-              {item}
+          <div className="flex items-center gap-2 bg-surface-card border border-white/5 px-5 py-2.5 rounded-full shadow-lg">
+            <Banknote className="w-5 h-5 text-primary" />
+            <span className="text-sm font-medium text-white/90">
+              <Translate text="₹79/wk Starting Premium" />
             </span>
           </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════
-   HOW IT WORKS — glass-subtle cards like apps/web features
-   ════════════════════════════════════════════ */
-function HowItWorksSection() {
-  const { t } = useLanguage();
-
-  const steps = content.howItWorks.steps;
-  const stepIcons = [
-    { icon: ShieldCheck, color: "bg-fs-blue" },
-    { icon: Eye, color: "bg-fs-purple" },
-    { icon: Banknote, color: "bg-fs-yellow" },
-  ];
-
-  return (
-    <section
-      id="how-it-works"
-      className="py-20 sm:py-32 max-w-[1400px] mx-auto w-full px-6 md:px-12"
-    >
-      {/* Header */}
-      <div className="text-center mb-16 sm:mb-20">
-        <div className="flex items-center justify-center gap-3 text-secondary font-black uppercase tracking-[0.2em] text-[10px] sm:text-[11px] mb-6">
-          <Sparkles className="size-4 text-secondary animate-pulse" />
-          {t(content.howItWorks.label.en, content.howItWorks.label.ta)}
-        </div>
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-[0.85] uppercase text-foreground">
-          {t(content.howItWorks.heading.en, content.howItWorks.heading.ta)}
-        </h2>
-      </div>
-
-      {/* Step Cards — glass-subtle with card-glow (same as apps/web feature cards) */}
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {steps.map((step, i) => {
-          const IconComp = stepIcons[i].icon;
-          return (
-            <div
-              key={i}
-              className="group p-8 rounded-3xl glass-subtle card-glow flex flex-col gap-6 hover:translate-y-[-4px] transition-all duration-300"
-            >
-              <div
-                className={cn(
-                  "size-16 rounded-2xl flex items-center justify-center shadow-lg transition-transform group-hover:scale-110",
-                  stepIcons[i].color
-                )}
-              >
-                <IconComp className="size-8 text-white" strokeWidth={2.5} />
-              </div>
-              <div className="space-y-3">
-                <h3 className="text-3xl font-display font-black tracking-tight text-foreground leading-none uppercase">
-                  {t(step.title.en, step.title.ta)}
-                </h3>
-                <p className="text-sm text-muted-foreground leading-relaxed font-medium">
-                  {t(step.desc.en, step.desc.ta)}
-                </p>
-              </div>
-              <div className="mt-auto pt-4">
-                <div className="flex items-center gap-2 text-primary text-[11px] font-bold uppercase tracking-widest opacity-0 group-hover:opacity-100 transition-all group-hover:translate-x-1 duration-500">
-                  {i === 0
-                    ? "Start Now"
-                    : i === 1
-                      ? "Learn More"
-                      : "View Payouts"}{" "}
-                  <ChevronRight size={14} />
-                </div>
-              </div>
-            </div>
-          );
-        })}
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════
-   PLANS
-   ════════════════════════════════════════════ */
-function PlansSection() {
-  const { t } = useLanguage();
-  const isOnboarded = useIsOnboarded();
-
-  return (
-    <section
-      id="plans"
-      className="py-20 sm:py-32 max-w-[1400px] mx-auto w-full px-6 md:px-12"
-    >
-      <div className="text-center mb-16 sm:mb-20">
-        <p className="section-label mb-4">
-          {t(content.plans.label.en, content.plans.label.ta)}
-        </p>
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-[0.85] uppercase text-foreground">
-          {t(content.plans.heading.en, content.plans.heading.ta)}
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {content.plans.items.map((plan, i) => (
-          <div
-            key={i}
-            className={cn(
-              "relative rounded-3xl p-8 flex flex-col gap-6 transition-all duration-300 group card-glow",
-              plan.popular
-                ? "glass-strong ring-1 ring-primary/30 scale-[1.02] shadow-[0_0_50px_-15px_rgba(255,70,37,0.2)]"
-                : "glass-subtle hover:translate-y-[-4px]"
-            )}
-          >
-            {/* Popular badge */}
-            {plan.popular && (
-              <div className="absolute -top-3 left-1/2 -translate-x-1/2 z-10">
-                <span className="bg-primary text-white text-[9px] font-black uppercase tracking-widest px-4 py-1.5 rounded-full neon-primary shadow-lg">
-                  {t(
-                    content.plans.mostPopular.en,
-                    content.plans.mostPopular.ta
-                  )}
-                </span>
-              </div>
-            )}
-
-            {/* Plan name */}
-            <h3 className="text-2xl font-display font-black tracking-tight text-foreground uppercase">
-              {t(plan.name.en, plan.name.ta)}
-            </h3>
-
-            {/* Price */}
-            <div className="flex items-baseline gap-1">
-              <span className="text-5xl font-display font-black text-white tabular-nums tracking-tighter leading-none">
-                {plan.price}
-              </span>
-              <span className="text-muted-foreground text-sm font-medium">
-                {t(plan.period.en, plan.period.ta)}
-              </span>
-            </div>
-
-            {/* Coverage & Payout */}
-            <div className="flex items-center gap-4">
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Percent className="size-4 text-primary" />
-                <span className="font-semibold text-foreground">
-                  {plan.coverage}
-                </span>{" "}
-                coverage
-              </div>
-              <div className="flex items-center gap-1.5 text-sm text-muted-foreground">
-                <Clock className="size-4 text-secondary" />
-                {t(plan.payout.en, plan.payout.ta)}
-              </div>
-            </div>
-
-            {/* Benefits */}
-            <ul className="flex flex-col gap-3 flex-1">
-              {plan.benefits.map((benefit, j) => (
-                <li
-                  key={j}
-                  className="flex items-start gap-3 text-sm text-muted-foreground"
-                >
-                  <div className="size-5 rounded-full bg-primary/10 flex items-center justify-center shrink-0 mt-0.5">
-                    <ShieldCheck className="size-3 text-primary" />
-                  </div>
-                  {t(benefit.en, benefit.ta)}
-                </li>
-              ))}
-            </ul>
-
-            {/* CTA */}
-            <Link href={isOnboarded ? "/dashboard" : "/onboarding"}>
-              <button
-                className={cn(
-                  "w-full font-bold text-sm py-3.5 rounded-xl transition-all active:scale-95 uppercase tracking-wider cursor-pointer",
-                  plan.popular
-                    ? "bg-primary hover:bg-primary/90 text-white shadow-[0_10px_20px_rgba(255,70,37,0.2)] neon-primary"
-                    : "glass border border-white/10 text-foreground hover:bg-primary hover:text-white hover:border-primary/50 hover:neon-primary"
-                )}
-              >
-                {isOnboarded 
-                  ? t("Go to Dashboard", "டேஷ்போர்டுக்குச் செல்லுங்கள்")
-                  : t(content.plans.choosePlan.en, content.plans.choosePlan.ta)} →
-              </button>
-            </Link>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════
-   TESTIMONIALS — glass-subtle cards
-   ════════════════════════════════════════════ */
-function TestimonialsSection() {
-  const { t } = useLanguage();
-
-  return (
-    <section
-      id="testimonials"
-      className="py-20 sm:py-32 max-w-[1400px] mx-auto w-full px-6 md:px-12"
-    >
-      <div className="text-center mb-16 sm:mb-20">
-        <p className="section-label mb-4">
-          {t(content.testimonials.label.en, content.testimonials.label.ta)}
-        </p>
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-[0.85] uppercase text-foreground">
-          {t(
-            content.testimonials.heading.en,
-            content.testimonials.heading.ta
-          )}
-        </h2>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {content.testimonials.items.map((item, i) => (
-          <div
-            key={i}
-            className="group p-8 rounded-3xl glass-subtle card-glow flex flex-col gap-6 hover:translate-y-[-4px] transition-all duration-300"
-          >
-            {/* Stars */}
-            <div className="flex gap-1">
-              {[...Array(5)].map((_, j) => (
-                <Star
-                  key={j}
-                  className="size-4 text-accent fill-accent"
-                />
-              ))}
-            </div>
-
-            {/* Quote */}
-            <blockquote className="text-foreground text-base leading-relaxed flex-1 font-medium">
-              &ldquo;{t(item.quote.en, item.quote.ta)}&rdquo;
-            </blockquote>
-
-            {/* Author */}
-            <div className="flex items-center gap-3 pt-4 border-t border-white/5">
-              <div className="size-10 rounded-full bg-primary/15 flex items-center justify-center border border-primary/20">
-                <span className="text-primary font-bold text-sm">
-                  {item.name.charAt(0)}
-                </span>
-              </div>
-              <div>
-                <p className="text-sm font-bold text-foreground">
-                  {item.name}
-                </p>
-                <p className="text-[10px] font-black uppercase tracking-[0.15em] text-muted-foreground">
-                  {item.platform} · {t(item.city.en, item.city.ta)}
-                </p>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════
-   STATS — same glass + radial gradient style as apps/web
-   ════════════════════════════════════════════ */
-function StatsSection() {
-  const { t } = useLanguage();
-  const isOnboarded = useIsOnboarded();
-
-  return (
-    <section className="py-20 sm:py-32 max-w-[1400px] mx-auto w-full px-6 md:px-12">
-      <div className="p-8 md:p-14 rounded-2xl md:rounded-3xl glass card-glow relative overflow-hidden flex flex-col lg:flex-row items-center justify-between gap-12 lg:gap-14 group">
-        {/* Background radials — same as apps/web */}
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,70,37,0.08)_0%,transparent_40%)] pointer-events-none" />
-        <div className="absolute inset-0 bg-[radial-gradient(circle_at_80%_80%,rgba(0,216,255,0.05)_0%,transparent_40%)] pointer-events-none" />
-
-        <div className="w-full lg:max-w-xl flex flex-col items-start text-left space-y-8 relative z-10">
-          <div className="flex items-center gap-3 text-secondary font-black uppercase tracking-[0.2em] text-[10px] sm:text-[11px]">
-            <Globe className="size-4 animate-spin text-secondary" style={{ animationDuration: '12s' }} />
-            {t("Coverage Network", "பாதுகாப்பு வலையமைப்பு")}
-          </div>
-          <h2 className="text-5xl sm:text-6xl md:text-7xl font-display font-black tracking-tight leading-[0.85] uppercase">
-            {t("Covering the", "உள்ளடக்கும்")} <br />
-            <span className="text-secondary italic">
-              {t("Pan-India", "அகில இந்திய")}
+          <div className="flex items-center gap-2 bg-surface-card border border-white/5 px-5 py-2.5 rounded-full shadow-lg">
+            <Smartphone className="w-5 h-5 text-primary" />
+            <span className="text-sm font-medium text-white/90">
+              <Translate text="2hr Auto Payout" />
             </span>
-          </h2>
-          <p className="text-sm sm:text-base text-white/60 leading-relaxed font-medium max-w-lg">
-            {t(
-              "By EOFY 2026, GigShield will provide parametric protection to over 11 million gig workers across India. Starting with major metros and expanding nationwide.",
-              "EOFY 2026-க்குள், GigShield இந்தியா முழுவதும் 11 மில்லியனுக்கும் அதிகமான கிக் தொழிலாளர்களுக்கு பாரமெட்ரிக் பாதுகாப்பை வழங்கும்."
-            )}
-          </p>
-          <Link href={isOnboarded ? "/dashboard" : "/onboarding"}>
-            <button className="h-14 px-10 rounded-xl bg-secondary hover:bg-secondary/90 text-white font-black uppercase shadow-[0_10px_30px_rgba(0,216,255,0.3)] border-none transition-all hover:scale-105 active:scale-95 flex items-center justify-center gap-3 cursor-pointer">
-              {isOnboarded 
-                ? t("Go to Dashboard", "டேஷ்போர்டுக்குச் செல்லுங்கள்")
-                : t("Explore Coverage", "பாதுகாப்பு பாருங்கள்")}
-              <ArrowRight size={18} />
-            </button>
-          </Link>
+          </div>
         </div>
 
-        <div className="grid grid-cols-2 gap-4 sm:gap-6 w-full lg:w-auto relative z-10">
-          {[
-            { label: "Active Riders", val: "11M+" },
-            { label: "Platform Nodes", val: "84" },
-            { label: "Safety Payouts", val: "₹4.1Cr" },
-            { label: "Response Time", val: "2s" },
-          ].map((stat, i) => (
-            <div
-              key={i}
-              className="p-5 md:p-8 rounded-2xl glass-subtle border border-white/5 hover:border-secondary/30 transition-all duration-500 flex flex-col justify-center items-center lg:items-start min-w-[140px] md:min-w-[180px]"
-            >
-              <p className="text-3xl md:text-5xl font-display font-black text-white tabular-nums tracking-tighter leading-none shrink-0">
-                {stat.val}
-              </p>
-              <div className="h-0.5 w-6 bg-secondary/30 my-3 lg:my-4 hidden lg:block" />
-              <p className="text-[9px] md:text-[10px] font-black uppercase tracking-[0.2em] text-white/40 mt-1">
-                {stat.label}
-              </p>
-            </div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
-/* ════════════════════════════════════════════
-   CTA BANNER
-   ════════════════════════════════════════════ */
-function CTABannerSection() {
-  const { t } = useLanguage();
-  const isOnboarded = useIsOnboarded();
-
-  return (
-    <section className="py-20 sm:py-32 relative overflow-hidden max-w-[1400px] mx-auto w-full px-6 md:px-12">
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[400px] bg-primary/8 rounded-full blur-[200px] animate-glow-pulse" />
-      </div>
-
-      <div className="relative z-10 text-center max-w-3xl mx-auto">
-        <h2 className="text-4xl sm:text-5xl md:text-6xl font-display font-black tracking-tight leading-[0.85] uppercase text-foreground mb-6">
-          {t(content.ctaBanner.heading.en, content.ctaBanner.heading.ta)}
-        </h2>
-        <p className="text-base sm:text-lg text-white/60 mb-10 max-w-2xl mx-auto font-medium">
-          {t(content.ctaBanner.subtext.en, content.ctaBanner.subtext.ta)}
-        </p>
-        <Link href={isOnboarded ? "/dashboard" : "/onboarding"}>
-          <button className="rounded-2xl bg-primary hover:bg-primary/90 text-white font-bold uppercase h-16 px-14 text-sm shadow-[0_10px_30px_rgba(255,70,37,0.45)] hover:scale-105 active:scale-95 transition-all inline-flex items-center justify-center gap-4 border-none cursor-pointer">
-            {isOnboarded 
-              ? t("Go to Dashboard", "டேஷ்போர்டுக்குச் செல்லுங்கள்")
-              : t(content.ctaBanner.cta.en, content.ctaBanner.cta.ta)}
-            <ArrowRight className="size-5" />
-          </button>
+        <Link href="/onboarding" className="w-full md:w-auto">
+          <Button className="w-full md:w-auto text-lg h-16 md:px-12 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all text-white rounded-full font-bold shadow-[0_0_40px_-10px_rgba(249,115,22,0.5)]">
+            <Translate text="Get Protected Now" /> <ArrowDown className="w-5 h-5 ml-2 -rotate-90" />
+          </Button>
         </Link>
-        <p className="text-sm text-muted-foreground mt-5">
-          {t(content.ctaBanner.note.en, content.ctaBanner.note.ta)}
-        </p>
-      </div>
-    </section>
-  );
-}
 
-/* ════════════════════════════════════════════
-   FOOTER — same structure as apps/web
-   ════════════════════════════════════════════ */
-function Footer() {
-  const { t } = useLanguage();
+        <a href="#how-it-works" onClick={(e) => scrollToSection(e, "how-it-works")} className="mt-16 flex flex-col items-center gap-3 text-white/40 hover:text-white/80 transition-colors cursor-pointer">
+          <span className="text-sm font-medium"><Translate text="See how it works" /></span>
+          <ArrowDown className="w-4 h-4 animate-bounce" />
+        </a>
+      </section>
 
-  return (
-    <footer className="relative z-10 border-t border-white/5">
-      <div className="max-w-[1400px] mx-auto w-full px-6 md:px-12 pt-20 flex flex-col gap-14">
-        <div className="flex flex-col md:flex-row justify-between items-start gap-12">
-          {/* Logo + Tagline */}
-          <div className="space-y-4 max-w-sm">
-            <div className="flex items-center gap-3">
-              <div className="size-9 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(255,70,37,0.3)]">
-                <Zap className="size-5 text-white fill-current" />
-              </div>
-              <h4 className="text-3xl font-display font-black tracking-tight uppercase">
-                GigShield
-              </h4>
+      {/* HOW IT WORKS */}
+      <section id="how-it-works" className="py-24 px-6 relative z-10 bg-[#0a0a0a]">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-20">
+            <div className="text-primary font-bold text-sm tracking-widest uppercase mb-4">
+              <Translate text="HOW IT WORKS" />
             </div>
-            <p className="text-sm text-muted-foreground leading-relaxed">
-              {t(content.footer.tagline.en, content.footer.tagline.ta)}
-            </p>
+            <h2 className="font-manrope font-extrabold text-3xl md:text-5xl text-white">
+              <Translate text="Three steps. Zero paperwork." />
+            </h2>
           </div>
 
-          {/* Footer Links — same grid as apps/web */}
-          <div className="grid grid-cols-3 gap-6 md:gap-14 w-full md:w-auto">
+          <div className="grid md:grid-cols-3 gap-8 relative">
+            {/* Connecting Line Desktop */}
+            <div className="hidden md:block absolute top-[60px] left-[15%] right-[15%] h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent z-0" />
+
+            {/* Step 1 */}
+            <div className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-16 h-16 rounded-2xl bg-surface-card border border-white/10 flex items-center justify-center mb-6 shadow-xl relative overflow-hidden group-hover:border-primary/50 transition-colors">
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Smartphone className="w-8 h-8 text-primary relative z-10" />
+              </div>
+              <div className="text-primary font-black text-xl mb-3">1</div>
+              <h3 className="text-xl font-bold text-white mb-4 font-manrope">
+                <Translate text="Sign Up" />
+              </h3>
+              <p className="text-white/60 leading-relaxed max-w-xs">
+                <Translate text="Enter your Partner ID, pick a plan, link your UPI. Under 2 minutes." />
+              </p>
+            </div>
+
+            {/* Step 2 */}
+            <div className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-16 h-16 rounded-2xl bg-surface-card border border-white/10 flex items-center justify-center mb-6 shadow-xl relative overflow-hidden group-hover:border-primary/50 transition-colors">
+                 <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <PinIcon className="w-8 h-8 text-primary relative z-10" />
+              </div>
+              <div className="text-primary font-black text-xl mb-3">2</div>
+              <h3 className="text-xl font-bold text-white mb-4 font-manrope">
+                <Translate text="We Watch" />
+              </h3>
+              <p className="text-white/60 leading-relaxed max-w-xs">
+                <Translate text="Our system monitors rainfall, floods and curfews in your zone 24/7." />
+              </p>
+            </div>
+
+            {/* Step 3 */}
+            <div className="relative z-10 flex flex-col items-center text-center group">
+              <div className="w-16 h-16 rounded-2xl bg-surface-card border border-white/10 flex items-center justify-center mb-6 shadow-xl relative overflow-hidden group-hover:border-primary/50 transition-colors">
+                <div className="absolute inset-0 bg-primary/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <Banknote className="w-8 h-8 text-primary relative z-10" />
+              </div>
+              <div className="text-primary font-black text-xl mb-3">3</div>
+              <h3 className="text-xl font-bold text-white mb-4 font-manrope">
+                <Translate text="You Get Paid" />
+              </h3>
+              <p className="text-white/60 leading-relaxed max-w-xs">
+                <Translate text="Disruption detected → payout sent to your UPI. You do nothing." />
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* PLANS */}
+      <section id="plans" className="py-24 px-6 relative bg-gradient-to-b from-[#0a0a0a] to-[#0e0e0e]">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-20">
+            <div className="text-primary font-bold text-sm tracking-widest uppercase mb-4">
+              <Translate text="PLANS" />
+            </div>
+            <h2 className="font-manrope font-extrabold text-3xl md:text-5xl text-white">
+              <Translate text="Pick the protection that fits you." />
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-8 items-center max-w-5xl mx-auto">
+            {/* Guard Lite */}
+            <Card className="bg-surface-card border-white/10 hover:border-white/20 transition-all text-white rounded-2xl">
+              <CardHeader>
+                <CardTitle className="text-2xl font-manrope"><Translate text="Guard Lite" /></CardTitle>
+                <div className="mt-4 flex items-baseline text-4xl font-extrabold">
+                  ₹79
+                  <span className="ml-1 text-xl font-medium text-white/50">/wk</span>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <div className="flex items-center text-white/80"><ShieldCheck className="w-5 h-5 mr-3 text-primary" /> <Translate text="50% coverage" /></div>
+                <div className="flex items-center text-white/80"><AlertTriangle className="w-5 h-5 mr-3 text-white/40" /> <Translate text="24hr payout" /></div>
+                <div className="flex items-center text-white/80"><Droplet className="w-5 h-5 mr-3 text-white/40" /> <Translate text="Rain & Flood only" /></div>
+              </CardContent>
+              <CardFooter>
+                 <Link href="/onboarding" className="w-full">
+                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 hover:bg-white/10">
+                    <Translate text="Choose Plan" /> <ArrowDown className="w-4 h-4 ml-2 -rotate-90" />
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+
+            {/* Guard Plus (Popular) */}
+            <Card className="relative bg-surface-card border-primary ring-1 ring-primary/50 shadow-[0_0_30px_-5px_rgba(249,115,22,0.3)] hover:shadow-[0_0_40px_-5px_rgba(249,115,22,0.4)] transition-all md:-translate-y-4 text-white rounded-2xl transform">
+              <div className="absolute -top-4 left-0 right-0 flex justify-center">
+                <span className="bg-primary text-white text-xs font-bold px-3 py-1 uppercase tracking-wider rounded-full">
+                  <Translate text="MOST POPULAR" />
+                </span>
+              </div>
+              <CardHeader className="pt-8">
+                <CardTitle className="text-2xl font-manrope text-primary"><Translate text="Guard Plus" /></CardTitle>
+                <div className="mt-4 flex items-baseline text-5xl font-extrabold text-white">
+                  ₹119
+                  <span className="ml-1 text-xl font-medium text-white/50">/wk</span>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                 <div className="flex items-center text-white/90"><ShieldCheck className="w-5 h-5 mr-3 text-primary" /> <span className="font-bold"><Translate text="70% coverage" /></span></div>
+                 <div className="flex items-center text-white/90"><AlertTriangle className="w-5 h-5 mr-3 text-primary" /> <Translate text="12hr payout" /></div>
+                 <div className="flex items-center text-white/90"><Wind className="w-5 h-5 mr-3 text-primary" /> <Translate text="All weather & curfews" /></div>
+              </CardContent>
+              <CardFooter>
+                 <Link href="/onboarding" className="w-full">
+                  <Button className="w-full h-12 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 text-white rounded-xl font-bold border-none transition-all">
+                    <Translate text="Choose Plan" /> <ArrowDown className="w-4 h-4 ml-2 -rotate-90" />
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+
+            {/* Guard Max */}
+            <Card className="bg-surface-card border-white/10 hover:border-white/20 transition-all text-white rounded-2xl">
+              <CardHeader>
+                <CardTitle className="text-2xl font-manrope"><Translate text="Guard Max" /></CardTitle>
+                <div className="mt-4 flex items-baseline text-4xl font-extrabold">
+                  ₹159
+                  <span className="ml-1 text-xl font-medium text-white/50">/wk</span>
+                </div>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                 <div className="flex items-center text-white/80"><ShieldCheck className="w-5 h-5 mr-3 text-primary" /> <span className="font-bold"><Translate text="80% coverage" /></span></div>
+                 <div className="flex items-center text-white/80"><AlertTriangle className="w-5 h-5 mr-3 text-white/40" /> <span className="font-bold"><Translate text="2hr expedited payout" /></span></div>
+                 <div className="flex items-center text-white/80"><Wind className="w-5 h-5 mr-3 text-white/40" /> <Translate text="All disruptions + VIP support" /></div>
+              </CardContent>
+              <CardFooter>
+                 <Link href="/onboarding" className="w-full">
+                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 hover:bg-white/10">
+                    <Translate text="Choose Plan" /> <ArrowDown className="w-4 h-4 ml-2 -rotate-90" />
+                  </Button>
+                </Link>
+              </CardFooter>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* TESTIMONIALS */}
+      <section className="py-24 px-6 relative bg-[#0e0e0e]">
+        <div className="container mx-auto max-w-6xl">
+          <div className="text-center mb-16">
+            <div className="text-primary font-bold text-sm tracking-widest uppercase mb-4">
+              <Translate text="STORIES" />
+            </div>
+            <h2 className="font-manrope font-extrabold text-3xl md:text-5xl text-white">
+              <Translate text="Workers who got paid when it mattered." />
+            </h2>
+          </div>
+
+          <div className="grid md:grid-cols-3 gap-6">
             {[
               {
-                title: "Protocol",
-                links: ["Documentation", "Audit", "GitHub", "Paper"],
+                text: "It rained for 3 days straight. I got ₹8,500 in my UPI before I even checked my phone. GigShield is real.",
+                author: "Ravi",
+                platform: "Swiggy",
+                city: "Chennai"
               },
               {
-                title: "Company",
-                links: ["Ecosystem", "Founders", "Regions", "Careers"],
+                text: "Floods hit our zone at 6am. By 8am the money was already there. No one called me. Nothing to fill.",
+                author: "Priya",
+                platform: "Zomato",
+                city: "Mumbai"
               },
               {
-                title: "Legal",
-                links: ["Privacy", "Standard", "AML", "Terms"],
-              },
-            ].map((section) => (
-              <div key={section.title} className="space-y-4">
-                <h5 className="text-[11px] font-bold uppercase tracking-[0.15em] text-foreground">
-                  {section.title}
-                </h5>
-                <ul className="space-y-3">
-                  {section.links.map((link) => (
-                    <li key={link}>
-                      <a
-                        href="#"
-                        className="text-xs text-muted-foreground hover:text-secondary transition-colors"
-                      >
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
+                text: "I was skeptical. Then curfew was announced and ₹3,400 just appeared. Never going back.",
+                author: "Arjun",
+                platform: "Uber",
+                city: "Bengaluru"
+              }
+            ].map((st, i) => (
+              <div key={i} className="bg-surface-card border border-white/10 p-8 rounded-2xl flex flex-col justify-between hover:border-white/20 transition-colors">
+                <div>
+                  <div className="flex text-primary mb-6">
+                    {[...Array(5)].map((_, j) => <Star key={j} className="w-5 h-5 fill-current" />)}
+                  </div>
+                  <p className="text-white/80 text-lg leading-relaxed mb-8 italic">
+                    "<Translate text={st.text} />"
+                  </p>
+                </div>
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 rounded-full bg-white/10 flex items-center justify-center font-bold text-white uppercase overflow-hidden">
+                    {st.author[0]}
+                  </div>
+                  <div>
+                    <h4 className="font-bold text-white"><Translate text={st.author} /></h4>
+                    <p className="text-sm text-white/50">{st.platform} · {st.city}</p>
+                  </div>
+                </div>
               </div>
             ))}
           </div>
         </div>
+      </section>
 
-        {/* Bottom bar */}
-        <div className="flex flex-col md:flex-row justify-between items-center py-10 border-t border-white/5 gap-6">
-          <span className="text-[9px] font-bold uppercase tracking-widest text-muted-foreground opacity-40">
-            {t(content.footer.builtFor.en, content.footer.builtFor.ta)}
-          </span>
-          <div className="flex items-center gap-6">
-            <span className="text-[9px] font-bold uppercase tracking-widest px-3 py-1 glass rounded-full text-success border border-success/20 neon-success">
-              Oracle Sync: Active
-            </span>
-            <div className="flex gap-5">
-              <Globe className="size-4 text-muted-foreground hover:text-secondary transition-colors cursor-pointer" />
-              <Zap className="size-4 text-muted-foreground hover:text-primary transition-colors cursor-pointer" />
-              <ShieldCheck className="size-4 text-muted-foreground hover:text-secondary transition-colors cursor-pointer" />
+      {/* FINAL CTA BANNER */}
+      <section className="py-24 px-6 relative overflow-hidden">
+         <div className="absolute inset-0 bg-primary/10" />
+         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-[800px] h-full bg-primary/20 blur-[100px] pointer-events-none" />
+         
+         <div className="container mx-auto max-w-4xl relative z-10 text-center">
+            <h2 className="font-manrope font-extrabold text-4xl md:text-5xl text-white mb-6">
+              <Translate text="Every delivery you miss costs money." /> <br className="hidden md:block"/>
+              <Translate text="GigShield gives it back." />
+            </h2>
+            <p className="text-xl text-white/70 mb-10 max-w-2xl mx-auto">
+              <Translate text="Join thousands of delivery workers already protected across India." />
+            </p>
+            
+            <Link href="/onboarding">
+              <Button className="h-16 px-12 text-lg bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all text-white rounded-full font-bold shadow-[0_0_40px_-5px_rgba(249,115,22,0.4)] border-none">
+                <Translate text="Get Protected Now" /> <ArrowDown className="w-5 h-5 ml-2 -rotate-90" />
+              </Button>
+            </Link>
+            
+            <p className="mt-6 text-sm text-white/40">
+              <Translate text="Starting at ₹79/week. Cancel anytime." />
+            </p>
+         </div>
+      </section>
+
+      {/* FOOTER */}
+      <footer className="bg-[#0a0a0a] border-t border-white/5 py-12 px-6">
+        <div className="container mx-auto max-w-7xl flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="flex flex-col items-center md:items-start gap-2">
+            <div className="flex items-center gap-2">
+              <Shield className="w-6 h-6 text-primary" />
+              <span className="font-manrope font-bold text-xl text-white">Gig<span className="text-primary">Shield</span></span>
             </div>
+            <p className="text-white/40 text-sm">
+              <Translate text="Parametric income insurance for India's gig workers." />
+            </p>
+          </div>
+          
+          <div className="text-white/30 text-sm flex items-center gap-2">
+            Built for Guidewire DEVTrails 2026 — Kavach Team
           </div>
         </div>
-      </div>
-    </footer>
+      </footer>
+
+    </div>
   );
 }
+
+// MapPin alias for PinIcon semantic consistency
+const PinIcon = MapPin;

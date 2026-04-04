@@ -2,10 +2,10 @@
 
 import React from "react";
 import { Zone } from "@/lib/api";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Badge } from "@/components/ui/badge";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
+import { Badge } from "./ui/badge";
 import { MapPin, ChevronDown, ChevronUp, Radio, Ruler, Navigation } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import anime from "animejs";
 
 interface ZoneCardProps {
@@ -69,7 +69,7 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
             <CardTitle className="text-[22px] font-display font-black tracking-tight text-foreground group-hover/card:text-secondary transition-colors leading-none uppercase">
               {zone.name}
             </CardTitle>
-            <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1.5 opacity-60">
+            <p className="text-[10px] font-black text-muted-foreground uppercase tracking-widest mt-1.5 opacity-60">
               Region: {(zone.state || zone.city || "Unknown").toUpperCase()}
             </p>
           </div>
@@ -128,3 +128,4 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
     </Card>
   );
 }
+

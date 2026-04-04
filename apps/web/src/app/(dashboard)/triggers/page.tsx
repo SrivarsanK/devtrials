@@ -2,16 +2,9 @@
 
 import React, { useEffect, useState } from "react";
 import { fetchTriggers, manualPoll, Trigger } from "@/lib/api";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
 import {
   RefreshCcw,
   Droplets,
@@ -23,7 +16,7 @@ import {
   ArrowUpRight,
   Zap
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "@repo/ui";
 import anime from "animejs";
 
 export default function TriggersPage() {
@@ -207,3 +200,4 @@ export default function TriggersPage() {
     </div>
   );
 }
+

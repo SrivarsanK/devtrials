@@ -9,11 +9,11 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
+} from "./ui/table";
+import { Badge } from "./ui/badge";
+import { Skeleton } from "./ui/skeleton";
 import { Activity, Droplets, Thermometer, ShieldAlert, ShieldCheck } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 
 interface TriggerTableProps {
   triggers: Trigger[];
@@ -101,7 +101,7 @@ export default function TriggerTable({ triggers, loading }: TriggerTableProps) {
               return (
                 <TableRow key={row.zone} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors group">
                   <TableCell className="font-display font-black text-foreground px-6 py-5">{row.zone}</TableCell>
-                  <TableCell className="font-mono text-sm text-muted-foreground/80 font-bold">
+                  <TableCell className="font-mono text-sm text-muted-foreground/80 font-black">
                     <div className="flex flex-col">
                       <span>{row.latestByType.Rainfall ? Number(row.latestByType.Rainfall.magnitude).toFixed(2) : "-"}</span>
                       {row.latestByType.Rainfall?.metadata?.minuteCast && (
@@ -111,8 +111,8 @@ export default function TriggerTable({ triggers, loading }: TriggerTableProps) {
                       )}
                     </div>
                   </TableCell>
-                  <TableCell className="font-mono text-sm text-muted-foreground/80 font-bold">{row.latestByType.AQI ? Number(row.latestByType.AQI.magnitude).toFixed(0) : "-"}</TableCell>
-                  <TableCell className="font-mono text-sm text-muted-foreground/80 font-bold">
+                  <TableCell className="font-mono text-sm text-muted-foreground/80 font-black">{row.latestByType.AQI ? Number(row.latestByType.AQI.magnitude).toFixed(0) : "-"}</TableCell>
+                  <TableCell className="font-mono text-sm text-muted-foreground/80 font-black">
                     <div className="flex flex-col">
                       <span>{row.latestByType.HeatIndex ? Number(row.latestByType.HeatIndex.magnitude).toFixed(2) : "-"}</span>
                       {row.latestByType.HeatIndex?.metadata?.accuWeatherHeadline && (
@@ -136,7 +136,7 @@ export default function TriggerTable({ triggers, loading }: TriggerTableProps) {
                   <TableCell>
                     <div className="flex flex-col gap-1">
                       <Badge variant="outline" className={cn(
-                        "rounded-full border-none font-bold text-[8px] w-fit px-2 py-0",
+                        "rounded-full border-none font-black text-[8px] w-fit px-2 py-0",
                         dataMode === "LIVE" ? "bg-success/15 text-success" : "bg-warning/15 text-warning"
                       )}>
                         {dataMode}
@@ -146,7 +146,7 @@ export default function TriggerTable({ triggers, loading }: TriggerTableProps) {
                       </span>
                     </div>
                   </TableCell>
-                  <TableCell className="font-bold text-primary tabular-nums font-mono group-hover:scale-105 transition-transform origin-left">₹{maxPayout}</TableCell>
+                  <TableCell className="font-black text-primary tabular-nums font-mono group-hover:scale-105 transition-transform origin-left">₹{maxPayout}</TableCell>
                   <TableCell className="text-[10px] text-muted-foreground font-medium text-right pr-5 opacity-50">
                     {new Date(row.lastUpdated).toLocaleTimeString()}
                   </TableCell>
@@ -159,3 +159,4 @@ export default function TriggerTable({ triggers, loading }: TriggerTableProps) {
     </div>
   );
 }
+

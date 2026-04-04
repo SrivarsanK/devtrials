@@ -1,11 +1,11 @@
 "use client";
 
 import { AppHeader } from "@/components/app-header";
-import { SidebarProvider, SidebarInset } from "@/components/ui/sidebar";
+import {} from "@repo/ui";
 import { AppSidebar } from "@/components/app-sidebar";
-import { useSidebar } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
-import { useIsMobile } from "@/hooks/use-mobile";
+import {} from "@repo/ui";
+import { cn } from "@repo/ui";
+import { useIsMobile } from "@repo/ui";
 import { usePathname } from "next/navigation";
 import { LayoutDashboard, Home, Activity, Map as MapIcon } from "lucide-react";
 import Link from "next/link";
@@ -92,3 +92,4 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
     </>
   );
 }
+

@@ -1,7 +1,7 @@
 "use client"
 
 import * as React from "react"
-import { cn } from "@/lib/utils"
+import { cn } from "@repo/ui"
 
 const Label = React.forwardRef<
   HTMLLabelElement,
@@ -19,3 +19,5 @@ const Label = React.forwardRef<
 Label.displayName = "Label"
 
 export { Label }
+
+

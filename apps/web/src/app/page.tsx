@@ -3,13 +3,13 @@
 import Link from "next/link";
 import React from "react";
 import { ArrowRight, Zap, ShieldCheck, MapPin, Wind, CloudRain, ThermometerSun, PlayCircle, Globe, ChevronRight, Sparkles } from "lucide-react";
-import { Button } from "@/components/ui/button";
-import { cn } from "@/lib/utils";
+import { Button } from "@repo/ui";
+import { cn } from "@repo/ui";
 import anime from "animejs";
 import dynamic from "next/dynamic";
 
-// Dynamically import 3D component to ensure it only renders on client
-const HeroShield = dynamic(() => import("@/components/HeroShield"), { ssr: false });
+// Dynamically import 3D component from shared library
+const HeroShield = dynamic(() => import("@repo/ui").then(mod => mod.HeroShield), { ssr: false });
 
 export default function HomePage() {
   React.useEffect(() => {
@@ -312,3 +312,4 @@ export default function HomePage() {
     </div>
   );
 }
+

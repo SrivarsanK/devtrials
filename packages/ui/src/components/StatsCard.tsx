@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import {
   Activity,
   AlertTriangle,
@@ -14,7 +14,7 @@ import {
   Layers,
   LucideIcon
 } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { cn } from "../lib/utils";
 import anime from "animejs";
 
 const iconMap: Record<string, LucideIcon> = {
@@ -105,7 +105,7 @@ export default function StatsCard({ title, value, subtitle, icon, status }: Stat
             {value}
           </div>
           {subtitle && (
-            <p className="text-[10px] font-bold text-muted-foreground mt-0.5 opacity-60 uppercase tracking-tight">
+            <p className="text-[10px] font-black text-muted-foreground mt-0.5 opacity-60 uppercase tracking-tight">
               {subtitle}
             </p>
           )}
@@ -114,3 +114,4 @@ export default function StatsCard({ title, value, subtitle, icon, status }: Stat
     </Card>
   );
 }
+

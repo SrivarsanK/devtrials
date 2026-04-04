@@ -1,8 +1,8 @@
 "use client";
 
-import { SidebarTrigger } from "@/components/ui/sidebar";
-import { Separator } from "@/components/ui/separator";
-import { useIsMobile } from "@/hooks/use-mobile";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
+import { useIsMobile } from "@repo/ui";
 import Link from "next/link";
 import { 
   Bell,
@@ -15,7 +15,7 @@ import {
   LogIn,
   Activity
 } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {} from "@repo/ui";
 import { 
   UserButton, 
   SignInButton, 
@@ -24,22 +24,10 @@ import {
   useClerk
 } from "@clerk/nextjs";
 import { useRouter } from "next/navigation";
-import { useSidebar } from "@/components/ui/sidebar";
-import { cn } from "@/lib/utils";
-import {
-  CommandDialog,
-  CommandEmpty,
-  CommandGroup,
-  CommandInput,
-  CommandItem,
-  CommandList,
-  CommandSeparator,
-} from "@/components/ui/command";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
+import {} from "@repo/ui";
+import { cn } from "@repo/ui";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
 import { useState, useEffect } from "react";
 
 export function AppHeader() {
@@ -259,3 +247,5 @@ export function AppHeader() {
     </header>
   );
 }
+
+

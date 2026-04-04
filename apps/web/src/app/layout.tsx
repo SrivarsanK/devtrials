@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import { Inter, Nunito, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
-import { cn } from "@/lib/utils";
-import { TooltipProvider } from "@/components/ui/tooltip";
+import { cn } from "@repo/ui";
+import {} from "@repo/ui";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 
@@ -62,3 +62,4 @@ export default function RootLayout({
     </ClerkProvider>
   );
 }
+

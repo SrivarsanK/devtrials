@@ -1,10 +1,10 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ZoneCard from "@/components/ZoneCard";
+import { ZoneCard } from "@repo/ui";
 import { fetchZones, Zone } from "@/lib/api";
 import { Map, Loader2, Search, ArrowUpRight } from "lucide-react";
-import { Input } from "@/components/ui/input";
+import {} from "@repo/ui";
 import anime from "animejs";
 import RegisterZoneModal from "@/components/RegisterZoneModal";
 
@@ -133,3 +133,4 @@ export default function ZonesPage() {
     </div>
   );
 }
+

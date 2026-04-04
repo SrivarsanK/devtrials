@@ -124,3 +124,4 @@ const RiskMap: React.FC<RiskMapProps> = ({
 };
 
 export default RiskMap;
+

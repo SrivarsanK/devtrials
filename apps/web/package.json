@@ -12,6 +12,7 @@
     "lint": "eslint"
   },
   "dependencies": {
+    "@repo/ui": "workspace:*",
     "@base-ui/react": "^1.3.0",
     "@clerk/nextjs": "^7.0.6",
     "@clerk/themes": "^2.4.57",

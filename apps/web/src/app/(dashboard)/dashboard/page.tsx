@@ -1,11 +1,11 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import StatsCard from "@/components/StatsCard";
-import TriggerTable from "@/components/TriggerTable";
+import { StatsCard } from "@repo/ui";
+import { TriggerTable } from "@repo/ui";
 import { fetchTriggers, fetchZones, fetchHealth, Trigger, Zone } from "@/lib/api";
 import { RefreshCcw, Activity as ActivityIcon, ShieldCheck, ArrowUpRight } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import {} from "@repo/ui";
 import anime from "animejs";
 import { useUser } from "@clerk/nextjs";
 
@@ -204,3 +204,4 @@ export default function DashboardPage() {
     </div>
   );
 }
+

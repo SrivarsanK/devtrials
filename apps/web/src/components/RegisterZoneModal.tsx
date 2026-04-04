@@ -1,17 +1,10 @@
 "use client";
 
 import React, { useState } from "react";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
+import {} from "@repo/ui";
 import { registerZone } from "@/lib/api";
 import { Loader2, MapPin, Globe, ArrowUpRight } from "lucide-react";
 
@@ -168,3 +161,5 @@ export default function RegisterZoneModal({ onSuccess, children }: RegisterZoneM
     </Dialog>
   );
 }
+
+

@@ -5,8 +5,8 @@ import dynamic from 'next/dynamic';
 import { RefreshCcw, AlertTriangle, Layers, Map as MapIcon, ShieldCheck } from 'lucide-react';
 import { fetchHeatmap, fetchHealth, fetchPriorityAlerts } from '@/lib/api';
 import anime from 'animejs';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import {} from '@repo/ui';
+import { cn } from '@repo/ui';
 
 const RiskMap = dynamic(() => import('@/components/RiskMap'), {
   ssr: false,
@@ -304,3 +304,4 @@ export default function RiskMapPage() {
     </div>
   );
 }
+

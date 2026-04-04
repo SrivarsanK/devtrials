@@ -2,10 +2,10 @@
 
 ## Current Position
 
-**Phase:** 6 - Full Application Localization (Planned)
-**Plan:** `.planning/phases/06-full-application-localization/06-PLAN.md`
-**Status:** Requirements, Context, and Plan completed for final phase (v1.1 Milestone). Ready for build.
-**Last activity:** 2026-04-04 — Milestone v1.1 (Worker Enrollment & Dashboard Experience) started
+**Phase:** 8 - Worker Experience Expansion (Planned)
+**Plan:** `.planning/phases/08-worker-exp-expansion/08-PLAN.md`
+**Status:** Adding new views for Zones, History, and Settings.
+**Last activity:** 2026-04-04 — Phase 8 added
 
 ## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
 

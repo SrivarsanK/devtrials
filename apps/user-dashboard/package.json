@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@base-ui/react": "^1.3.0",
+    "@clerk/nextjs": "^7.0.8",
     "@types/animejs": "^3.1.13",
     "animejs": "^3.2.2",
     "class-variance-authority": "^0.7.1",

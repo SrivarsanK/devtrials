@@ -9,9 +9,15 @@ interface StepIndicatorProps {
 }
 
 const steps = [
-  { id: 1, name: "Verification" },
-  { id: 2, name: "Plan Selection" },
-  { id: 3, name: "UPI Setup" },
+  { id: 1, name: "Partner" },
+  { id: 2, name: "ID" },
+  { id: 3, name: "Mobile" },
+  { id: 4, name: "Zones" },
+  { id: 5, name: "Aadhaar" },
+  { id: 6, name: "PAN" },
+  { id: 7, name: "Selfie" },
+  { id: 8, name: "Policy" },
+  { id: 9, name: "UPI" },
 ];
 
 export function StepIndicator({ currentStep }: StepIndicatorProps) {
@@ -42,9 +48,9 @@ export function StepIndicator({ currentStep }: StepIndicatorProps) {
               >
                 {isCompleted ? <Check className="w-5 h-5" /> : <span className="font-bold">{step.id}</span>}
               </div>
-              <span className={`text-xs font-semibold tracking-wide uppercase transition-colors ${
-                isActive ? "text-primary" : isCompleted ? "text-white/80" : "text-white/30"
-              }`}>
+              <span className={`text-[10px] font-black tracking-widest uppercase transition-colors ${
+                isActive ? "text-primary" : isCompleted ? "text-white/80" : "text-white/10"
+              } ${!isActive && 'hidden md:block'}`}>
                 <Translate text={step.name} />
               </span>
             </div>

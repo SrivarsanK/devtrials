@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { Shield, Smartphone, ArrowDown, Droplet, Wind, AlertTriangle, ShieldCheck, Banknote, MapPin, Star, Menu, X } from "lucide-react";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import { Translate } from "@/components/ui/translate";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
@@ -70,11 +71,25 @@ export default function LandingPage() {
               </button>
             </div>
 
-            <Link href="/onboarding">
-              <Button className="bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all text-white rounded-full px-6 font-semibold border-none">
-                <Translate text="Get Protected" />
-              </Button>
-            </Link>
+            <Show when="signed-in">
+               <Link href="/dashboard">
+                 <Button variant="ghost" className="text-white/70 hover:text-white"><Translate text="Dashboard" /></Button>
+               </Link>
+               <div className="p-0.5 rounded-full border border-white/5 bg-white/5 hover:bg-white/10 transition-colors">
+                  <UserButton appearance={{ elements: { userButtonAvatarBox: "w-8 h-8 rounded-full" } }} />
+               </div>
+            </Show>
+
+            <Show when="signed-out">
+               <Link href="/sign-in">
+                 <Button variant="ghost" className="text-white/70 hover:text-white"><Translate text="Sign In" /></Button>
+               </Link>
+               <Link href="/onboarding">
+                 <Button className="bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all text-white rounded-full px-6 font-semibold border-none">
+                   <Translate text="Get Protected" />
+                 </Button>
+               </Link>
+            </Show>
           </div>
 
           {/* Mobile Nav Toggle */}

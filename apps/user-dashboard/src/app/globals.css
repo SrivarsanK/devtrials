@@ -1,267 +1,60 @@
 @import "tailwindcss";
 
-/* ═══════════════════════════════════════════════════════
-   GIGSHIELD DESIGN SYSTEM — ported from apps/web
-   Exact same color palette, fonts, glassmorphism, glows.
-   Tailwind v4 @theme syntax.
-   ═══════════════════════════════════════════════════════ */
+:root {
+  --background: #0e0e0e;
+  --foreground: #ededed;
+  
+  --primary: #f97316;
+  --primary-dark: #ea580c;
+  --primary-foreground: #ffffff;
+  
+  --surface-card: #18181b;
+}
 
 @theme inline {
-  /* ─── Core Palette (from apps/web globals.css) ─── */
-  --color-background: #0d0d0d;
-  --color-foreground: #f0f0f5;
-  --color-card: #141414;
-  --color-card-foreground: #f0f0f5;
-  --color-popover: #141414;
-  --color-popover-foreground: #f0f0f5;
-
-  /* Fireship Orange — exact value from apps/web */
-  --color-primary: #ff4625;
-  --color-primary-foreground: #ffffff;
-  --color-primary-dark: #cc3a1f;
-  --color-primary-light: #ff6b4a;
-
-  /* React.gg Cyan */
-  --color-secondary: #00d8ff;
-  --color-secondary-foreground: #0d0d0d;
-
-  /* Fireship Yellow */
-  --color-accent: #ffc800;
-  --color-accent-foreground: #0d0d0d;
-
-  /* Semantic surfaces */
-  --color-muted: #1e1e1e;
-  --color-muted-foreground: #a0a0b0;
-  --color-surface: #141414;
-  --color-surface-card: #181818;
-  --color-surface-elevated: #1e1e1e;
-
-  /* State colors */
-  --color-destructive: #ff2d55;
-  --color-destructive-foreground: #ffffff;
-  --color-success: #00c896;
-  --color-warning: #ffc800;
-  --color-danger: #ff2d55;
-
-  /* Fireship Category Colors */
-  --color-fs-green: #00c896;
-  --color-fs-blue: #0096ff;
-  --color-fs-yellow: #ffc800;
-  --color-fs-red: #ff2d55;
-  --color-fs-purple: #9d50bb;
-
-  /* Border / Input */
-  --color-border: rgba(255, 255, 255, 0.08);
-  --color-input: rgba(255, 255, 255, 0.08);
-  --color-ring: #ff4625;
-
-  /* Radius */
-  --radius-lg: 1rem;
-  --radius-md: calc(1rem - 2px);
-  --radius-sm: calc(1rem - 4px);
-
-  /* Typography — matches apps/web font stack */
-  --font-sans: var(--font-inter), "Inter", system-ui, sans-serif;
-  --font-display: var(--font-nunito), "Nunito", system-ui, sans-serif;
-  --font-heading: var(--font-manrope), "Manrope", system-ui, sans-serif;
-  --font-mono: "JetBrains Mono", monospace;
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-geist-sans);
+  --font-mono: var(--font-geist-mono);
+  
+  --color-primary: var(--primary);
+  --color-primary-dark: var(--primary-dark);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-surface-card: var(--surface-card);
 }
 
-/* ─── Base Resets ─── */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  border-color: var(--color-border);
-}
-
-html {
-  scroll-behavior: smooth;
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #0e0e0e;
+    --foreground: #ededed;
+  }
 }
 
 body {
-  background-color: var(--color-background);
-  color: var(--color-foreground);
-  font-family: var(--font-sans);
-  font-weight: 400;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  overflow-x: hidden;
+  background: var(--background);
+  color: var(--foreground);
+  font-family: 'Inter', var(--font-sans), Arial, Helvetica, sans-serif;
 }
 
-/* ─── Font Classes ─── */
-.font-display {
-  font-family: var(--font-display), sans-serif;
-}
-.font-heading {
-  font-family: var(--font-heading), sans-serif;
-}
-
-/* ─── Glassmorphism (from apps/web) ─── */
-.glass {
-  background: rgba(20, 20, 20, 0.6);
-  backdrop-filter: blur(16px);
-  -webkit-backdrop-filter: blur(16px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-strong {
-  background: rgba(18, 18, 26, 0.75);
-  backdrop-filter: blur(24px);
-  -webkit-backdrop-filter: blur(24px);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-}
-
-.glass-subtle {
-  background: rgba(18, 18, 26, 0.4);
-  backdrop-filter: blur(12px);
-  -webkit-backdrop-filter: blur(12px);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-}
-
-/* ─── Gradient Text (from apps/web) ─── */
-.gradient-text {
-  background: linear-gradient(135deg, #ff4625 0%, #ffd23f 50%, #00d8ff 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-.gradient-text-cyan {
-  background: linear-gradient(135deg, #00d8ff 0%, #a855f7 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── Orange Gradient (CTA Buttons) ─── */
-.gradient-orange {
-  background: linear-gradient(135deg, var(--color-primary) 0%, var(--color-primary-dark) 100%);
-}
-
-.gradient-orange-text {
-  background: linear-gradient(135deg, var(--color-primary) 0%, #ff8c42 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
-}
-
-/* ─── Card Hover Glow (from apps/web) ─── */
-.card-glow {
-  position: relative;
-  transition: box-shadow 0.4s ease;
-}
-.card-glow:hover {
-  box-shadow: 0 0 30px -10px rgba(255, 70, 37, 0.15),
-              0 0 60px -20px rgba(0, 216, 255, 0.08);
-}
-
-/* ─── Neon Accents (from apps/web) ─── */
-.neon-primary {
-  box-shadow: 0 0 12px -3px rgba(255, 70, 37, 0.4);
-}
-
-.neon-secondary {
-  box-shadow: 0 0 12px -3px rgba(0, 216, 255, 0.4);
-}
-
-.neon-success {
-  box-shadow: 0 0 12px -3px rgba(35, 204, 113, 0.4);
-}
-
-.glow-orange {
-  box-shadow: 0 0 40px -10px rgba(255, 70, 37, 0.3),
-              0 0 80px -20px rgba(255, 70, 37, 0.15);
-}
-
-.glow-orange-subtle {
-  box-shadow: 0 0 60px -15px rgba(255, 70, 37, 0.12);
-}
-
-/* ─── Section Label ─── */
-.section-label {
-  font-size: 0.7rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.2em;
-  color: var(--color-primary);
-}
-
-/* ─── Custom Scrollbar (from apps/web) ─── */
-::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
-}
-::-webkit-scrollbar-thumb {
-  background: rgba(255, 255, 255, 0.1);
-  border-radius: 999px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(255, 255, 255, 0.2);
-}
-
-/* ─── Animations (from apps/web) ─── */
-@keyframes float {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
-}
-
-@keyframes glow-pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 0.8; }
-}
-
-@keyframes fade-in-up {
-  from {
-    opacity: 0;
-    transform: translateY(24px);
+@layer utilities {
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none;
   }
-  to {
-    opacity: 1;
-    transform: translateY(0);
+  
+  .custom-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
-}
 
-@keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
-}
+  .glassmorphism {
+    background-color: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(24px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
 
-.animate-float {
-  animation: float 6s ease-in-out infinite;
-}
-
-.animate-glow-pulse {
-  animation: glow-pulse 3s ease-in-out infinite;
-}
-
-.animate-fade-in-up {
-  animation: fade-in-up 0.6s ease-out both;
-}
-
-.animate-fade-in {
-  animation: fade-in 0.5s ease-out both;
-}
-
-/* Stagger delays */
-.delay-100 { animation-delay: 100ms; }
-.delay-200 { animation-delay: 200ms; }
-.delay-300 { animation-delay: 300ms; }
-.delay-400 { animation-delay: 400ms; }
-.delay-500 { animation-delay: 500ms; }
-.delay-600 { animation-delay: 600ms; }
-.delay-700 { animation-delay: 700ms; }
-.delay-800 { animation-delay: 800ms; }
-
-/* ─── Reduced Motion ─── */
-@media (prefers-reduced-motion: reduce) {
-  .animate-float,
-  .animate-glow-pulse,
-  .animate-fade-in-up,
-  .animate-fade-in {
-    animation: none;
+  .text-shadow-premium {
+    text-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
   }
 }

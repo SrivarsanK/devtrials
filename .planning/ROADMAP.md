@@ -36,3 +36,24 @@
   1. The dashboard and enrollment pages translate completely when "தமிழ்" is toggled in the header.
   2. Translations persist reasonably, or default dictionary is expanded for structural texts.
   3. No visual layout breaking occurs when Tamil is rendered.
+
+### Phase 7: Parametric Trigger Engine Implementation
+
+**Goal:** Establish the core backend services to monitor spatial triggers (Rainfall, AQI, Heat) and match them against active worker zones.
+
+- **Requirements:** TM-001, TM-002, TM-003
+
+- **Success Criteria:**
+  1. Background workers can fetch and deduplicate data from primary weather sources.
+  2. The system triggers "Imminent Disruption" alerts for matched zones.
+  3. Real-time trigger data is persisted in TimescaleDB for historical analysis.
+
+### Phase 8: Worker Experience - Zones, History, & Settings
+
+**Goal:** Expand the Worker PWA with dedicated views for managing coverage zones, reviewing detailed payout history, and configuring account settings.
+
+- **Requirements:** WD-05, WD-06, WD-07
+- **Success Criteria:**
+  1. Users can view and switch between monitored zones in `/zones`.
+  2. A dedicated `/history` page provides a searchable/filterable list of all past triggers and payouts.
+  3. The `/settings` page allows workers to manage language, profile, and notification preferences.

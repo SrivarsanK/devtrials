@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Translate } from "@/components/ui/translate";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -14,6 +15,7 @@ interface UPIStepProps {
 }
 
 export function UPIStep({ onComplete, onBack }: UPIStepProps) {
+  const { t } = useLanguage();
   const [upi, setUpi] = useState("");
   const [agreed, setAgreed] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -21,11 +23,11 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
 
   const handleComplete = () => {
     if (!upi.includes("@")) {
-      setError("Please enter a valid UPI ID (e.g. worker@bank).");
+      setError(t("Please enter a valid UPI ID (e.g. worker@bank).", "Please enter a valid UPI ID (e.g. worker@bank)."));
       return;
     }
     if (!agreed) {
-      setError("You must agree to the auto-deduction to proceed.");
+      setError(t("You must agree to the auto-deduction to proceed.", "You must agree to the auto-deduction to proceed."));
       return;
     }
 
@@ -61,7 +63,7 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
           <Input 
             value={upi} 
             onChange={(e) => setUpi(e.target.value)}
-            placeholder="e.g. 9845012345@paytm" 
+            placeholder={t("e.g. 9845012345@paytm", "e.g. 9845012345@paytm")} 
             className="bg-[#0e0e0e] border-white/10 h-14 text-lg focus:border-primary transition-all rounded-xl"
             disabled={loading}
           />

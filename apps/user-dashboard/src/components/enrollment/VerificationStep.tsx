@@ -2,6 +2,7 @@
 
 import React, { useState } from "react";
 import { Translate } from "@/components/ui/translate";
+import { useLanguage } from "@/contexts/LanguageContext";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { ShieldCheck, Loader2 } from "lucide-react";
@@ -12,13 +13,14 @@ interface VerificationStepProps {
 }
 
 export function VerificationStep({ onNext }: VerificationStepProps) {
+  const { t } = useLanguage();
   const [partnerId, setPartnerId] = useState("");
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
 
   const handleVerify = () => {
     if (partnerId.length < 5) {
-      setError("Please enter a valid Partner ID (minimum 5 characters).");
+      setError(t("Please enter a valid Partner ID (minimum 5 characters).", "Please enter a valid Partner ID (minimum 5 characters)."));
       return;
     }
 
@@ -54,7 +56,7 @@ export function VerificationStep({ onNext }: VerificationStepProps) {
           <Input 
             value={partnerId} 
             onChange={(e) => setPartnerId(e.target.value)}
-            placeholder="e.g. SZ-98231" 
+            placeholder={t("e.g. SZ-98231", "e.g. SZ-98231")} 
             className="bg-[#0e0e0e] border-white/10 h-14 text-lg focus:border-primary transition-all rounded-xl"
             disabled={loading}
           />

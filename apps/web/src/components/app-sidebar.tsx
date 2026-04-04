@@ -7,7 +7,9 @@ import {
   ShieldCheck,
   Activity,
   Sparkles,
-  Map as MapIcon
+  Map as MapIcon,
+  CreditCard,
+  AlertOctagon
 } from "lucide-react";
 
 import {
@@ -47,12 +49,22 @@ const data = {
     {
       title: "Monitored Zones",
       url: "/zones",
-      icon: LayoutDashboard,
+      icon: MapIcon,
     },
     {
       title: "Live Risk Map",
       url: "/dashboard/risk-map",
       icon: MapIcon,
+    },
+    {
+      title: "Fraud Audit",
+      url: "/requests",
+      icon: AlertOctagon,
+    },
+    {
+      title: "Payouts",
+      url: "/payout",
+      icon: CreditCard,
     },
   ],
 };

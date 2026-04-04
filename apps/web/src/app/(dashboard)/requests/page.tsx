@@ -38,7 +38,14 @@ export default function RequestsPage() {
       </header>
 
       <div className="glass rounded-3xl border border-white/5 overflow-hidden">
-        <FraudRequestTable initialRequests={requests} />
+        {loading ? (
+          <div className="h-64 flex flex-col items-center justify-center gap-4">
+            <div className="size-10 rounded-full border-2 border-primary/30 border-t-primary animate-spin" />
+            <span className="text-[10px] font-black uppercase tracking-widest text-muted-foreground animate-pulse">Syncing with Oracle...</span>
+          </div>
+        ) : (
+          <FraudRequestTable initialRequests={requests} />
+        )}
       </div>
     </div>
   );

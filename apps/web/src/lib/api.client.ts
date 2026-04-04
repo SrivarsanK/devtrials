@@ -20,13 +20,13 @@ if (!API_URL) {
 }
 
 export async function fetchFraudRequests(): Promise<FraudRequest[]> {
-  const res = await fetch(`${API_URL}/fraud/requests`, { cache: "no-store" });
+  const res = await fetch(`${API_URL}/api/fraud/requests`, { cache: "no-store" });
   if (!res.ok) throw new Error(`Failed to fetch requests: ${res.status}`);
   return res.json();
 }
 
 export async function scoreFraudRequest(id: string): Promise<void> {
-  const res = await fetch(`${API_URL}/fraud/requests/${id}/score`, {
+  const res = await fetch(`${API_URL}/api/fraud/requests/${id}/score`, {
     method: "POST",
   });
   if (!res.ok) throw new Error(`Failed to score request: ${res.status}`);

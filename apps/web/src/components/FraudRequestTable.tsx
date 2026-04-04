@@ -23,6 +23,11 @@ export function FraudRequestTable({ initialRequests }: FraudRequestTableProps) {
   const [requests, setRequests] = useState<FraudRequest[]>(initialRequests);
   const [scoringIds, setScoringIds] = useState<Set<string>>(new Set());
 
+  // Sync state with props when data is loaded
+  React.useEffect(() => {
+    setRequests(initialRequests);
+  }, [initialRequests]);
+
   const handleScore = async (id: string) => {
     setScoringIds(prev => new Set(prev).add(id));
     try {

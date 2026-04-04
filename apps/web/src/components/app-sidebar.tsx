@@ -50,14 +50,9 @@ const data = {
       icon: LayoutDashboard,
     },
     {
-      title: "Audit Requests",
-      url: "/requests",
-      icon: ShieldCheck,
-    },
-    {
-      title: "Payout Support",
-      url: "/payout",
-      icon: ShieldCheck,
+      title: "Live Risk Map",
+      url: "/dashboard/risk-map",
+      icon: MapIcon,
     },
   ],
 };
@@ -93,14 +88,14 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       opacity: [0, 1],
       delay: anime.stagger(60),
     })
-    .add({
-      targets: '.anime-logo',
-      scale: [0.8, 1],
-      opacity: [0, 1],
-      rotate: '5deg',
-      duration: 1000,
-      easing: 'spring(1, 80, 10, 0)'
-    }, '-=600');
+      .add({
+        targets: '.anime-logo',
+        scale: [0.8, 1],
+        opacity: [0, 1],
+        rotate: '5deg',
+        duration: 1000,
+        easing: 'spring(1, 80, 10, 0)'
+      }, '-=600');
 
     return () => clearInterval(interval);
   }, []);
@@ -170,8 +165,8 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
             </span>
           </div>
           <p className="text-[8px] text-muted-foreground leading-tight opacity-60 group-data-[collapsible=icon]:hidden">
-            {isOnline 
-              ? "Oracle synchronized. Sensor fusion active." 
+            {isOnline
+              ? "Oracle synchronized. Sensor fusion active."
               : "Connection lost. Re-establishing link..."}
           </p>
         </div>

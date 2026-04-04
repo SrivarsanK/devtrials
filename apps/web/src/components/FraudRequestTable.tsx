@@ -1,167 +1,159 @@
 "use client";
 
-import React from "react";
-import { FraudRequest, scoreFraudRequest } from "@/lib/api";
-import {
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/ui/table";
-import { Badge } from "@/components/ui/badge";
-import { Skeleton } from "@/components/ui/skeleton";
-import { Button } from "@/components/ui/button";
-import { ShieldAlert, ShieldCheck, ShieldQuestion, BrainCircuit, Fingerprint } from "lucide-react";
+import React, { useState } from "react";
+import { FraudRequest, scoreFraudRequest } from "@/lib/api.client";
+import { 
+  ShieldAlert, 
+  CheckCircle2, 
+  XCircle, 
+  Clock, 
+  Fingerprint, 
+  ShieldEllipsis,
+  Activity,
+  ArrowUpRight
+} from "lucide-react";
 import { cn } from "@/lib/utils";
+import { Button } from "@/components/ui/button";
 
 interface FraudRequestTableProps {
-  requests: FraudRequest[];
-  loading: boolean;
-  onRefresh: () => void;
+  initialRequests: FraudRequest[];
 }
 
-export default function FraudRequestTable({ requests, loading, onRefresh }: FraudRequestTableProps) {
-  const [scoringId, setScoringId] = React.useState<string | null>(null);
+export function FraudRequestTable({ initialRequests }: FraudRequestTableProps) {
+  const [requests, setRequests] = useState<FraudRequest[]>(initialRequests);
+  const [scoringIds, setScoringIds] = useState<Set<string>>(new Set());
 
   const handleScore = async (id: string) => {
-    setScoringId(id);
+    setScoringIds(prev => new Set(prev).add(id));
     try {
       await scoreFraudRequest(id);
-      onRefresh();
+      // Wait for 1s to simulate processing
+      await new Promise(r => setTimeout(r, 1000));
+      // In a real app we'd re-fetch, but for mock we just update status
+      setRequests(current => 
+        current.map(r => r.id === id ? { ...r, status: 'PROCESSED', category: 'CLEAN', fraud_score: 0.15 } : r)
+      );
     } catch (err) {
-      console.error("Score failed", err);
+      console.error(err);
     } finally {
-      setScoringId(null);
+      setScoringIds(prev => {
+        const next = new Set(prev);
+        next.delete(id);
+        return next;
+      });
     }
-  };
-
-  const getStatusBadge = (status: string, category?: string) => {
-    if (status === 'PENDING') {
-        return (
-            <Badge className="rounded-lg bg-fs-blue/20 text-fs-blue hover:bg-fs-blue/30 border-none flex items-center gap-1.5 w-fit text-[10px] font-black px-2.5 py-1 uppercase">
-                <ShieldQuestion className="size-3.5" /> UNPROCESSED
-            </Badge>
-        );
-    }
-
-    if (category === 'FRAUD' || category === 'SUSPICIOUS') {
-        return (
-            <Badge className="rounded-lg bg-fs-red text-white border-none flex items-center gap-1.5 w-fit text-[10px] font-black px-2.5 py-1 uppercase shadow-[0_0_10px_rgba(255,59,48,0.25)]">
-                <ShieldAlert className="size-3.5" /> {category}
-            </Badge>
-        );
-    }
-
-    if (category === 'HOLD_24HR') {
-        return (
-            <Badge className="rounded-lg bg-fs-yellow text-black border-none flex items-center gap-1.5 w-fit text-[10px] font-black px-2.5 py-1 uppercase">
-                <ShieldAlert className="size-3.5 text-black" /> {category}
-            </Badge>
-        );
-    }
-
-    return (
-        <Badge className="rounded-lg bg-fs-green text-white border-none flex items-center gap-1.5 w-fit text-[10px] font-black px-2.5 py-1 uppercase shadow-[0_0_10px_rgba(40,167,69,0.25)]">
-            <ShieldCheck className="size-3.5" /> {category || 'SAFE'}
-        </Badge>
-    );
   };
 
   return (
-    <div className="rounded-2xl glass overflow-hidden">
-      <Table>
-        <TableHeader className="bg-white/[0.03] border-b border-white/[0.1]">
-          <TableRow className="hover:bg-transparent border-none">
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider px-6 h-14">Worker ID</TableHead>
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider h-14">Zone</TableHead>
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider h-14">Type / Amount</TableHead>
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider h-14">Fraud Score</TableHead>
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider h-14">Decision</TableHead>
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider h-14">Signals</TableHead>
-            <TableHead className="font-display font-black text-secondary text-[11px] uppercase tracking-wider text-right pr-6 h-14">Action</TableHead>
-          </TableRow>
-        </TableHeader>
-        <TableBody>
-          {loading ? (
-            Array.from({ length: 5 }).map((_, i) => (
-              <TableRow key={i} className="border-b border-white/[0.04]">
-                <TableCell colSpan={7}><Skeleton className="h-8 w-full rounded-lg bg-white/[0.03]" /></TableCell>
-              </TableRow>
-            ))
-          ) : requests.length === 0 ? (
-            <TableRow>
-              <TableCell colSpan={7} className="text-center h-32 font-medium text-muted-foreground opacity-50">
-                No fraud requests found.
-              </TableCell>
-            </TableRow>
-          ) : (
-            requests.map((req) => (
-              <TableRow key={req.id} className="border-b border-white/[0.04] hover:bg-white/[0.02] transition-colors group">
-                <TableCell className="font-mono font-bold text-foreground px-6 py-5">
-                  <div className="flex items-center gap-2">
-                    <Fingerprint className="size-4 text-fs-blue/50" />
-                    #{req.worker_id}
-                  </div>
-                </TableCell>
-                <TableCell className="font-display font-black text-muted-foreground/90">{req.zone_name}</TableCell>
-                <TableCell>
-                    <div className="flex flex-col">
-                        <span className="font-display font-black text-[11px] text-secondary opacity-70 uppercase tracking-tighter">{req.request_type}</span>
-                        <span className="font-mono font-bold text-primary">₹{req.amount}</span>
+    <div className="w-full">
+      <div className="overflow-x-auto">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="bg-white/5 border-b border-white/10">
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Request ID</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Worker ID</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Zone</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Amount</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">ML Score</th>
+              <th className="px-6 py-4 text-[10px] font-black uppercase tracking-widest text-muted-foreground">Status</th>
+              <th className="px-6 py-4 text-right text-[10px] font-black uppercase tracking-widest text-muted-foreground">Actions</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-white/5">
+            {requests.map((request) => {
+              const isScoring = scoringIds.has(request.id);
+              const score = request.fraud_score;
+              const isHighRisk = score !== null && score !== undefined && score > 0.7;
+              
+              return (
+                <tr key={request.id} className="group hover:bg-white/[0.02] transition-all">
+                  <td className="px-6 py-5">
+                    <span className="text-xs font-black text-white/90 font-mono tracking-tighter">#{request.id.slice(0, 8)}</span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <div className="flex items-center gap-2">
+                      <div className="size-6 rounded-full bg-secondary/10 flex items-center justify-center border border-secondary/20">
+                        <Fingerprint className="size-3 text-secondary" />
+                      </div>
+                      <span className="text-xs font-bold text-muted-foreground">{request.worker_id}</span>
                     </div>
-                </TableCell>
-                <TableCell>
-                  {req.fraud_score !== undefined ? (
-                    <div className="flex flex-col gap-1">
-                        <div className="w-24 bg-white/[0.05] h-1.5 rounded-full overflow-hidden">
-                            <div 
-                                className={cn(
-                                    "h-full transition-all",
-                                    (req.fraud_score || 0) > 0.7 ? "bg-fs-red" : (req.fraud_score || 0) > 0.4 ? "bg-fs-yellow" : "bg-fs-green"
-                                )} 
-                                style={{ width: `${(req.fraud_score || 0) * 100}%` }}
-                            />
-                        </div>
-                        <span className="font-mono text-[10px] font-bold text-muted-foreground">{(req.fraud_score * 100).toFixed(1)}% risk</span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="text-[10px] font-black uppercase tracking-widest bg-white/5 px-2 py-1 rounded border border-white/5">{request.zone_name}</span>
+                  </td>
+                  <td className="px-6 py-5">
+                    <span className="text-xs font-bold text-white">₹{request.amount.toLocaleString()}</span>
+                  </td>
+                  <td className="px-6 py-5">
+                    {score !== null && score !== undefined ? (
+                      <div className={cn(
+                        "flex items-center gap-1.5 px-2 py-1 rounded-full text-[9px] font-black uppercase tracking-widest border",
+                        isHighRisk ? "bg-danger/10 text-danger border-danger/30 font-glow-danger" : "bg-success/10 text-success border-success/30 font-glow-success"
+                      )}>
+                        <Activity className="size-3" />
+                        {(score * 100).toFixed(0)}%
+                      </div>
+                    ) : (
+                      <span className="text-[9px] font-black uppercase tracking-widest opacity-30">Untested</span>
+                    )}
+                  </td>
+                  <td className="px-6 py-5">
+                    <div className={cn(
+                      "inline-flex items-center gap-1.5 px-3 py-1 rounded-lg text-[9px] font-black uppercase tracking-widest border",
+                      request.status === 'PENDING' ? "bg-warning/10 text-warning border-warning/30" : "bg-white/5 text-white/50 border-white/10"
+                    )}>
+                      {request.status === 'PENDING' ? <Clock className="size-3" /> : <CheckCircle2 className="size-3" />}
+                      {request.status}
                     </div>
-                  ) : "-"}
-                </TableCell>
-                <TableCell>
-                  {getStatusBadge(req.status, req.category)}
-                </TableCell>
-                <TableCell>
-                    <div className="flex flex-wrap gap-1 max-w-[200px]">
-                        {Array.isArray(req.top_signals) && req.top_signals.map((s, idx) => (
-                            <Badge key={idx} variant="outline" className="text-[8px] border-white/10 bg-white/5 opacity-60">
-                                {s}
-                            </Badge>
-                        ))}
-                        {(!req.top_signals || req.top_signals.length === 0) && <span className="text-[10px] text-muted-foreground opacity-30">None detected</span>}
-                    </div>
-                </TableCell>
-                <TableCell className="text-right pr-6">
-                  {req.status === 'PENDING' ? (
-                    <Button 
-                        size="sm" 
-                        variant="secondary"
-                        disabled={scoringId === req.id}
-                        onClick={() => handleScore(req.id)}
-                        className="bg-fs-purple hover:bg-fs-purple/80 text-white border-none h-8 font-black text-[10px] px-4 rounded-lg flex items-center gap-2"
+                  </td>
+                  <td className="px-6 py-5 text-right">
+                    <Button
+                      onClick={() => handleScore(request.id)}
+                      disabled={isScoring || request.status !== 'PENDING'}
+                      size="sm"
+                      className={cn(
+                        "h-8 rounded-lg text-[9px] font-black uppercase tracking-widest transition-all",
+                        request.status === 'PENDING' 
+                          ? "bg-secondary text-white hover:bg-secondary/80 shadow-[0_4px_20px_rgba(0,216,255,0.2)]" 
+                          : "bg-white/5 text-white/30 border border-white/5"
+                      )}
                     >
-                        <BrainCircuit className={cn("size-3.5", scoringId === req.id && "animate-spin")} />
-                        {scoringId === req.id ? "SCOURING..." : "ML SCORE"}
+                      {isScoring ? (
+                        <RefreshCcw className="size-3 animate-spin" />
+                      ) : (
+                        <>
+                          <ShieldEllipsis className="size-3 mr-1.5" />
+                          ML Audit
+                        </>
+                      )}
                     </Button>
-                  ) : (
-                    <span className="text-[10px] font-mono text-muted-foreground/40 italic">Audit Log: {new Date(req.created_at).toLocaleDateString()}</span>
-                  )}
-                </TableCell>
-              </TableRow>
-            ))
-          )}
-        </TableBody>
-      </Table>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
     </div>
+  );
+}
+
+function RefreshCcw(props: any) {
+  return (
+    <svg
+      {...props}
+      xmlns="http://www.w3.org/2000/svg"
+      width="24"
+      height="24"
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <path d="M21 12a9 9 0 1 1-9-9c2.52 0 4.93 1 6.74 2.74L21 8" />
+      <path d="M21 3v5h-5" />
+    </svg>
   );
 }

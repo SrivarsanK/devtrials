@@ -1,7 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 const BASE_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5678";
-const ML_URL = process.env.NEXT_PUBLIC_ML_URL || "http://localhost:8000";
 
 export interface Trigger {
   id: string;
@@ -31,31 +30,6 @@ export interface Zone {
   center: { lat: number; lng: number };
   radius: number;
   monitoredServices: string[];
-}
-
-export interface PredictionFeatures {
-  flood_risk_score?: number;
-  rainfall_last_7d_mm?: number;
-  cyclone_in_forecast?: number;
-  reservoir_release_mm?: number;
-  aqi_level?: number;
-  consecutive_rain_days?: number;
-  week_of_year?: number;
-  is_monsoon_season?: number;
-  avg_daily_earnings_rs?: number;
-  hours_per_week?: number;
-}
-
-export interface PredictionResponse {
-  ai_adjustment_factor: number;
-  final_premium_rs: number;
-  risk_tier: 'LOW' | 'MEDIUM' | 'HIGH';
-  tier_probabilities: {
-    LOW: number;
-    MEDIUM: number;
-    HIGH: number;
-  };
-  status: string;
 }
 
 const MOCK_ZONES: Zone[] = [
@@ -129,7 +103,7 @@ export async function fetchZones(): Promise<Zone[]> {
     const data = await res.json();
     // Backend returns { zones } which may have city instead of state
     const rawZones = Array.isArray(data.zones) ? data.zones : Array.isArray(data) ? data : MOCK_ZONES;
-    
+
     return rawZones.map((z: any) => ({
       ...z,
       id: z.id || String(Math.random()),
@@ -172,7 +146,7 @@ export async function fetchPriorityAlerts(): Promise<{ zone: string; riskIndex: 
   try {
     const triggers = await fetchTriggers();
     if (triggers.length === 0) throw new Error("No triggers");
-    
+
     return triggers
       .sort((a, b) => b.magnitude - a.magnitude)
       .slice(0, 5)
@@ -215,20 +189,18 @@ export async function manualPoll() {
   }
 }
 
-export async function fetchPrediction(features: PredictionFeatures): Promise<PredictionResponse | null> {
+const ML_URL = process.env.NEXT_PUBLIC_ML_URL || "http://localhost:8001";
+
+export async function fetchPrediction(features: any) {
   try {
-    const res = await fetch(`${ML_URL}/predict`, {
+    const res = await fetch(`${ML_URL}/ml/payout/predict`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        flood_risk_score: 0.1,
-        rainfall_last_7d_mm: 0,
-        cyclone_in_forecast: 0,
-        reservoir_release_mm: 0,
         aqi_level: 50,
         consecutive_rain_days: 0,
         week_of_year: new Date().getMonth() * 4,
-        is_monsoon_season: [5,6,7,8,9].includes(new Date().getMonth()) ? 1 : 0,
+        is_monsoon_season: [5, 6, 7, 8, 9].includes(new Date().getMonth()) ? 1 : 0,
         avg_daily_earnings_rs: 1500,
         hours_per_week: 40,
         ...features

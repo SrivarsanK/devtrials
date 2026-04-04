@@ -28,6 +28,10 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 - [x] WE-002: Risk profile calculation from GPS and earning history (Simulated in Phase 4)
 - [x] WE-003: Plan selection (Guard Lite/Plus/Max) (Phase 4)
 - [x] WE-004: 3-day waiting period enforcement (Mocked in Success screen)
+- [x] DW-001: Live zone risk alerts (Phase 5)
+- [x] DW-002: Real-time coverage status (Phase 5)
+- [x] DW-003: Earnings and claims history (Phase 5)
+- [x] PWA-001: Mobile-first installable experience (Phase 5)
 
 ### Active
 

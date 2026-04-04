@@ -2,9 +2,9 @@
 
 ## Current Position
 
-**Phase:** 4 - Enrollment Flow Implementation (Completed)
-**Plan:** `.planning/phases/04-enrollment-flow-implementation/04-PLAN.md`
-**Status:** Completed. Ready for Phase 5 - Worker Dashboard.
+**Phase:** 5 - Worker Dashboard & PWA Capabilities (Planned)
+**Plan:** `.planning/phases/05-worker-dashboard-experience/05-PLAN.md`
+**Status:** Requirements, Context, and Plan completed for Phase 5. Ready for building the dashboard.
 **Last activity:** 2026-04-04 — Milestone v1.1 (Worker Enrollment & Dashboard Experience) started
 
 ## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience

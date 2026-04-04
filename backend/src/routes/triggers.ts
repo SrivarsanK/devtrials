@@ -57,4 +57,21 @@ router.post('/zones', async (req: Request, res: Response) => {
   }
 });
 
+/**
+ * POST /api/triggers/poll — Manually trigger a weather and pollution monitoring cycle.
+ */
+router.post('/poll', async (_req: Request, res: Response) => {
+  try {
+    const pollResults = await runTriggerCycle();
+    res.json({
+      message: 'Trigger cycle executed successfully',
+      results: pollResults,
+      timestamp: new Date().toISOString()
+    });
+  } catch (err) {
+    console.error('Manual trigger cycle failed:', err);
+    res.status(500).json({ message: 'Manual trigger cycle failed. Please check logs.' });
+  }
+});
+
 export default router;

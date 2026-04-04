@@ -5,6 +5,7 @@
 **Goal:** Establish the technical foundation and the automated parametric trigger system.
 
 **Target features:**
+
 - Backend Infrastructure (API, TimescaleDB, Redis, Cron)
 - Parametric Trigger Monitoring (Rainfall, AQI, Heat)
 - Core ML Inference (Dynamic Premium, Fraud Scoring)
@@ -27,54 +28,63 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 
 ### Active
 
-**Worker Enrollment & Onboarding**
+#### Worker Enrollment & Onboarding
+
 - [ ] WE-001: Worker registration with Swiggy/Zomato Partner ID
 - [ ] WE-002: Risk profile calculation from GPS and earning history
 - [ ] WE-003: Plan selection (Guard Lite/Plus/Max)
 - [ ] WE-004: 3-day waiting period enforcement
 
-**Premium Management**
+#### Premium Management
+
 - [ ] PM-001: Zone-based premium tiers (₹89/₹110/₹130)
 - [ ] PM-002: Auto-deduction from platform payout
 - [ ] PM-003: Dynamic pricing via XGBoost model
 
-**Parametric Trigger Monitoring**
+#### Parametric Trigger Monitoring
+
 - [ ] TM-001: Monitor 5 trigger types (rainfall, AQI, flood, civil, heat)
 - [ ] TM-002: 5-minute API polling with deduplication
 - [ ] TM-003: Zone-based trigger matching
 
-**Claims Processing**
+#### Claims Processing
+
 - [ ] CP-001: Eligibility verification (GPS, order flow, waiting period)
 - [ ] CP-002: Fraud detection (Isolation Forest + rules)
 - [ ] CP-003: Payout calculation (BHE × DH × PHM × CR × ZF)
 - [ ] CP-004: Razorpay UPI payout execution
 - [ ] CP-005: Monthly event cap enforcement (3 events/month)
 
-**Worker Dashboard (PWA)**
+#### Worker Dashboard (PWA)
+
 - [ ] WD-001: Coverage status view
 - [ ] WD-002: Claims history
 - [ ] WD-003: Earnings protection summary
 - [ ] WD-004: PWA with offline support, Tamil language UI
 
-**Insurer Dashboard**
+#### Insurer Dashboard
+
 - [ ] ID-001: Real-time monitoring panel
 - [ ] ID-002: Zone risk map (Leaflet.js)
 - [ ] ID-003: Predictive analytics (LSTM forecasting)
 - [ ] ID-004: Fraud intelligence panel
 - [ ] ID-005: Reserve management
 
-**Platform Portal (Swiggy/Zomato)**
+#### Platform Portal (Swiggy/Zomato)
+
 - [ ] PP-001: Worker data integration (GPS, order flow)
 - [ ] PP-002: Premium deduction coordination
 - [ ] PP-003: GigShield banner in partner app
 
-**Backend Infrastructure**
+#### Backend Infrastructure
+
 - [ ] RESTful API with JWT authentication
 - [ ] TimescaleDB for trigger event time-series
 - [ ] Redis for caching and session management
 - [ ] Node-cron for scheduled jobs
 
-**ML/AI Services**
+#### ML/AI Services
+
 - [ ] Dynamic premium calculation (XGBoost)
 - [ ] Fraud detection scoring (Isolation Forest)
 - [ ] Reserve forecasting (LSTM)
@@ -90,14 +100,20 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 
 ## Context
 
-**Target User**: Raju (Ramesh Kumar), 26, Chennai Zomato delivery partner. ₹16,500/month earnings, ₹5,500 savings buffer, Tamil speaker, Android phone.
+### Target User
 
-**Platform**: Three-sided:
+Raju (Ramesh Kumar), 26, Chennai Zomato delivery partner. ₹16,500/month earnings, ₹5,500 savings buffer, Tamil speaker, Android phone.
+
+### Platform
+
+Three-sided:
+
 1. **Worker PWA** — Enrollment, coverage status, claims history (Tamil-first)
 2. **Platform Portal** — Swiggy/Zomato view for GPS verification, premium deduction
 3. **Insurer Dashboard** — ShieldLife admin, reserve monitoring, fraud detection
 
-**Key Business Rules**:
+### Key Business Rules
+
 - 3-day waiting period from enrollment
 - 3 events/month maximum payout cap
 - Weekly auto-deduction aligned to platform payout cycles (Fridays)
@@ -117,7 +133,7 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 ## Key Decisions
 
 | Decision | Rationale | Outcome |
-|----------|-----------|---------|
+| --- | --- | --- |
 | PWA over native app | No Play Store friction, Zomato partner app deep link, single codebase for 3 portals | — Pending |
 | Weekly premium cycle | Matches Zomato/Swiggy payout cadence, reduces commitment anxiety | — Pending |
 | Mock platform APIs | Hackathon scope, real APIs require partnership agreements | — Pending |
@@ -129,6 +145,7 @@ This is a **Guidewire DEVTrails 2026 Hackathon** project being built to **produc
 This document evolves at phase transitions and milestone boundaries.
 
 **After each phase transition** (via `/gsd-transition`):
+
 1. Requirements invalidated? → Move to Out of Scope with reason
 2. Requirements validated? → Move to Validated with phase reference
 3. New requirements emerged? → Add to Active
@@ -136,6 +153,7 @@ This document evolves at phase transitions and milestone boundaries.
 5. "What This Is" still accurate? → Update if drifted
 
 **After each milestone** (via `/gsd-complete-milestone`):
+
 1. Full review of all sections
 2. Core Value check — still the right priority?
 3. Audit Out of Scope — reasons still valid?
@@ -143,4 +161,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-03-21 after starting Milestone v1.0*
+*Last updated: 2026-03-22 after cleaning up planning files*

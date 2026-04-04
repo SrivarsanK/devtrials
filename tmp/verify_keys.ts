@@ -1,5 +1,5 @@
-import { AccuWeatherService } from './backend/src/lib/accuWeatherService';
-import { MONITORED_ZONES } from './backend/src/triggers/types';
+import { AccuWeatherService } from '../backend/src/lib/accuWeatherService';
+import { MONITORED_ZONES } from '../backend/src/triggers/types';
 
 async function verify() {
   console.log('--- AccuWeather Location Key Verification ---');

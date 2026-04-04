@@ -25,7 +25,7 @@ This document tracks the requirements specifically scoped for Milestone v1.0.
 ## Traceability
 
 | REQ-ID | Phase | Status |
-|--------|-------|--------|
+| --- | --- | --- |
 | BI-001 | 1 | Completed |
 | BI-002 | 1 | Completed |
 | BI-003 | 1 | Completed |

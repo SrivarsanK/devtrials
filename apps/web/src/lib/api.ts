@@ -175,3 +175,16 @@ export async function registerZone(zone: { name: string; city: string; lat: numb
   if (!res.ok) throw new Error("Failed to register zone");
   return await res.json();
 }
+export async function manualPoll() {
+  try {
+    const res = await fetch(`${BASE_URL}/api/triggers/poll`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+    });
+    if (!res.ok) throw new Error("Manual poll failed");
+    return await res.json();
+  } catch (err) {
+    console.warn("Manual poll failed, potential connection issue");
+    return null;
+  }
+}

@@ -5,7 +5,7 @@ const client = createClient({
   url: config.redis.url,
 });
 
-client.on('error', (err) => console.log('Redis Client Error', err));
+client.on('error', (err) => { /* silence is golden for logs right now */ });
 
 export const connectRedis = async () => {
   if (!client.isOpen) {

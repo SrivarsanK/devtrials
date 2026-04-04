@@ -3,7 +3,7 @@
 import { SignIn } from "@clerk/nextjs";
 import Link from "next/link";
 import React from "react";
-import { ShieldCheck, ArrowLeft, Sparkles, Box } from "lucide-react";
+import { ShieldCheck, ArrowLeft, Sparkles } from "lucide-react";
 import anime from "animejs";
 import HeroShield from "@/components/HeroShield";
 

@@ -4,7 +4,8 @@ import { db } from '../lib/db';
 
 async function syncDb() {
   try {
-    const schemaPath = path.join(process.cwd(), 'schema-zones.sql');
+    const schemaFile = process.argv[2] || 'schema-zones.sql';
+    const schemaPath = path.join(process.cwd(), schemaFile);
     if (!fs.existsSync(schemaPath)) {
       console.error('Schema file not found at:', schemaPath);
       process.exit(1);

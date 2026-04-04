@@ -10,10 +10,7 @@ const startServer = async () => {
     await db.query('SELECT 1');
     console.log('PostgreSQL/TimescaleDB connection verified');
 
-    // 2. Connect to Redis
-    await connectRedis();
-
-    // 3. Start Listening
+    // 2. Start Listening (Start early so we can respond to health checks)
     app.listen(config.port, () => {
       console.log(`
 🛡️ GigShield Core API is running!
@@ -21,7 +18,12 @@ const startServer = async () => {
 🌍 Environment: ${config.nodeEnv}
       `);
 
-      // 4. Start Trigger Monitoring Scheduler //
+      // 3. Connect to Redis (Fail-soft background)
+      connectRedis().catch(() => {
+        console.warn('⚠️ WARNING: Redis connection failed. Deduplication handles this gracefully.');
+      });
+
+      // 4. Start Trigger Monitoring Scheduler
       startTriggerScheduler();
     });
   } catch (error) {

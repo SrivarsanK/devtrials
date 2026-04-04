@@ -55,8 +55,8 @@ export default function RegisterZoneModal({ onSuccess, children }: RegisterZoneM
       setOpen(false);
       setFormData({ name: "", city: "", lat: "", lon: "", accuWeatherKey: "" });
       if (onSuccess) onSuccess();
-    } catch (err: any) {
-      setError(err.message || "Something went wrong. Please try again.");
+    } catch (err: unknown) {
+      setError(err instanceof Error ? err.message : "Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -66,10 +66,10 @@ export default function RegisterZoneModal({ onSuccess, children }: RegisterZoneM
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger>
         {children || (
-          <button className="h-12 px-8 rounded-xl bg-primary text-white font-bold uppercase flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,70,37,0.3)] group/btn text-sm border-none cursor-pointer">
+          <div className="h-12 px-8 rounded-xl bg-primary text-white font-bold uppercase flex items-center gap-2.5 hover:scale-105 active:scale-95 transition-all shadow-[0_0_20px_rgba(255,70,37,0.3)] group/btn text-sm border-none cursor-pointer">
             Register New Zone
             <ArrowUpRight className="size-4 group-hover/btn:translate-x-0.5 group-hover/btn:-translate-y-0.5 transition-transform" />
-          </button>
+          </div>
         )}
       </DialogTrigger>
       <DialogContent className="sm:max-w-[425px] glass border-white/10 bg-black/80 backdrop-blur-2xl">

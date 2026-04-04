@@ -1,8 +1,8 @@
 "use client";
 
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import { Canvas, useFrame, useThree } from "@react-three/fiber";
-import { Float, MeshDistortMaterial, MeshWobbleMaterial, PerspectiveCamera, OrbitControls, Environment, Sphere } from "@react-three/drei";
+import { Float, MeshDistortMaterial, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 function GeometricShield({ mouse }: { mouse: React.MutableRefObject<[number, number]> }) {

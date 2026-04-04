@@ -41,15 +41,24 @@ const HeatmapOverlay = ({ data }: { data: HeatPoint[] }) => {
   useEffect(() => {
     if (!data || data.length === 0) return;
 
-    // Simple implementation using CircleMarkers for a "Heatmap" effect
-    // In a real app we'd use leaflet.heat but this is more robust for a hackathon
     const layerGroup = L.layerGroup();
 
     data.forEach((point) => {
-      const color = point.weight > 3 ? '#ff0055' : point.weight > 1 ? '#ffcc00' : '#00ffcc';
+      // Create a nice glow effect using multiple circles
+      const color = point.weight > 3.5 ? '#ff0055' : point.weight > 2 ? '#ffcc00' : '#00ffff';
       
-      L.circleMarker([point.lat, point.lng], {
-        radius: 15 + point.weight * 5,
+      // Outer glow
+      L.circle([point.lat, point.lng], {
+        radius: 800 + point.weight * 400,
+        fillColor: color,
+        color: 'transparent',
+        fillOpacity: 0.15,
+        interactive: false,
+      }).addTo(layerGroup);
+
+      // Inner core
+      L.circle([point.lat, point.lng], {
+        radius: 200 + point.weight * 100,
         fillColor: color,
         color: 'transparent',
         fillOpacity: 0.4,
@@ -58,6 +67,17 @@ const HeatmapOverlay = ({ data }: { data: HeatPoint[] }) => {
     });
 
     layerGroup.addTo(map);
+
+    // Auto-center on top risk if it's far from current center
+    const sorted = [...data].sort((a, b) => b.weight - a.weight);
+    if (sorted.length > 0) {
+      const top = sorted[0];
+      const center = map.getCenter();
+      const dist = Math.sqrt(Math.pow(center.lat - top.lat, 2) + Math.pow(center.lng - top.lng, 2));
+      if (dist > 0.4) {
+        map.setView([top.lat, top.lng], 11, { animate: true });
+      }
+    }
 
     return () => {
       map.removeLayer(layerGroup);

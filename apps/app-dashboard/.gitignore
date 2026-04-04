@@ -1,0 +1,123 @@
+# ==============================================================================
+# Development Artifacts (Node.js / Build Tools)
+# ==============================================================================
+node_modules/
+.npm/
+.pnpm-store/
+.yarn/
+.next/
+/out/
+/dist/
+/build/
+/.vercel/
+/.turbo/
+/.cache/
+*.tsbuildinfo
+next-env.d.ts
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+.pnpm-debug.log*
+
+# ==============================================================================
+# Python / Data Science
+# ==============================================================================
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.env/
+.venv/
+ENV/
+*.pkl
+*.h5
+*.hdf5
+*.keras
+*.onnx
+*.pb
+*.pt
+*.pth
+*.weights
+*.index
+*.data-00000-of-*
+
+# Jupyter Notebook
+.ipynb_checkpoints/
+
+# ==============================================================================
+# Environment Secrets (DO NOT COMMIT)
+# ==============================================================================
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+.env*.local
+*.env
+
+# ==============================================================================
+# OS / System Specific
+# ==============================================================================
+.DS_Store
+.DS_Store?
+._*
+.Spotlight-V100
+.Trashes
+ehthumbs.db
+Thumbs.db
+desktop.ini
+
+# ==============================================================================
+# IDEs / Editors
+# ==============================================================================
+.idea/
+.vscode/
+.cursor/
+.zed/
+*.swp
+*.swo
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+.vshistory/
+
+# ==============================================================================
+# AI / Agents / Infrastructure (GSD)
+# ==============================================================================
+.agents/
+.agent/
+.claude/
+.openclaw/
+.codex/
+.gemini/
+.mcp.json
+opencode.json
+config/mcporter.json
+**/skills/
+**/brain/
+brain/
+**/tmp/
+tmp/
+.planning/config.json
+init.json
+progress_bar.txt
+progress_init.json
+progress_roadmap.json
+progress_state.json
+skills-lock.json
+
+# Temporary / Miscellaneous
+.eslintcache
+.stylelintcache
+/test-results/
+/coverage/
+*.lcov

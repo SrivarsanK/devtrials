@@ -1,0 +1,48 @@
+import { FraudAlert } from '@/types';
+
+export const mockFraudAlerts: FraudAlert[] = [
+  {
+    id: 'FRD-0441',
+    type: 'GPS_SPOOF',
+    description: '34 workers showing identical GPS coordinates within 50m radius during claimed disruption period',
+    city: 'Chennai',
+    zone: 'Anna Nagar',
+    fraudScore: 0.94,
+    claimAmountInr: 28400,
+    status: 'PENDING_REVIEW',
+    autoAction: 'Auto-denied (score > 0.8)',
+  },
+  {
+    id: 'FRD-0438',
+    type: 'ANOMALY',
+    description: 'Claim filed outside normal working hours (3:42 AM) — worker has no delivery history in this window',
+    city: 'Delhi',
+    zone: 'Laxmi Nagar',
+    fraudScore: 0.72,
+    claimAmountInr: 1200,
+    status: 'PENDING_REVIEW',
+    autoAction: 'Flagged for manual review',
+  },
+  {
+    id: 'FRD-0435',
+    type: 'DUPLICATE',
+    description: 'Same rainfall event claimed twice by worker — second claim filed 4 hours after first payout',
+    city: 'Mumbai',
+    zone: 'Dharavi',
+    fraudScore: 0.64,
+    claimAmountInr: 800,
+    status: 'INVESTIGATING',
+    autoAction: 'Flagged for manual review',
+  },
+  {
+    id: 'FRD-0431',
+    type: 'ANOMALY',
+    description: 'Worker claim frequency 3x historical average — 6 claims in current month vs 2/month average',
+    city: 'Chennai',
+    zone: 'T Nagar',
+    fraudScore: 0.38,
+    claimAmountInr: 4800,
+    status: 'PENDING_REVIEW',
+    autoAction: 'Auto-approved (score < 0.6) — flagged for pattern monitoring',
+  },
+];

@@ -1,0 +1,60 @@
+import { ZoneForecast } from '@/types';
+
+export const mockForecasts: ZoneForecast[] = [
+  {
+    zone: 'Anna Nagar',
+    city: 'Chennai',
+    predictedPayoutLakhs: 22.1,
+    riskStatus: 'RED',
+    circuitBreaker: 'PAUSED',
+    dominantTrigger: 'Rainfall',
+  },
+  {
+    zone: 'T Nagar',
+    city: 'Chennai',
+    predictedPayoutLakhs: 18.6,
+    riskStatus: 'AMBER',
+    circuitBreaker: 'ACTIVE',
+    dominantTrigger: 'Rainfall',
+  },
+  {
+    zone: 'Tambaram',
+    city: 'Chennai',
+    predictedPayoutLakhs: 8.2,
+    riskStatus: 'GREEN',
+    circuitBreaker: 'ACTIVE',
+    dominantTrigger: 'Rainfall',
+  },
+  {
+    zone: 'Dharavi',
+    city: 'Mumbai',
+    predictedPayoutLakhs: 12.4,
+    riskStatus: 'AMBER',
+    circuitBreaker: 'ACTIVE',
+    dominantTrigger: 'Flood',
+  },
+  {
+    zone: 'Andheri',
+    city: 'Mumbai',
+    predictedPayoutLakhs: 6.8,
+    riskStatus: 'GREEN',
+    circuitBreaker: 'ACTIVE',
+    dominantTrigger: 'Flood',
+  },
+  {
+    zone: 'Laxmi Nagar',
+    city: 'Delhi',
+    predictedPayoutLakhs: 14.2,
+    riskStatus: 'AMBER',
+    circuitBreaker: 'ACTIVE',
+    dominantTrigger: 'AQI',
+  },
+  {
+    zone: 'Karol Bagh',
+    city: 'Delhi',
+    predictedPayoutLakhs: 7.6,
+    riskStatus: 'GREEN',
+    circuitBreaker: 'ACTIVE',
+    dominantTrigger: 'Heat',
+  },
+];

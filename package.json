@@ -4,6 +4,7 @@
 	"private": true,
 	"scripts": {
 		"dev": "pnpm --filter web dev",
+		"dev:dashboard": "pnpm --filter insurer-dashboard dev",
 		"build": "pnpm --filter web build",
 		"start": "pnpm --filter web start"
 	},

@@ -1,34 +1,40 @@
 # Directory Structure
 
-**Analysis Date:** 2026-03-28
+**Analysis Date:** 2026-04-04
 
 ## Root Directory
 
 ```text
 .
-├── .github/              # CI/CD (GitHub Actions)
-├── .planning/            # System-wide project planning and codebase maps
+├── .github/              # CI/CD (GitHub Actions workflows)
+├── .planning/            # Project planning, state, and codebase maps
 ├── apps/                 # Primary applications (Next.js web app)
-├── backend/              # Core Express.js API and logic
-├── packages/             # Shared libraries (UI foundation)
-├── docker-compose.yml    # Local development orchestration
-├── pnpm-workspace.yaml   # Monorepo configuration
-└── package.json          # Root package definitions and shared scripts
+│   └── web/              # Next.js 16.2.1 frontend
+├── backend/              # Core Express.js API (logic, data, triggers)
+├── packages/             # Shared libraries
+│   └── ui/               # Core UI foundation
+├── docker-compose.yml    # Development environment orchestration (pg, redis)
+├── pnpm-workspace.yaml   # Monorepo workspace configuration
+├── README.md             # Project overview
+└── package.json          # Monorepo scripts and global devDependencies
 ```
 
 ## `apps/web/` Structure
 
 ```text
 apps/web/
-├── app/                  # Next.js 16 app router (layouts, pages, routes)
+├── app/                  # Next.js App Router (layouts, pages, routes)
+│   ├── dashboard/        # Main dashboard pages
+│   ├── triggers/         # Trigger monitoring pages
+│   ├── layout.tsx        # Root layout with ClerkProvider
+│   └── globals.css       # Global styles with Tailwind layers
 ├── src/
-│   ├── components/       # UI components (shadcn/ui based)
+│   ├── components/       # Custom React components (HeroBox, PriorityAlerts, etc.)
 │   ├── hooks/            # Custom React hooks
-│   ├── lib/              # Shared frontend utilities (API proxy)
-│   └── proxy.ts          # Central API abstraction
-├── public/               # Static assets (images, icons)
+│   └── lib/              # Shared frontend utilities (api.ts, utils.ts)
+├── public/               # Static assets (fonts, images)
 ├── components.json       # shadcn/ui configuration
-├── tailwind.config.ts    # Styling configuration
+├── tailwind.config.ts    # Tailwind CSS configuration
 └── next.config.ts        # Next.js framework configuration
 ```
 
@@ -38,14 +44,14 @@ apps/web/
 backend/
 ├── src/
 │   ├── config/           # App configuration (environment variables)
-│   ├── lib/              # Internal libraries and helpers
-│   ├── middleware/       # Express middleware (auth, logging)
-│   ├── routes/           # Domain-specific route definitions
-│   ├── scripts/          # Database sync and utility scripts
-│   ├── triggers/         # Core business logic for events
-│   ├── app.ts            # Central application definition
-│   └── index.ts          # Web server entry point
-├── Dockerfile            # Container definition for deployment
+│   ├── lib/              # Database and Redis client abstractions
+│   ├── middleware/       # Express middleware (auth.ts)
+│   ├── routes/           # Domain-specific route handlers
+│   ├── scripts/          # DB initialization and sync scripts (db-init.ts)
+│   ├── triggers/         # Business logic engine for environmental events
+│   ├── app.ts            # Central Express application setup
+│   └── index.ts          # Server entry point
+├── Dockerfile            # Container definition for the backend
 ├── jest.config.js        # Test runner configuration
 └── tsconfig.json         # TypeScript compiler configuration
 ```
@@ -54,18 +60,19 @@ backend/
 
 ```text
 packages/ui/
+├── src/
+│   └── components/       # Shared unstyled or base UI components
 ├── package.json          # Library definition
-└── tsconfig.json         # TypeScript configuration for UI library
+└── tsconfig.json         # TypeScript configuration
 ```
 
-## Naming Conventions
+## Naming & Style Conventions
 
-- **React Components:** PascalCase (e.g., `Button.tsx`).
-- **Files/Folders:** kebab-case (e.g., `user-service.ts`, `auth/`).
-- **Styles:** Tailwind utility classes directly in `className`.
-- **Backend Routes:** Focus on plural nouns for resources (e.g., `/api/triggers`, `/api/heatmap`).
+- **React Components:** PascalCase (e.g., `HeroShield.tsx`) inside `components/`.
+- **Logic Files:** kebab-case (e.g., `sync-db.ts`, `api.ts`).
+- **Styles:** **Tailwind CSS Utility-First** with shadcn/ui configuration for consistency.
+- **API Design:** RESTful endpoints on `backend`, consumed via the `apps/web/src/lib/api.ts` proxy with smart mock fallback.
 
 ---
 
-*Structure analysis: 2026-03-28*
-*Maintain after major directory reorganization*
+*Structure analysis: 2026-04-04*

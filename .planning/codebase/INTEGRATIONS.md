@@ -1,45 +1,41 @@
 # External Integrations
 
-**Analysis Date:** 2026-03-28
+**Analysis Date:** 2026-04-04
 
 ## Core Services
 
 **Authentication:**
-- Clerk (Next.js) - Primary identity provider
-- Auth middleware (backend) - Handles JWT verification for protected routes
+- **Clerk (Next.js):** Primary identity provider with dark mode theme integration.
+- **Internal Auth Middleware (backend):** Handles JWT verification for protected routes.
 
 **Database:**
-- PostgreSQL / TimescaleDB (`DATABASE_URL`) - Primary persistence for application state
-- Redis (`REDIS_URL`) - Caching and background job queue storage
-
-**Payments:**
-- Razorpay (`RAZORPAY_KEY_ID`, `RAZORPAY_KEY_SECRET`) - Payment gateway integration
+- **PostgreSQL / TimescaleDB (`DATABASE_URL`):** Primary persistence for application state, triggers, and zone definitions.
+- **Redis (`REDIS_URL`):** Caching and background job deduplication for triggers. Fail-soft integration in backend.
 
 ## External APIs
 
 **Natural Language Processing:**
-- ML_API_URL (`http://localhost:8000`) - Dedicated internal ML service
+- **ML_API_URL (`http://localhost:8000`):** Dedicated internal ML service for trigger analysis.
 
-**Weather & Environmental Data:**
-- OpenWeather API (`OPENWEATHER_API_KEY`) - Real-time weather data
-- AQICN (Air Quality) API (`AQICN_API_KEY`) - Air quality monitoring
-- AccuWeather API (`ACCUWEATHER_API_KEY`) - Weather forecasting
+**Environmental Data:**
+- **OpenWeather API (`OPENWEATHER_API_KEY`):** Real-time weather data for Rainfall and HeatIndex triggers.
+- **AQICN (Air Quality) API (`AQICN_API_KEY`):** Global air quality monitoring.
+- **AccuWeather API (`ACCUWEATHER_API_KEY`):** Weather forecasting and minute-by-minute precipitation tracking.
 
 ## Communications
 
 **Real-time Updates:**
-- Socket.io - Bi-directional real-time communication between server and web app
+- **Socket.io:** Bi-directional real-time communication between the backend and web application for trigger alerts.
 
 **Webhooks:**
-- Svix (`svix` 1.89.0) - Likely used for reliable webhook delivery and event handling
+- **Svix (`svix` 1.89.0):** Used for reliable webhook delivery and event handling (likely for payout processing).
 
 ## Configuration
 
 **Secrets Management:**
-- `.env` files locally
-- Environment variables in CI/CD (GitHub Actions/Vercel/Netlify)
+- **Local .env files:** Present in both root, backend, and apps/web.
+- **CI/CD:** Environment variables in GitHub Actions, Vercel, and Netlify dashboards.
 
 ---
 
-*Integrations analysis: 2026-03-28*
-*Update after adding new external services*
+*Integrations analysis: 2026-04-04*

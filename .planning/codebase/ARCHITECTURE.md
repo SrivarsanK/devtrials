@@ -1,53 +1,48 @@
 # System Architecture
 
-**Analysis Date:** 2026-03-28
+**Analysis Date:** 2026-04-04
 
 ## High-Level Pattern
 
-**Monorepo with Apps & Packages:**
-- `apps/web`: Next.js frontend application
-- `backend`: Express.js backend API service
-- `packages/ui`: Shared UI library and component foundation
+**Monorepo Structure (pnpm workspaces):**
+- **`apps/web`**: Next.js 16.2.1 frontend application (UI/UX).
+- **`backend`**: Express.js API service (Core Logic & Data).
+- **`packages/ui`**: Shared UI foundation and design tokens.
 
 ## Backend Architecture (Express)
 
 **Layers & Patterns:**
-- `app.ts` - Central Express configuration, middleware, and route registration
-- `index.ts` - Application entry point (server initialization)
-- `routes/` - HTTP endpoint definitions, divided by domain (e.g., `triggers/`, `heatmap/`)
-- `middleware/` - Cross-cutting concerns like authentication (`auth.ts`) and logging
-- `lib/` - Shared utilities and internal library abstractions
-- `triggers/` - Business logic focus for parametric events and monitoring
+- **`app.ts`**: Express configuration, middleware setup (CORS, Helmet, Rate Limiting), and route registration.
+- **`index.ts`**: Entry point. Verifies DB/Redis connectivity before starting the server and trigger scheduler.
+- **`routes/`**: Domain-specific HTTP endpoints (e.g., `/api/triggers`, `/api/heatmap`).
+- **`middleware/`**: Cross-cutting concerns like JWT authentication and logging.
+- **`triggers/`**: **Core Business Logic Engine**. Handles node-cron based polling of environmental APIs (Rainfall, AQI, HeatIndex) and logic for parametric payouts.
+- **`lib/`**: Database (PostgreSQL/pg) and Redis client abstractions.
 
 ## Frontend Architecture (Next.js)
 
 **Layers & Patterns:**
-- Next.js 16 `app` Router - Layout-based design system
-- `app/` - Client and server components following modular layout
-- `components/` - Atomic UI components, integrated with shadcn/ui
-- `hooks/` - Custom React hooks for shared client-side logic
-- `lib/` - Shared frontend utilities and API client abstractions
-- `proxy.ts` - Centralized API abstraction for communicating with the backend
+- **App Router (Next.js 16)**: Modular layouts and pages.
+- **`app/`**: Mix of server and client components.
+- **`components/`**: Atomic UI components using shadcn/ui and Radix primitives.
+- **`hooks/`**: Custom hooks for real-time state management.
+- **`lib/api.ts`**: Centralized API abstraction. Includes **smart fallback logic** using mock data when the backend is unreachable, ensuring a seamless UI demo experience.
 
-## Data Flow
+## Data & Communication Flow
 
 **Authentication:**
-1. User logs in via Clerk on `apps/web`.
-2. Clerk provides a frontend session token.
-3. Subsequent requests to `backend` include the bearer token.
-4. `backend/src/middleware/auth.ts` validates the token.
+1. User authenticates via **Clerk** on `apps/web`.
+2. Frontend manages the session/JWT.
+3. Backend middleware validates the token for protected routes.
 
-**Real-time Logic:**
-- `backend` emits events via `socket.io` based on monitoring or background jobs (`node-cron`).
-- `apps/web` listens for specific events to update the UI (e.g., map updates, alert statuses).
+**Real-time Updates:**
+- **Socket.io**: Used for pushed updates from backend (e.g., a trigger event) to the frontend dashboard.
+- **Manual Poll**: Frontend can trigger a manual poll of environmental data via the `/api/triggers/poll` endpoint.
 
-## Abstractions
-
-- `Zod` for schema validation (frontend & backend).
-- `Leaflet` for geospatial visualization on the frontend.
-- `Three.js` for optional 3D visual overlays.
+**Visualization:**
+- **Leaflet**: Geospatial data rendering (Zones and Heatmaps).
+- **Three.js / React Three Fiber**: Premium 3D visual elements (e.g., HeroShield).
 
 ---
 
-*Architecture analysis: 2026-03-28*
-*Update after major system design changes*
+*Architecture analysis: 2026-04-04*

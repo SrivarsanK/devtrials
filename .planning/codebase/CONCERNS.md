@@ -1,32 +1,34 @@
 # Technical Concerns & Debt
 
-**Analysis Date:** 2026-03-28
+**Analysis Date:** 2026-04-04
 
 ## Core Concerns
 
-- **External API Dependencies:** Weather and environmental data (`OpenWeather`, `AQICN`) are primary dependencies that may require robust error handling and fallback logic.
-- **Parametric Trigger Logic:** Core logic for insurance triggers must be highly reliable and thoroughly tested (`triggers.test.ts` is a good start).
-- **Security:** CSRF and XSS protection on the frontend (Next.js 16 should handle much of this) and strict rate-limiting on sensitive backend routes are critical.
+- **External API Reliability:** The system depends on environmental data (`OpenWeather`, `AQICN`, `AccuWeather`). Robust error handling and logic are required for data gaps or API timeouts.
+- **Frontend/Backend Synchronization:** `apps/web/src/lib/api.ts` implements **smart fallbacks** (mock data). While great for UI stability, it could mask integration issues if the backend is down during development or staging.
+- **Parametric Trigger Logic:** Core logic in `backend/src/triggers/` must be highly reliable. Current tests (`triggers.test.ts`) are a start, but more edge cases (e.g., partial rain data) should be covered.
+- **Redis Fail-Soft:** The backend handles Redis connection failures gracefully, but this might lead to missed deduplication in high-traffic scenarios if Redis is intermittently unavailable.
 
 ## Technical Debt
 
-- **Monorepo Complexity:** `pnpm` workspaces and Next.js 16/React 19 migration (recent) may introduce build or compatibility issues.
-- **Frontend Testing:** Absence of unit and E2E tests for the frontend application (`apps/web`) is a significant gap.
-- **Shared Code:** `packages/ui` is relatively empty, suggest moving shared components from `apps/web/src/components` to `packages/ui` as the codebase grows.
-- **ML Integration:** The reliance on a local ML service (`http://localhost:8000`) and placeholder environment variables indicates this is an area of ongoing development.
+- **Frontend Testing:** Absence of automated UI tests (e.g., Playwright or Vitest) for `apps/web`. The complexity of 3D (Three.js) and Maps (Leaflet) makes manual testing labor-intensive.
+- **Shared Code Maturity:** `packages/ui` is still in early stages. Many critical UI components (HeroShield, PriorityAlerts) remain in `apps/web/src/components` instead of being generalized in the shared package.
+- **Database Migrations:** The project currently uses `scripts/db-init.ts` and raw SQL. A formal migration tool (e.g., Prisma or TypeORM migrations) would improve schema evolution consistency.
+- **ML Integration:** The reliance on `http://localhost:8000` for an internal ML service indicates an area currently in development or dependent on local infrastructure.
 
 ## Strategic Observations
 
-- **Modern Stack:** The use of very modern technologies (Next.js 16, React 19, TypeScript 5.x) is a strength but may require careful management of breaking changes in edge case scenarios.
-- **Geospatial Focus:** The heavy reliance on `Leaflet` and `react-leaflet` suggests that spatial performance and map rendering are key UX concerns.
+- **Modern Stack Overhead:** Using Next.js 16.2.1 and React 19.2.4 puts the project at the "bleeding edge," which is a strength but requires careful monitoring of experimental features or breaking changes.
+- **Geospatial Performance:** Heavy reliance on `Leaflet` for heatmaps and zone rendering. As the number of monitored zones increases, client-side rendering performance will become a key UX bottleneck.
+- **Real-time UX:** The use of `socket.io` for trigger alerts is great, but needs to be robust against client-side connection drops or tab hibernation in mobile browsers.
 
 ## TODOs & Roadmap Gaps
 
-- **Auth Middleware:** Ensure backend auth middleware is robustly integrated with Clerk.
-- **Database Migrations:** Formalize a migration strategy (currently using `sync-db.ts` or raw SQL).
-- **Frontend Tests:** Set up a frontend testing framework (e.g., Vitest or Playwright).
+- [ ] **E2E Testing:** Set up Playwright for critical user journeys (e.g., checking active triggers).
+- [ ] **Type Sharing:** Formalize shared types between `backend` and `apps/web` to avoid duplication in `api.ts`.
+- [ ] **Auth Lockdown:** Finalize full backend route protection with Clerk JWT verification in production.
+- [ ] **Load Testing:** Verify the trigger polling performance of `node-cron` with a large number of zones.
 
 ---
 
-*Concerns analysis: 2026-03-28*
-*Maintain after addressing major technical debt items*
+*Concerns analysis: 2026-04-04*

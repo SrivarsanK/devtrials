@@ -1,14 +1,14 @@
 # GigShield
 
-## Current Milestone: v1.0 Core Parametric Engine
+## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
 
-**Goal:** Establish the technical foundation and the automated parametric trigger system.
+**Goal:** Complete the worker-facing user experience including the multi-step enrollment flow and the main PWA dashboard view.
 
 **Target features:**
 
-- Backend Infrastructure (API, TimescaleDB, Redis, Cron)
-- Parametric Trigger Monitoring (Rainfall, AQI, Heat)
-- Core ML Inference (Dynamic Premium, Fraud Scoring)
+- Enrollment Wizard (`/page`) for Partner ID, Plan Selection, and UPI linking
+- PWA Worker Dashboard for viewing coverage status and claims
+- Fully functional EN/Tamil Localization Integration
 
 ## What This Is
 

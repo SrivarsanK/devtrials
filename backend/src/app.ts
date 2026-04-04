@@ -5,6 +5,7 @@ import rateLimit from 'express-rate-limit';
 import { auth } from './middleware/auth';
 import triggerRoutes from './routes/triggers';
 import heatmapRoutes from './routes/heatmap';
+import fraudRoutes from './routes/fraud';
 
 const app = express();
 
@@ -55,6 +56,7 @@ app.get('/health', (req, res) => {
 // Trigger Routes (Protected by strict rate limiting)
 app.use('/api/triggers', triggerLimiter, triggerRoutes);
 app.use('/api/heatmap', triggerLimiter, heatmapRoutes);
+app.use('/api/fraud', triggerLimiter, fraudRoutes);
 
 // Protected Test Route
 app.get('/api/protected-test', auth, (req, res) => {

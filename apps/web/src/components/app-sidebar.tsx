@@ -50,9 +50,9 @@ const data = {
       icon: LayoutDashboard,
     },
     {
-      title: "Live Risk Map",
-      url: "/dashboard/risk-map",
-      icon: MapIcon,
+      title: "Audit Requests",
+      url: "/requests",
+      icon: ShieldCheck,
     },
     {
       title: "Payout Support",

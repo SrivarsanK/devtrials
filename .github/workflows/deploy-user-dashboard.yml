@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'apps/user-dashboard/**'
+      - '.github/workflows/deploy-user-dashboard.yml'
 
 env:
   VERCEL_ORG_ID: "team_HQYju4x16UyFTQs4D94J2OdT"

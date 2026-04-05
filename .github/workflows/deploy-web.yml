@@ -6,6 +6,7 @@ on:
       - main
     paths:
       - 'apps/web/**'
+      - '.github/workflows/deploy-web.yml'
 
 env:
   VERCEL_ORG_ID: "team_HQYju4x16UyFTQs4D94J2OdT"

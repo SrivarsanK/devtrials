@@ -103,6 +103,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       ease: 'spring(1, 80, 10, 0)'
     }, '-=600');
 
+
     return () => clearInterval(interval);
   }, []);
 

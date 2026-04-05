@@ -1,0 +1,30 @@
+name: Deploy App Dashboard (ridesuraksha-insurer)
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/app-dashboard/**'
+
+env:
+  VERCEL_ORG_ID: "team_HQYju4x16UyFTQs4D94J2OdT"
+  VERCEL_PROJECT_ID: "prj_BjtZGNoWVGgon27KUY4huhKsLVIm"
+
+jobs:
+  deploy:
+    name: Deploy to Vercel
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Install Vercel CLI
+        run: npm install --global vercel@latest
+      - name: Pull Vercel Environment Information
+        run: vercel pull --yes --environment=production --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/app-dashboard
+      - name: Build Project Artifacts
+        run: vercel build --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/app-dashboard
+      - name: Deploy Project Artifacts to Vercel
+        run: vercel deploy --prebuilt --prod --token=${{ secrets.VERCEL_TOKEN }}
+        working-directory: apps/app-dashboard

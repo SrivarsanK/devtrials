@@ -6,7 +6,7 @@ import { cn } from '@/lib/utils';
 
 // Critical: ssr:false prevents "window is not defined" crash (ZRM-001)
 const LeafletMapInner = dynamic(
-  () => import('./LeafletMapInner').then((m) => m.LeafletMapInner),
+  () => import('./LeafletMapInner'),
   {
     ssr: false,
     loading: () => (

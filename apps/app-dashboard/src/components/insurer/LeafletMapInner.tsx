@@ -50,7 +50,7 @@ function buildPopupHtml(zone: ZoneReserve, isPaused: boolean): string {
   `;
 }
 
-export function LeafletMapInner() {
+export default function LeafletMapInner() {
   const containerRef = useRef<HTMLDivElement>(null);
   const mapRef = useRef<L.Map | null>(null);
   const circlesRef = useRef<Record<string, L.CircleMarker>>({});

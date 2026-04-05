@@ -1,5 +1,6 @@
 {
   "version": 2,
+  "ignoreBuildStep": "git diff --quiet HEAD^ HEAD .",
   "builds": [
     {
       "src": "src/app.ts",

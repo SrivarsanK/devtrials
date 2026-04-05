@@ -1,16 +1,1 @@
-{
-  "version": 2,
-  "ignoreBuildStep": "git diff --quiet HEAD^ HEAD .",
-  "builds": [
-    {
-      "src": "src/app.ts",
-      "use": "@vercel/node"
-    }
-  ],
-  "rewrites": [
-    {
-      "source": "/(.*)",
-      "destination": "src/app.ts"
-    }
-  ]
-}
+{ "framework": "nextjs" }

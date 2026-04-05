@@ -1,4 +1,1 @@
-{
-  "framework": "nextjs",
-  "ignoreBuildStep": "git diff --quiet HEAD^ HEAD ."
-}
+{ "framework": "nextjs" }

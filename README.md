@@ -36,11 +36,11 @@ RideSuraksha is a three-sided platform serving three stakeholders simultaneously
 
 ```text
 ┌─────────────────────────────────────────────────────────────┐
-│                   RideSuraksha PLATFORM                        │
+│                   RideSuraksha PLATFORM                     │
 │                                                             │
 │  [Worker App]      [Platform Portal]   [Insurer Dashboard]  │
 │  Mobile PWA        Swiggy/Zomato       ShieldLife Admin     │
-│  Enrollment        GPS verification    Premium deduction   │
+│  Enrollment        GPS verification    Premium deduction    │
 │  Coverage view     Premium deduction   Loss ratio analytics │
 │  Instant payout    Order data feed     Fraud detection      │
 │                                                             │

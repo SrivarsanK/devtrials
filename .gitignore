@@ -152,3 +152,7 @@ brain/
 **/tmp/
 tmp/
 *.sql
+
+
+#Ignore vscode AI rules
+.github\instructions\codacy.instructions.md

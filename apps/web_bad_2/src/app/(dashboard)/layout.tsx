@@ -7,7 +7,7 @@ import { useSidebar } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils";
 import { useIsMobile } from "@/hooks/use-mobile";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Home, Activity, Map as MapIcon } from "lucide-react";
+import { LayoutDashboard, Home, Activity, Map as MapIcon, ShieldCheck } from "lucide-react";
 import Link from "next/link";
 
 export default function DashboardLayout({
@@ -70,7 +70,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
     <>
       <AppSidebar />
       <SidebarInset className={cn(
-        "bg-background flex flex-col overflow-hidden relative transition-all duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]",
+        "bg-background flex flex-col overflow-hidden relative transition-all duration-500 ease-in-out",
         "peer-data-[state=expanded]:md:ml-[var(--sidebar-width)] ml-0",
         isMobile ? "ml-0" : ""
       )}>

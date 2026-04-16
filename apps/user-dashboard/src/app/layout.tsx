@@ -78,6 +78,7 @@ export default function RootLayout({
     >
       <html
         lang="en"
+        suppressHydrationWarning
         className={`${inter.variable} ${nunito.variable} ${jetbrainsMono.variable} ${manrope.variable} h-full antialiased dark scroll-smooth`}
       >
         <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-primary/30">

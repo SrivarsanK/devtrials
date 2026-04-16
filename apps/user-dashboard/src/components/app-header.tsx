@@ -1,5 +1,7 @@
 "use client";
 
+import { useUser, UserButton } from "@clerk/nextjs";
+
 import { SidebarTrigger } from "@/components/ui/sidebar";
 import { Separator } from "@/components/ui/separator";
 import { useIsMobile } from "@/hooks/use-mobile";
@@ -22,6 +24,7 @@ import { Translate } from "@/components/ui/translate";
 import { useLanguage } from "@/contexts/LanguageContext";
 
 export function AppHeader() {
+  const { user } = useUser();
   const isMobile = useIsMobile();
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
@@ -45,18 +48,6 @@ export function AppHeader() {
           <SidebarTrigger className="hover:bg-primary/10 transition-colors rounded-lg" />
         )}
         <Separator orientation="vertical" className="h-4 bg-white/[0.06] hidden md:block" />
-        <div className="hidden lg:flex items-center gap-4">
-          <div className="flex items-center gap-2 px-3 py-1.5 rounded-lg glass-subtle text-[10px] font-black uppercase tracking-[0.12em] border-none">
-            <Globe className="size-3.5 text-secondary animate-pulse" />
-            <span className="text-white"><Translate text="Active Shield Protocol" /></span>
-          </div>
-          <div className="flex items-center gap-2 group cursor-pointer hover:bg-white/[0.03] p-2 rounded-lg transition-colors">
-            <Activity className="size-3.5 text-muted-foreground group-hover:text-secondary transition-colors" />
-            <span className="text-[10px] font-black uppercase tracking-widest text-white group-hover:text-foreground">
-              <Translate text="Oracle Synced" />
-            </span>
-          </div>
-        </div>
       </div>
 
       <div className="flex items-center gap-3">
@@ -88,24 +79,27 @@ export function AppHeader() {
                 )}
             </Button>
 
-            <Button variant="ghost" size="icon" className="size-9 rounded-lg hover:bg-secondary/10 hover:text-secondary group border-none">
-              <Settings className="size-4 text-muted-foreground group-hover:text-secondary group-hover:rotate-45 transition-transform" />
-            </Button>
+            <Link href="/settings">
+              <Button variant="ghost" size="icon" className="size-9 rounded-lg hover:bg-secondary/10 hover:text-secondary group border-none">
+                <Settings className="size-4 text-muted-foreground group-hover:text-secondary group-hover:rotate-45 transition-transform" />
+              </Button>
+            </Link>
         </div>
 
         <Separator orientation="vertical" className="h-5 bg-white/[0.06] hidden sm:block" />
         
-        <div className="flex items-center gap-3 pl-1">
-            <div className="size-9 rounded-xl bg-gradient-to-br from-primary/40 to-secondary/40 border border-white/10 flex items-center justify-center font-display font-black text-[10px] text-white shadow-lg uppercase">
-                OPS
-            </div>
-            <div className="hidden sm:flex flex-col">
-                <span className="text-[10px] font-black uppercase tracking-widest leading-none text-white">
-                  <Translate text="Field Agent" />
+        <div className="flex items-center gap-4 pl-2">
+            <div className="hidden sm:flex flex-col text-right">
+                <span className="text-[10px] font-black uppercase tracking-widest leading-none text-white whitespace-nowrap">
+                   {user?.fullName || <Translate text="Field Agent" />}
                 </span>
                 <span className="text-[8px] font-bold text-muted-foreground uppercase tracking-widest mt-1 opacity-60">
-                  <Translate text="Driver Profile" />
+                   <Translate text="Driver Profile" />
                 </span>
+            </div>
+            <div className="relative group">
+               <div className="absolute inset-0 bg-primary/20 blur-lg rounded-full opacity-0 group-hover:opacity-100 transition-opacity" />
+               <UserButton appearance={{ elements: { userButtonAvatarBox: "size-9 rounded-xl border border-white/10 shadow-lg" } }} />
             </div>
         </div>
       </div>

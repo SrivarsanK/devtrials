@@ -1,174 +1,264 @@
 "use client";
 
 import React, { useState } from "react";
-import { User, Bell, Shield, MessageSquare, LogOut, ChevronRight, Phone, Fingerprint, Languages, Zap, BadgeCheck } from "lucide-react";
+import { 
+  User, Bell, Shield, MessageSquare, LogOut, 
+  ChevronRight, Phone, Fingerprint, Languages, 
+  Zap, BadgeCheck, CreditCard, BellRing, Settings,
+  ShieldAlert, Sparkles, LogOut as LogOutIcon
+} from "lucide-react";
 import { Translate } from "@/components/ui/translate";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Switch } from "@/components/ui/switch";
-import { useUser } from "@clerk/nextjs";
+import { useUser, SignOutButton } from "@clerk/nextjs";
+import { motion } from "framer-motion";
 
 export default function SettingsPage() {
   const { language, setLanguage } = useLanguage();
   const { user } = useUser();
   const [notifications, setNotifications] = useState(true);
   const [payoutAlerts, setPayoutAlerts] = useState(true);
-  const [biometric, setBiometric] = useState(false);
+  const [biometric, setBiometric] = useState(true);
+  const [autoDeduct, setAutoDeduct] = useState(true);
 
   const toggleLanguage = () => {
     setLanguage(language === 'en' ? 'ta' : 'en');
   };
 
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.1
+      }
+    }
+  };
+
+  const itemVariants = {
+    hidden: { y: 20, opacity: 0 },
+    visible: { y: 0, opacity: 1 }
+  };
+
   return (
-    <div className="space-y-12 pb-12 animate-in fade-in duration-700 max-w-3xl mx-auto pt-4">
+    <motion.div 
+      initial="hidden"
+      animate="visible"
+      variants={containerVariants}
+      className="space-y-12 pb-24 max-w-4xl mx-auto pt-6"
+    >
       
-      {/* PROFILE TERMINAL */}
-      <section className="flex flex-col items-center text-center space-y-8 pt-4">
-          <div className="relative group">
-              <div className="w-32 h-32 rounded-[48px] bg-primary/20 border-2 border-primary/40 flex items-center justify-center text-primary relative z-10 group-hover:scale-105 transition-transform duration-500 shadow-2xl">
-                 <User className="w-16 h-16" />
-              </div>
-              <div className="absolute inset-0 bg-primary/20 blur-[50px] rounded-full group-hover:scale-110 transition-transform -z-10" />
-              <div className="absolute -bottom-3 -right-3 w-10 h-10 rounded-2xl bg-[#0e0e0e] border border-white/10 flex items-center justify-center text-primary shadow-2xl">
-                 <BadgeCheck className="w-5 h-5 shadow-[0_0_10px_rgba(249,115,22,0.5)]" />
-              </div>
+      {/* HEADER AREA */}
+      <motion.div variants={itemVariants} className="flex flex-col space-y-4">
+          <div className="flex items-center gap-3">
+             <Settings className="w-5 h-5 text-primary animate-pulse" />
+             <span className="text-[10px] font-black uppercase text-primary tracking-[0.4em] opacity-80">
+                <Translate text="System Configuration" />
+             </span>
           </div>
+          <h1 className="text-6xl md:text-8xl font-display font-black text-white tracking-tighter leading-[0.8] uppercase italic">
+             <Translate text="Control" />
+             <span className="text-white/40 font-medium ml-4">Terminal</span>
+          </h1>
+      </motion.div>
+
+      {/* DRIVER IDENTITY CARD */}
+      <motion.div variants={itemVariants}>
+        <Card className="glass-strong border-white/[0.08] rounded-[48px] overflow-hidden relative group p-1 shadow-2xl">
+          <div className="absolute top-0 right-0 w-96 h-96 bg-primary/10 blur-[120px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/20 transition-all duration-1000" />
           
-          <div className="space-y-2">
-              <h2 className="text-3xl font-manrope font-black text-white tracking-tighter uppercase italic leading-none">{user?.fullName || <Translate text="Worker" />}</h2>
-              <div className="flex items-center justify-center gap-4 pt-1">
-                 <Badge variant="outline" className="bg-primary/10 text-primary border-primary/20 font-black tracking-widest text-[9px] px-4 py-1.5 uppercase rounded-full">
-                    <Translate text="Bio-Shield Plus" />
+          <div className="relative z-10 p-10 flex flex-col md:flex-row items-center gap-12">
+            <div className="relative">
+               <div className="w-40 h-40 rounded-[48px] bg-gradient-to-br from-primary/30 to-secondary/30 border-2 border-white/10 flex items-center justify-center text-white relative shadow-2xl group-hover:scale-105 transition-transform duration-700">
+                  {user?.imageUrl ? (
+                    <img src={user.imageUrl} className="w-full h-full object-cover rounded-[46px]" alt="Profile" />
+                  ) : (
+                    <User className="w-20 h-20 opacity-20" />
+                  )}
+               </div>
+               <div className="absolute -bottom-4 -right-4 w-14 h-14 rounded-2xl bg-[#0d0d15] border border-white/10 flex items-center justify-center shadow-2xl">
+                  <BadgeCheck className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(255,70,37,0.5)]" />
+               </div>
+            </div>
+
+            <div className="flex-1 text-center md:text-left space-y-4">
+              <div className="space-y-1">
+                <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/30 italic"><Translate text="Active Personnel" /></p>
+                <h2 className="text-4xl md:text-6xl font-display font-black text-white tracking-tighter uppercase leading-none italic">{user?.fullName || "Field Agent"}</h2>
+              </div>
+              <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
+                 <Badge className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 font-black tracking-widest text-[10px] px-5 py-2 uppercase rounded-full">
+                    <Translate text="Bio-Shield Max Tier" />
                  </Badge>
-                 <p className="text-[10px] font-black uppercase text-white/30 tracking-[0.3em] leading-none">ID: {user?.id?.slice(-8).toUpperCase() || 'GS-0000-00'}</p>
+                 <Badge variant="outline" className="border-white/10 text-white/40 font-black tracking-widest text-[10px] px-5 py-2 uppercase rounded-full">
+                    ID: {user?.id?.slice(-12).toUpperCase()}
+                 </Badge>
               </div>
+            </div>
+            
+            <div className="w-full md:w-auto">
+               <Button variant="ghost" className="w-full md:w-auto h-16 rounded-3xl border border-white/5 bg-white/[0.02] hover:bg-white/[0.05] text-white/40 hover:text-white transition-all px-8 text-xs font-black uppercase tracking-widest gap-3">
+                  <Sparkles className="w-4 h-4 text-primary" />
+                  <Translate text="Edit Profile" />
+               </Button>
+            </div>
           </div>
-      </section>
+        </Card>
+      </motion.div>
 
-      {/* SETTINGS MODULES */}
-      <div className="grid grid-cols-1 gap-10 pt-4">
-          
-          {/* Preferences */}
-          <div className="space-y-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 px-6 flex items-center gap-4">
-                 <Translate text="Preferences" />
-                 <div className="h-px bg-white/5 flex-1" />
-              </h3>
-              
-              <Card className="bg-surface-card border-white/5 rounded-[48px] divide-y divide-white/5 overflow-hidden shadow-2xl">
-                 <div 
-                   onClick={toggleLanguage}
-                   className="p-8 flex items-center justify-between group cursor-pointer hover:bg-white/[0.04] transition-all"
-                  >
-                    <div className="flex items-center gap-6">
-                       <div className="w-14 h-14 rounded-3xl bg-blue-500/10 flex items-center justify-center text-blue-500 group-hover:scale-110 transition-transform shadow-inner">
-                          <Languages className="w-6 h-6" />
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-sm font-black text-white uppercase tracking-tight leading-none"><Translate text="App Language" /></p>
-                          <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest italic pt-1"><Translate text={language === 'en' ? "English (Default)" : "Tamil (தமிழ்)"} /></p>
-                       </div>
-                    </div>
-                    <ChevronRight className="w-6 h-6 text-white/10 group-hover:text-primary transition-all translate-x-0 group-hover:translate-x-1" />
-                 </div>
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-10">
+        
+        {/* APP PREFERENCES */}
+        <motion.div variants={itemVariants} className="space-y-8">
+           <div className="flex items-center gap-4 px-6">
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 whitespace-nowrap italic"><Translate text="Application Protocol" /></span>
+              <div className="h-px bg-white/5 flex-1" />
+           </div>
 
-                 <div className="p-8 flex items-center justify-between group hover:bg-white/[0.02] transition-colors">
-                    <div className="flex items-center gap-6">
-                       <div className="w-14 h-14 rounded-3xl bg-primary/10 flex items-center justify-center text-primary group-hover:scale-110 transition-transform shadow-inner">
-                          <Bell className="w-6 h-6" />
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-sm font-black text-white uppercase tracking-tight leading-none"><Translate text="Risk Notifications" /></p>
-                          <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest italic pt-1"><Translate text="Alerts for active zones" /></p>
-                       </div>
-                    </div>
-                    <Switch checked={notifications} onCheckedChange={setNotifications} className="data-[state=checked]:bg-primary" />
-                 </div>
-
-                 <div className="p-8 flex items-center justify-between group hover:bg-white/[0.02] transition-colors">
-                    <div className="flex items-center gap-6">
-                       <div className="w-14 h-14 rounded-3xl bg-green-500/10 flex items-center justify-center text-green-500 group-hover:scale-110 transition-transform shadow-inner">
-                          <Zap className="w-6 h-6" />
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-sm font-black text-white uppercase tracking-tight leading-none"><Translate text="Payout Alerts" /></p>
-                          <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest italic pt-1"><Translate text="Instant UPI confirmation" /></p>
-                       </div>
-                    </div>
-                    <Switch checked={payoutAlerts} onCheckedChange={setPayoutAlerts} className="data-[state=checked]:bg-green-500" />
-                 </div>
-              </Card>
-          </div>
-
-          {/* Account Security */}
-          <div className="space-y-6">
-              <h3 className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 px-6 flex items-center gap-4">
-                 <Translate text="Identity Shield" />
-                 <div className="h-px bg-white/5 flex-1" />
-              </h3>
-              
-              <Card className="bg-surface-card border-white/5 rounded-[48px] divide-y divide-white/5 overflow-hidden shadow-2xl">
-                 <div className="p-8 flex items-center justify-between group hover:bg-white/[0.02] transition-colors">
-                    <div className="flex items-center gap-6">
-                       <div className="w-14 h-14 rounded-3xl bg-white/5 flex items-center justify-center text-white/40 group-hover:scale-110 transition-transform shadow-inner border border-white/5">
-                          <Phone className="w-6 h-6" />
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-sm font-black text-white uppercase tracking-tight leading-none"><Translate text="Linked Identity" /></p>
-                          <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest italic pt-1">{user?.primaryEmailAddress?.emailAddress || '+91 ***** *****'}</p>
-                       </div>
-                    </div>
-                    <Badge className="bg-emerald-500/10 text-emerald-500 border-none font-black text-[9px] tracking-[0.2em] px-4 py-1.5 rounded-full"><Translate text="VERIFIED" /></Badge>
-                 </div>
-
-                 <div className="p-8 flex items-center justify-between group hover:bg-white/[0.02] transition-colors">
-                    <div className="flex items-center gap-6">
-                       <div className="w-14 h-14 rounded-3xl bg-orange-500/10 flex items-center justify-center text-orange-500 group-hover:scale-110 transition-transform shadow-inner">
-                          <Fingerprint className="w-6 h-6" />
-                       </div>
-                       <div className="space-y-1">
-                          <p className="text-sm font-black text-white uppercase tracking-tight leading-none"><Translate text="Biometric Lock" /></p>
-                          <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest italic pt-1"><Translate text="ID.me Facial Verification" /></p>
-                       </div>
-                    </div>
-                    <Switch checked={biometric} onCheckedChange={setBiometric} className="data-[state=checked]:bg-orange-500" />
-                 </div>
-              </Card>
-          </div>
-
-          {/* Support Module */}
-          <div className="pt-10 flex flex-col items-center gap-8">
-              <Button className="w-full h-24 bg-surface-card border border-white/5 hover:border-primary/40 rounded-[48px] p-8 flex items-center justify-between group transition-all duration-500 active:scale-98 shadow-2xl">
-                 <div className="flex items-center gap-6 text-left">
-                    <div className="w-14 h-14 rounded-3xl bg-white/5 flex items-center justify-center text-white/20 group-hover:text-primary group-hover:bg-primary/5 transition-all">
-                       <MessageSquare className="w-6 h-6" />
-                    </div>
-                    <div className="font-black uppercase tracking-tight">
-                       <p className="text-xl leading-none mb-1.5"><Translate text="Help & FAQ" /></p>
-                       <p className="text-[10px] opacity-20 leading-none italic"><Translate text="Common issues & support" /></p>
-                    </div>
-                 </div>
-                 <ChevronRight className="w-6 h-6 text-white/10 group-hover:text-primary transition-all translate-x-0 group-hover:translate-x-1" />
-              </Button>
-
-              <div className="flex flex-col items-center gap-8 w-full pt-4">
-                  <Button variant="ghost" className="text-rose-500/40 hover:text-rose-500 hover:bg-rose-500/5 h-16 w-full rounded-[32px] px-8 uppercase font-black tracking-[0.3em] text-[11px] gap-4 transition-all italic border border-transparent hover:border-rose-500/20">
-                     <LogOut className="w-5 h-5" /> <Translate text="Terminate Session" />
-                  </Button>
-                  
-                  <div className="flex flex-col items-center gap-3 opacity-20 grayscale hover:grayscale-0 transition-all cursor-default">
-                     <p className="text-[9px] font-black uppercase tracking-[1em] text-white flex items-center gap-2">
-                        Ride<span className="text-primary italic">Suraksha</span> v8.4.1
-                     </p>
-                     <p className="text-[8px] font-black text-white/40 leading-none tracking-widest uppercase">Obsidian Protocol Enabled</p>
-                  </div>
+           <Card className="bg-[#0e0e12]/60 border-white/[0.05] rounded-[48px] overflow-hidden divide-y divide-white/[0.03] shadow-2xl backdrop-blur-xl">
+              <div 
+                onClick={toggleLanguage}
+                className="p-10 flex items-center justify-between group cursor-pointer hover:bg-white/[0.02] transition-all"
+              >
+                <div className="flex items-center gap-8">
+                   <div className="w-16 h-16 rounded-[28px] bg-blue-500/10 flex items-center justify-center text-blue-500 border border-blue-500/10 group-hover:scale-110 transition-transform">
+                      <Languages className="w-7 h-7" />
+                   </div>
+                   <div className="space-y-1.5">
+                      <p className="text-base font-black text-white uppercase tracking-tight leading-none italic"><Translate text="Interface Language" /></p>
+                      <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest opacity-60"><Translate text={language === 'en' ? "English (Global Standard)" : "Tamil (தமிழ் - மண்டலம்)"} /></p>
+                   </div>
+                </div>
+                <ChevronRight className="w-6 h-6 text-white/10 group-hover:text-primary transition-all translate-x-0 group-hover:translate-x-1" />
               </div>
-          </div>
 
+              <div className="p-10 flex items-center justify-between group">
+                <div className="flex items-center gap-8">
+                   <div className="w-16 h-16 rounded-[28px] bg-primary/10 flex items-center justify-center text-primary border border-primary/10 group-hover:scale-110 transition-transform">
+                      <BellRing className="w-7 h-7" />
+                   </div>
+                   <div className="space-y-1.5">
+                      <p className="text-base font-black text-white uppercase tracking-tight leading-none italic"><Translate text="Neural Alerts" /></p>
+                      <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest opacity-60"><Translate text="Push notifications for zone disruptions" /></p>
+                   </div>
+                </div>
+                <Switch checked={notifications} onCheckedChange={setNotifications} className="data-[state=checked]:bg-primary" />
+              </div>
+
+              <div className="p-10 flex items-center justify-between group">
+                <div className="flex items-center gap-8">
+                   <div className="w-16 h-16 rounded-[28px] bg-emerald-500/10 flex items-center justify-center text-emerald-500 border border-emerald-500/10 group-hover:scale-110 transition-transform">
+                      <Zap className="w-7 h-7" />
+                   </div>
+                   <div className="space-y-1.5">
+                      <p className="text-base font-black text-white uppercase tracking-tight leading-none italic"><Translate text="Instant Payouts" /></p>
+                      <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest opacity-60"><Translate text="Auto-transfer to linked UPI wallet" /></p>
+                   </div>
+                </div>
+                <Switch checked={payoutAlerts} onCheckedChange={setPayoutAlerts} className="data-[state=checked]:bg-emerald-500" />
+              </div>
+           </Card>
+        </motion.div>
+
+        {/* SECURITY & FINANCE */}
+        <motion.div variants={itemVariants} className="space-y-8">
+           <div className="flex items-center gap-4 px-6">
+              <span className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 whitespace-nowrap italic"><Translate text="Security & Settlement" /></span>
+              <div className="h-px bg-white/5 flex-1" />
+           </div>
+
+           <Card className="bg-[#0e0e12]/60 border-white/[0.05] rounded-[48px] overflow-hidden divide-y divide-white/[0.03] shadow-2xl backdrop-blur-xl">
+              <div className="p-10 flex items-center justify-between group hover:bg-white/[0.01] transition-colors">
+                <div className="flex items-center gap-8">
+                   <div className="w-16 h-16 rounded-[28px] bg-orange-500/10 flex items-center justify-center text-orange-500 border border-orange-500/10 group-hover:scale-110 transition-transform">
+                      <Fingerprint className="w-7 h-7" />
+                   </div>
+                   <div className="space-y-1.5">
+                      <p className="text-base font-black text-white uppercase tracking-tight leading-none italic"><Translate text="Bio-Lock" /></p>
+                      <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest opacity-60"><Translate text="Biometric verification for withdrawals" /></p>
+                   </div>
+                </div>
+                <Switch checked={biometric} onCheckedChange={setBiometric} className="data-[state=checked]:bg-orange-500" />
+              </div>
+
+              <div className="p-10 flex items-center justify-between group hover:bg-white/[0.01] transition-colors">
+                <div className="flex items-center gap-8">
+                   <div className="w-16 h-16 rounded-[28px] bg-secondary/10 flex items-center justify-center text-secondary border border-secondary/10 group-hover:scale-110 transition-transform">
+                      <CreditCard className="w-7 h-7" />
+                   </div>
+                   <div className="space-y-1.5">
+                      <p className="text-base font-black text-white uppercase tracking-tight leading-none italic"><Translate text="Auto-Deduct" /></p>
+                      <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest opacity-60"><Translate text="Next deduction: Tomorrow, 9:00 AM" /></p>
+                   </div>
+                </div>
+                <Switch checked={autoDeduct} onCheckedChange={setAutoDeduct} className="data-[state=checked]:bg-secondary" />
+              </div>
+
+              <div className="p-10 flex items-center justify-between group cursor-pointer hover:bg-white/[0.02] transition-all">
+                <div className="flex items-center gap-8">
+                   <div className="w-16 h-16 rounded-[28px] bg-white/5 flex items-center justify-center text-white/20 border border-white/5 group-hover:text-primary transition-colors">
+                      <ShieldAlert className="w-7 h-7" />
+                   </div>
+                   <div className="space-y-1.5">
+                      <p className="text-base font-black text-white uppercase tracking-tight leading-none italic"><Translate text="Contract Terms" /></p>
+                      <p className="text-[10px] font-bold uppercase text-white/30 tracking-widest opacity-60"><Translate text="View your parametric shield policy" /></p>
+                   </div>
+                </div>
+                <ChevronRight className="w-6 h-6 text-white/10 group-hover:text-primary transition-all translate-x-0 group-hover:translate-x-1" />
+              </div>
+           </Card>
+        </motion.div>
       </div>
 
-    </div>
+      {/* SUPPORT & LOGOUT */}
+      <motion.div variants={itemVariants} className="pt-8 space-y-12">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+           <Button className="h-32 bg-white/[0.03] border border-white/5 hover:border-primary/40 rounded-[48px] p-10 flex items-center justify-between group transition-all duration-500 active:scale-98 shadow-2xl">
+              <div className="flex items-center gap-8 text-left">
+                 <div className="w-16 h-16 rounded-[28px] bg-white/5 flex items-center justify-center text-white/20 group-hover:text-primary group-hover:bg-primary/5 transition-all">
+                    <MessageSquare className="w-7 h-7" />
+                 </div>
+                 <div className="font-black uppercase tracking-tight italic">
+                    <p className="text-2xl leading-none mb-1.5"><Translate text="Support" /></p>
+                    <p className="text-[10px] opacity-20 leading-none"><Translate text="24/7 Field Agent Helpline" /></p>
+                 </div>
+              </div>
+              <ChevronRight className="w-6 h-6 text-white/10 group-hover:text-primary transition-all translate-x-0 group-hover:translate-x-1" />
+           </Button>
+
+           <SignOutButton>
+              <Button variant="ghost" className="h-32 bg-rose-500/5 border border-rose-500/10 hover:bg-rose-500/10 text-rose-500/60 hover:text-rose-500 rounded-[48px] p-10 flex items-center justify-between group transition-all duration-500 active:scale-98 shadow-xl">
+                <div className="flex items-center gap-8 text-left">
+                   <div className="w-16 h-16 rounded-[28px] bg-rose-500/10 flex items-center justify-center border border-rose-500/20 group-hover:bg-rose-500 group-hover:text-white transition-all">
+                      <LogOutIcon className="w-7 h-7" />
+                   </div>
+                   <div className="font-black uppercase tracking-tight italic">
+                      <p className="text-2xl leading-none mb-1.5"><Translate text="Sign Out" /></p>
+                      <p className="text-[10px] opacity-20 leading-none"><Translate text="Terminate active session" /></p>
+                   </div>
+                </div>
+                <div className="w-12 h-12 rounded-full border border-rose-500/10 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+                   <ChevronRight className="w-6 h-6" />
+                </div>
+              </Button>
+           </SignOutButton>
+        </div>
+
+        <div className="text-center space-y-4 pt-8 opacity-20 grayscale hover:grayscale-0 transition-all duration-1000">
+           <p className="text-xs font-black uppercase tracking-[1.5em] text-white">Ride<span className="text-primary italic">Suraksha</span></p>
+           <div className="flex items-center justify-center gap-4 text-[8px] font-black uppercase tracking-widest text-white/60">
+              <span>Build v8.4.1</span>
+              <span className="size-1 rounded-full bg-white/20" />
+              <span>Core Protocol 4.2</span>
+              <span className="size-1 rounded-full bg-white/20" />
+              <span>Encrypted Session</span>
+           </div>
+        </div>
+      </motion.div>
+
+    </motion.div>
   );
 }

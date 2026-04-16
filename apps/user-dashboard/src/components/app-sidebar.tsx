@@ -37,11 +37,6 @@ const data = {
       icon: LayoutDashboard,
     },
     {
-      title: "Coverage Zones",
-      url: "/zones",
-      icon: ShieldCheck,
-    },
-    {
       title: "Claims",
       url: "/claims",
       icon: FileText,

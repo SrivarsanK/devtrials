@@ -19,6 +19,7 @@ import { DocumentUploadStep } from "@/components/enrollment/steps/DocumentUpload
 import { CaptureStep } from "@/components/enrollment/steps/CaptureStep";
 import { RideSurakshaStep } from "@/components/enrollment/steps/RideSurakshaStep";
 import { UpiAutopayStep } from "@/components/enrollment/steps/UpiAutopayStep";
+import { completeOnboarding } from "./actions";
 
 const PARTNER_LOGOS: Record<string, string> = {
   swiggy: "/logos/swiggy.png",
@@ -274,8 +275,9 @@ export default function EnrollmentWizard() {
                   </div>
 
                   <div className="w-full px-12">
-                     <Button 
-                        onClick={() => {
+                      <Button 
+                        onClick={async () => {
+                           await completeOnboarding();
                            localStorage.setItem('RideSuraksha_upi', formData.upiId);
                            window.location.href = '/dashboard';
                         }}

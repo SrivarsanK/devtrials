@@ -93,8 +93,8 @@ export default function PayoutHistoryPage() {
 
          {/* EXPORT TERMINAL */}
          <div className="bg-white/5 border border-white/5 rounded-[40px] p-6 flex flex-col sm:flex-row items-center gap-8 shadow-2xl relative overflow-hidden backdrop-blur-sm min-w-[320px] group hover:border-primary/20 transition-all cursor-pointer">
-            <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-               <Download className="w-8 h-8 text-primary shadow-[0_0_15px_rgba(249,115,22,0.5)]" />
+            <div className="w-16 h-16 rounded-[28px] bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-all duration-500 shadow-[0_0_20px_rgba(255,70,37,0.1)]">
+               <Download className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(255,70,37,0.8)]" strokeWidth={3} />
             </div>
             <div>
                <p className="text-[10px] font-black uppercase text-white/20 tracking-widest leading-none mb-1.5 flex items-center gap-2">

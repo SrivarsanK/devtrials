@@ -21,7 +21,6 @@ export function Sidebar({ onClose }: SidebarProps) {
 
   const menuItems = [
     { name: "Dashboard", icon: LayoutDashboard, href: "/dashboard" },
-    { name: "Coverage Zones", icon: Globe, href: "/zones" },
     { name: "Payout History", icon: History, href: "/history" },
     { name: "Claims", icon: AlertCircle, href: "/claims" },
     { name: "Settings", icon: Settings, href: "/settings" },

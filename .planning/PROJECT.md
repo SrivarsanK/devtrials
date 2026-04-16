@@ -1,14 +1,15 @@
 # RideSuraksha
 
-## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
+## Current Milestone: v1.2 High-Fidelity Real-time Dashboard
 
-**Goal:** Complete the worker-facing user experience including the multi-step enrollment flow and the main PWA dashboard view.
+**Goal:** Implement detailed dashboard features with live API integration and modal-based claim triggers.
 
 **Target features:**
 
-- Enrollment Wizard (`/page`) for Partner ID, Plan Selection, and UPI linking
-- PWA Worker Dashboard for viewing coverage status and claims
-- Fully functional EN/Tamil Localization Integration
+- Policy Status Card (Tier, Zone, Expiry, Premium paid)
+- Claim Trigger Alert Modal (Threshold crossed -> Payout initiated)
+- Premium Payment Tracker (Due date, Auto-deduct sync)
+- Recent Claim History (5 latest events)
 
 ## What This Is
 

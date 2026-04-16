@@ -2,24 +2,25 @@
 
 ## Current Position
 
-**Phase:** 8 - Worker Experience Expansion (Planned)
-**Plan:** `.planning/phases/08-worker-exp-expansion/08-PLAN.md`
-**Status:** Adding new views for Zones, History, and Settings.
-**Last activity:** 2026-04-04 — Phase 8 added
+**Phase:** 9 - Detailed Dashboard UI & Mock Fallback (Planned)
+**Plan:** `.planning/phases/09-dashboard-ui/09-PLAN.md`
+**Status:** Initializing Milestone v1.2.
+**Last activity:** 2026-04-17 — Milestone v1.2 started
 
-## Current Milestone: v1.1 Worker Enrollment & Dashboard Experience
+## Current Milestone: v1.2 High-Fidelity Real-time Dashboard
 
-**Goal:** Complete the worker-facing user experience including the multi-step enrollment flow and the main PWA dashboard view.
+**Goal:** Implement detailed dashboard features with live API integration and modal-based claim triggers.
 
 **Target Features:**
 
-- Enrollment Wizard (`/page`) for Partner ID, Plan Selection, and UPI linking
-- PWA Worker Dashboard for viewing coverage status and claims
-- Fully functional EN/Tamil Localization Integration
+- Policy Status Card (Tier, Zone, Expiry, Premium paid)
+- Claim Trigger Alert Modal (Threshold crossed -> Payout initiated)
+- Premium Payment Tracker (Due date, Auto-deduct sync)
+- Recent Claim History (5 latest events)
 
 ## Accumulated Context
 
 - **Project Type:** Parametric Insurance for Gig Workers
-- **Stack:** Node.js/TypeScript, Python/FastAPI, PostgreSQL/TimescaleDB
-- **UI Progress:** The `/` landing page UI marketing shell is fully designed and operational.
-- **Key Decision:** Transitioning to build out the front-end user experience to connect the existing backend triggers.
+- **Stack:** Node.js/TypeScript (frontend), Node.js (backend), PostgreSQL
+- **UI Progress:** Basic dashboard shell exists. Sidebar integration in progress.
+- **Key Decision:** v1.2 focuses on data intensity and real-time interaction (Modals).

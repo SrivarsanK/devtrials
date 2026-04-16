@@ -2,40 +2,28 @@
 
 This document tracks all validated, active, and out-of-scope requirements for RideSuraksha.
 
-## Milestone v1.1 Requirements: Worker Enrollment & Dashboard Experience
+## Milestone v1.2 Requirements: High-Fidelity Real-time Dashboard
 
-### Enrollment Flow
-- [ ] **ENR-01**: User can enter their Partner ID to initiate verification.
-- [ ] **ENR-02**: User can select between Guard Lite, Guard Plus, and Guard Max plans.
-- [ ] **ENR-03**: User can securely input and verify their UPI ID.
-- [ ] **ENR-04**: Entire flow includes input validation and error feedback.
+### Dashboard Features
+- [ ] **DB-01**: Active Policy Status Card showing Plan Tier, Zone, Expiry, and Premium Paid.
+- [ ] **DB-02**: Claim Trigger Alert Modal triggered when thresholds are crossed (Rain/Flood).
+- [ ] **DB-03**: Premium Payment Tracker displaying next due date and backend-synced auto-deduct toggle.
+- [ ] **DB-04**: Recent Claim History displaying the 5 latest events.
 
-### Worker Dashboard
-- [ ] **WD-01**: User can view their active plan and next recurring premium date.
-- [ ] **WD-02**: User can view a feed of active weather/system triggers for their zone.
-- [ ] **WD-03**: User can view a historical list of processed and auto-approved claims.
-- [ ] **WD-04**: PWA manifests are implemented mimicking Native App styling.
-
-### Localization & UI Standardization
-- [ ] **LOC-01**: All text routes through `LanguageContext` translating between EN/Tamil.
-- [ ] **LOC-02**: The App Shell header includes a sticky navigation with EN/Tamil toggle.
-- [ ] **LOC-03**: Shadcn/ui elements correctly adhere to the `0e0e0e` dark theme and `primary` tokens.
+### Data & Integration
+- [ ] **INT-01**: Live API integration with Mock fallback for all dashboard data.
+- [ ] **INT-02**: Backend synchronization for "Auto-deduct" toggle state.
 
 ## Traceability Tracker
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| ENR-01 | Phase 4 | Pending |
-| ENR-02 | Phase 4 | Pending |
-| ENR-03 | Phase 4 | Pending |
-| ENR-04 | Phase 4 | Pending |
-| WD-01 | Phase 5 | Pending |
-| WD-02 | Phase 5 | Pending |
-| WD-03 | Phase 5 | Pending |
-| WD-04 | Phase 5 | Pending |
-| LOC-01 | Phase 6 | Pending |
-| LOC-02 | Phase 6 | Pending |
-| LOC-03 | Phase 6 | Pending |
+| DB-01 | Phase 9 | Pending |
+| DB-02 | Phase 10 | Pending |
+| DB-03 | Phase 10 | Pending |
+| DB-04 | Phase 9 | Pending |
+| INT-01 | Phase 9 | Pending |
+| INT-02 | Phase 10 | Pending |
 
 ## Future Extensibility / Out of Scope (This Milestone)
 - Native Mobile Build (React Native) is excluded.

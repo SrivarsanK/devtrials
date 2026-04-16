@@ -45,11 +45,11 @@ RideSuraksha is a three-sided platform serving three stakeholders simultaneously
 │  Instant payout    Order data feed     Fraud detection      │
 │                                                             │
 │                  CORE BACKEND API                           │
-│            Policy • Claims • Premium                        │
+│            Policy • Claims • Premium • Triggers             │
 │                                                             │
-│  [ML Engine]      [Trigger Engine]     [Fraud Engine]       │
+│  [ML Models]      [Trigger Engine]     [Fraud Engine]       │
 │  Dynamic pricing  Parametric APIs      GPS spoof +          │
-│  Zone risk score  Auto-claim firing    anomaly detection    │
+│  Pricing Forecast Auto-claim firing    Anomaly Detection    │
 └─────────────────────────────────────────────────────────────┘
 ```
 
@@ -57,19 +57,17 @@ RideSuraksha is a three-sided platform serving three stakeholders simultaneously
 
 ## 💰 Premium Structure
 
-Weekly premiums are structured across three zone risk tiers:
+Weekly premiums are structured across three zone risk tiers based on historical disruption data:
 
 | Zone Risk Tier | Base Weekly Premium | Max Weekly Payout | Monthly Event Cap |
 | --- | --- | --- | --- |
-| Low risk (e.g., Coimbatore) | ₹89 | ₹900 | 3 events |
-| Medium risk (e.g., Bengaluru) | ₹110 | ₹900 | 3 events |
-| High risk (e.g., Chennai, Mumbai) | ₹130 | ₹900 | 3 events |
+| **Low Risk** | ₹89 | ₹900 | 3 events |
+| **Medium Risk** | ₹110 | ₹900 | 3 events |
+| **High Risk** | ₹130 | ₹900 | 3 events |
 
-Waiting Period: 3 days from enrollment before first claim eligibility.
-
-Monthly Event Cap: Maximum 3 payouts per calendar month per worker. Prevents the product from becoming a guaranteed income supplement during extended monsoon seasons.
-
-Premium Collection: Auto-deducted from platform payout every Friday. Worker never handles cash or makes a manual transfer.
+- **Waiting Period**: 3 days from enrollment before first claim eligibility (anti-adverse selection).
+- **Monthly Event Cap**: Maximum 3 payouts per calendar month per worker.
+- **Auto-Collection**: Deducted from platform (Zomato/Swiggy) earnings every Friday.
 
 ---
 

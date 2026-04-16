@@ -38,10 +38,10 @@ export function PartnerIdStep({ onNext, onBack, partnerName }: PartnerIdStepProp
     <div className="w-full max-w-lg mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-4">
       <div className="text-center space-y-4">
         <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto relative group">
-           <ShieldCheck className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+           <ShieldCheck className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,70,37,0.6)]" />
            <div className="absolute inset-0 bg-primary/5 blur-[20px] rounded-full -z-10 group-hover:bg-primary/10 transition-colors" />
         </div>
-        <h2 className="text-3xl font-manrope font-black text-white tracking-tight uppercase">
+        <h2 className="text-3xl font-display font-black text-white tracking-tight uppercase">
           <Translate text="Verification" /> <br />
           <span className="text-primary/[0.8] font-bold italic normal-case text-lg tracking-normal">
              <Translate text={`Enter your ${partnerName} ID`} />
@@ -51,7 +51,7 @@ export function PartnerIdStep({ onNext, onBack, partnerName }: PartnerIdStepProp
 
       <div className="space-y-6">
         <div className="space-y-3">
-          <label className="text-[10px] font-black text-white/30 tracking-[0.3em] uppercase ml-1">
+          <label className="text-[10px] font-black text-muted-foreground/70 tracking-[0.3em] uppercase ml-1">
             <Translate text="Partner ID (Platform Assigned)" />
           </label>
           <Input 
@@ -80,14 +80,14 @@ export function PartnerIdStep({ onNext, onBack, partnerName }: PartnerIdStepProp
             onClick={onBack}
             variant="ghost"
             disabled={loading}
-            className="h-16 px-8 hover:bg-white/5 text-white/40 hover:text-white transition-all rounded-3xl font-black text-xs uppercase tracking-widest border border-white/5"
+            className="h-16 px-8 hover:bg-white/5 text-muted-foreground/80 hover:text-white transition-all rounded-3xl font-black text-xs uppercase tracking-widest border border-white/5"
           >
              <Translate text="Back" />
           </Button>
           <Button 
             onClick={handleVerify}
             disabled={loading}
-            className="flex-1 h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all font-black text-xl rounded-3xl flex items-center justify-center gap-3 border-none shadow-[0_0_30px_-5px_rgba(249,115,22,0.4)]"
+            className="flex-1 h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black text-xl rounded-3xl flex items-center justify-center gap-3 border-none shadow-[0_0_30px_-5px_rgba(255,70,37,0.4)]"
           >
             {loading ? (
               <Loader2 className="w-6 h-6 animate-spin" />
@@ -101,7 +101,7 @@ export function PartnerIdStep({ onNext, onBack, partnerName }: PartnerIdStepProp
         </div>
       </div>
       
-      <p className="text-center text-[10px] font-black uppercase text-white/20 tracking-[0.4em] pt-4 italic">
+      <p className="text-center text-[10px] font-black uppercase text-muted-foreground/60 tracking-[0.4em] pt-4 italic">
         Secured by ShieldLife Encrypted Systems
       </p>
     </div>

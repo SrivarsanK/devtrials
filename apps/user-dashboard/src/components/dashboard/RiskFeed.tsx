@@ -71,7 +71,7 @@ export function RiskFeed() {
   };
 
   return (
-    <Card className="bg-surface-card border-white/5 h-full relative group shadow-2xl">
+    <Card className="glass-subtle card-glow border-white/[0.05] h-full relative group shadow-2xl">
       <CardHeader className="flex flex-row items-center justify-between pb-6">
         <div className="space-y-1">
           <CardTitle className="text-xl font-manrope font-black text-white tracking-tight uppercase flex items-center gap-3">

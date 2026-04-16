@@ -48,7 +48,7 @@ export function StatsHistory() {
     <div className="space-y-4">
       
       {/* Total Savings Card */}
-      <Card className="bg-surface-card border-white/5 relative group p-1 shadow-2xl">
+      <Card className="glass-subtle card-glow border-white/[0.05] relative group p-1 shadow-2xl">
         <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-br from-primary/10 via-transparent to-transparent -z-10 group-hover:from-primary/20 transition-all duration-700" />
         
         <CardHeader className="pb-4">
@@ -95,7 +95,7 @@ export function StatsHistory() {
       </Card>
 
       {/* Claims List Card */}
-      <Card className="bg-surface-card border-white/5 shadow-2xl">
+      <Card className="glass-subtle card-glow border-white/[0.05] shadow-2xl">
          <CardHeader className="flex flex-row items-center justify-between pb-4">
             <CardTitle className="text-xl font-manrope font-black text-white tracking-tight uppercase flex items-center gap-3">
                <History className="w-5 h-5 text-white/40" />

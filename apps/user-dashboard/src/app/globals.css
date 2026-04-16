@@ -1,60 +1,335 @@
 @import "tailwindcss";
 
-:root {
-  --background: #0e0e0e;
-  --foreground: #ededed;
-  
-  --primary: #f97316;
-  --primary-dark: #ea580c;
-  --primary-foreground: #ffffff;
-  
-  --surface-card: #18181b;
+/* ─── Freeroad Custom Font ─── */
+@font-face {
+  font-family: 'Freeroad';
+  src: url('/fonts/Freeroad Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freeroad';
+  src: url('/fonts/Freeroad Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freeroad';
+  src: url('/fonts/Freeroad Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freeroad';
+  src: url('/fonts/Freeroad Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+}
+@font-face {
+  font-family: 'Freeroad';
+  src: url('/fonts/Freeroad Italic.ttf') format('truetype');
+  font-weight: 400;
+  font-style: italic;
 }
 
+/* ─── Design System Tokens ─── */
+:root {
+  /* Core Palette */
+  --background: #0d0d0d;
+  --foreground: #f0f0f5;
+  --card: #141414;
+  --card-foreground: #f0f0f5;
+  --popover: #141414;
+  --popover-foreground: #f0f0f5;
+
+  /* Brand Colors */
+  --primary: #ff4625;
+  --primary-foreground: #ffffff;
+  --primary-dark: #ea580c;
+  --secondary: #00d8ff;
+  --secondary-foreground: #0d0d0d;
+  --accent: #ffc800;
+  --accent-foreground: #0d0d0d;
+
+  /* Semantic */
+  --muted: #1e1e1e;
+  --muted-foreground: #a0a0b0;
+  --destructive: #ff2d55;
+  --destructive-foreground: #ffffff;
+  --success: #00c896;
+  --warning: #ffc800;
+  --danger: #ff2d55;
+
+  /* Border & Input */
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.08);
+  --ring: #ff4625;
+  --radius: 1rem;
+
+  /* Fireship Category Colors */
+  --fs-green: #00c896;
+  --fs-blue: #0096ff;
+  --fs-yellow: #ffc800;
+  --fs-red: #ff2d55;
+  --fs-purple: #9d50bb;
+  --fs-black: #0d0d0d;
+
+  /* Glassmorphism */
+  --glass-bg: rgba(20, 20, 20, 0.6);
+  --glass-border: rgba(255, 255, 255, 0.1);
+  --glass-blur: 16px;
+
+  /* Surface aliases */
+  --surface-card: #141414;
+}
+
+/* ─── Tailwind v4 Theme ─── */
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-  
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
   --color-primary: var(--primary);
   --color-primary-dark: var(--primary-dark);
   --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-warning: var(--warning);
+  --color-danger: var(--danger);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
   --color-surface-card: var(--surface-card);
+
+  /* Fireship palette */
+  --color-fs-green: var(--fs-green);
+  --color-fs-blue: var(--fs-blue);
+  --color-fs-yellow: var(--fs-yellow);
+  --color-fs-red: var(--fs-red);
+  --color-fs-purple: var(--fs-purple);
+  --color-fs-black: var(--fs-black);
+
+  /* Font stacks */
+  --font-sans: 'Freeroad', 'Inter', var(--font-sans), system-ui, sans-serif;
+  --font-mono: 'JetBrains Mono', var(--font-mono), monospace;
+  --font-display: 'Freeroad', 'Nunito', sans-serif;
+  --font-manrope: var(--font-manrope-var), 'Manrope', sans-serif;
+
+  /* Border radius */
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0e0e0e;
-    --foreground: #ededed;
-  }
+.font-display {
+  font-family: var(--font-display);
 }
 
+/* ─── Base Styles ─── */
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: 'Inter', var(--font-sans), Arial, Helvetica, sans-serif;
+  font-family: 'Freeroad', 'Inter', sans-serif;
+  font-weight: 400;
 }
 
+* {
+  border-color: var(--border);
+}
+
+/* ─── Glassmorphism System ─── */
 @layer utilities {
-  .custom-scrollbar::-webkit-scrollbar {
-    width: 0px;
-    height: 0px;
-    display: none;
-  }
-  
-  .custom-scrollbar {
-    -ms-overflow-style: none; /* IE and Edge */
-    scrollbar-width: none; /* Firefox */
+  .glass {
+    background: rgba(20, 20, 20, 0.6);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
+  .glass-strong {
+    background: rgba(10, 10, 18, 0.85);
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+  }
+
+  .glass-subtle {
+    background: rgba(255, 255, 255, 0.03);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+  }
+
+  /* Legacy alias */
   .glassmorphism {
     background-color: rgba(255, 255, 255, 0.05);
     backdrop-filter: blur(24px);
     border: 1px solid rgba(255, 255, 255, 0.1);
   }
 
+  /* ─── Gradient Text ─── */
+  .gradient-text {
+    background: linear-gradient(135deg, #ff4625 0%, #ffd23f 50%, #00d8ff 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  .gradient-text-cyan {
+    background: linear-gradient(135deg, #00d8ff 0%, #a855f7 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* ─── Card Hover Glow ─── */
+  .card-glow {
+    position: relative;
+    transition: box-shadow 0.4s ease;
+  }
+  .card-glow:hover {
+    box-shadow: 0 0 30px -10px rgba(255, 70, 37, 0.15),
+                0 0 60px -20px rgba(0, 216, 255, 0.08);
+  }
+
+  /* ─── Neon Accents ─── */
+  .neon-primary {
+    box-shadow: 0 0 12px -3px rgba(255, 70, 37, 0.4);
+  }
+  .neon-secondary {
+    box-shadow: 0 0 12px -3px rgba(0, 216, 255, 0.4);
+  }
+  .neon-success {
+    box-shadow: 0 0 12px -3px rgba(0, 200, 150, 0.4);
+  }
+
+  /* ─── Text Shadow ─── */
   .text-shadow-premium {
-    text-shadow: 0 0 20px rgba(249, 115, 22, 0.4);
+    text-shadow: 0 0 20px rgba(255, 70, 37, 0.4);
+  }
+  .text-shadow-glow {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  /* ─── Custom Scrollbar ─── */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 0px;
+    height: 0px;
+    display: none;
+  }
+  .custom-scrollbar {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }
+
+/* ─── Global Scrollbar ─── */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ─── Animations ─── */
+@keyframes float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes glow-pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 0.8; }
+}
+
+@keyframes shimmer {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.animate-float {
+  animation: float 6s ease-in-out infinite;
+}
+
+.animate-glow-pulse {
+  animation: glow-pulse 3s ease-in-out infinite;
+}
+
+.animate-spin-slow {
+  animation: spin 12s linear infinite;
+}
+
+.animate-shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.04), transparent);
+  background-size: 200% 100%;
+  animation: shimmer 2s ease-in-out infinite;
+}
+
+/* ─── Clerk Branding Cleanup ─── */
+.cl-internal-1su9znd,
+.cl-internal-tnicov,
+.cl-internal-1dauvpw,
+.cl-internal-b3fm6y,
+.cl-footerPortion,
+[data-test-id="dev-mode-badge"],
+.cl-internal-h9v6kv,
+.cl-internal-1fpq5at,
+.cl-internal-y44tp9,
+.cl-internal-dt53uo,
+.cl-internal-114jbce,
+.cl-internal-1scq7x4,
+.cl-internal-1scxde7,
+.cl-internal-5ghyhf,
+.cl-footer {
+  display: none !important;
+}
+
+.cl-footerAction {
+  display: flex !important;
+}
+
+.cl-badge { background-color: rgba(255, 255, 255, 0.5) !important; color: white !important; }
+.anime-auth-card { z-index: 50 !important; }
+.cl-identityPreviewText { color: white !important; }
+.cl-identityPreviewLink { color: white !important; }
+.cl-userButtonOuter { color: white !important; background: transparent !important; box-shadow: none !important; }
+.cl-userButtonTrigger { color: white !important; background: transparent !important; box-shadow: none !important; padding: 0 !important; }
+.cl-userButtonBox, .cl-avatarBox, .cl-userButtonAvatarBox { background: transparent !important; box-shadow: none !important; outline: none !important; border: none !important; }
+.cl-identityPreview { color: white !important; }
+
+.cl-userPreviewMainIdentifier,
+.cl-userPreviewSecondaryIdentifier,
+.cl-userPreviewMainIdentifierText,
+.cl-userPreviewSecondaryIdentifierText,
+.cl-internal-qnmbzh,
+.cl-internal-n9kjv,
+.cl-internal-i4dmvb,
+.cl-userButtonPopoverActionButton,
+.cl-userButtonPopoverActionButtonText,
+.cl-internal-7rya2,
+.cl-userButtonPopoverActionButtonIconBox,
+.cl-userPreviewTextContainer * {
+  color: white !important;
+}
+
+.cl-rootBox * { color: white; }
+.cl-formFieldLabel { color: #94a3b8 !important; }
+.cl-headerSubtitle { color: #94a3b8 !important; }
+.cl-footerActionText { color: #94a3b8 !important; }

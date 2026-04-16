@@ -33,12 +33,12 @@ export function IdentityStep({ onNext, onBack, initialMobile = "" }: IdentitySte
     <div className="w-full max-w-lg mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-6 duration-700">
       <div className="text-center space-y-4">
         <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto relative group">
-           <Smartphone className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+           <Smartphone className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,70,37,0.6)]" />
            <div className="absolute inset-x-[-20%] inset-y-[-20%] bg-primary/5 blur-[40px] rounded-full -z-10 group-hover:bg-primary/10 transition-colors" />
         </div>
-        <h2 className="text-3xl font-manrope font-black text-white tracking-tight uppercase">
+        <h2 className="text-3xl font-display font-black text-white tracking-tight uppercase">
           <Translate text="Direct Access" /> <br />
-          <span className="text-white/40 font-bold italic normal-case text-lg tracking-normal">
+          <span className="text-muted-foreground/80 font-bold italic normal-case text-lg tracking-normal">
              <Translate text="Connect your identity" />
           </span>
         </h2>
@@ -47,11 +47,11 @@ export function IdentityStep({ onNext, onBack, initialMobile = "" }: IdentitySte
       <div className="space-y-10">
         {/* Mobile Number */}
         <div className="space-y-4">
-          <label className="text-[10px] font-black text-white/30 tracking-[0.3em] uppercase ml-1">
+          <label className="text-[10px] font-black text-muted-foreground/70 tracking-[0.3em] uppercase ml-1">
             <Translate text="Secondary Contact Number" />
           </label>
           <div className="relative group/input">
-            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 font-black text-xl">+91</span>
+            <span className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground/60 font-black text-xl">+91</span>
             <Input 
               value={mobile} 
               onChange={(e) => setMobile(e.target.value.replace(/\D/g, '').slice(0, 10))}
@@ -75,7 +75,7 @@ export function IdentityStep({ onNext, onBack, initialMobile = "" }: IdentitySte
 
         {/* Permissions */}
         <div className="space-y-3 pt-6 border-t border-white/5">
-          <label className="text-[10px] font-black text-white/30 tracking-[0.3em] uppercase mb-4 block">
+          <label className="text-[10px] font-black text-muted-foreground/70 tracking-[0.3em] uppercase mb-4 block">
             <Translate text="System Authorization" />
           </label>
           
@@ -102,13 +102,13 @@ export function IdentityStep({ onNext, onBack, initialMobile = "" }: IdentitySte
           <Button 
             onClick={onBack}
             variant="ghost"
-            className="h-16 px-8 hover:bg-white/5 text-white/40 hover:text-white transition-all rounded-3xl font-black text-xs uppercase tracking-widest border border-white/5"
+            className="h-16 px-8 hover:bg-white/5 text-muted-foreground/80 hover:text-white transition-all rounded-3xl font-black text-xs uppercase tracking-widest border border-white/5"
           >
              <Translate text="Back" />
           </Button>
           <Button 
             onClick={handleNext}
-            className="flex-1 h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all font-black text-xl rounded-3xl flex items-center justify-center gap-3 border-none shadow-[0_0_30px_-5px_rgba(249,115,22,0.4)]"
+            className="flex-1 h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black text-xl rounded-3xl flex items-center justify-center gap-3 border-none shadow-[0_0_30px_-5px_rgba(255,70,37,0.4)]"
           >
             <Translate text="Save & Continue" />
             <ArrowRight className="w-5 h-5" />
@@ -116,7 +116,7 @@ export function IdentityStep({ onNext, onBack, initialMobile = "" }: IdentitySte
         </div>
       </div>
       
-      <p className="text-center text-[10px] font-black uppercase text-white/20 tracking-[0.4em] pt-4 italic">
+      <p className="text-center text-[10px] font-black uppercase text-muted-foreground/60 tracking-[0.4em] pt-4 italic">
         Permissions can be modified later in system settings
       </p>
     </div>
@@ -125,16 +125,16 @@ export function IdentityStep({ onNext, onBack, initialMobile = "" }: IdentitySte
 
 function PermissionToggle({ icon: Icon, title, description, enabled, setEnabled }: any) {
   return (
-    <div className="flex items-center justify-between p-6 bg-white/5 border border-white/5 rounded-[32px] group hover:border-white/10 transition-colors">
+    <div className="flex items-center justify-between p-6 glass-subtle border border-white/5 rounded-[32px] group hover:border-white/10 transition-colors">
       <div className="flex items-center gap-4">
-        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${enabled ? 'bg-primary/10 text-primary animate-pulse shadow-[0_0_20px_-5px_rgba(249,115,22,0.4)]' : 'bg-white/5 text-white/20'}`}>
+        <div className={`w-12 h-12 rounded-2xl flex items-center justify-center transition-colors ${enabled ? 'bg-primary/10 text-primary animate-pulse shadow-[0_0_20px_-5px_rgba(255,70,37,0.4)]' : 'bg-white/5 text-muted-foreground/60'}`}>
           <Icon className="w-5 h-5" />
         </div>
         <div className="flex flex-col gap-0.5">
           <span className="text-sm font-black text-white/80 uppercase tracking-tight group-hover:text-white transition-colors">
             <Translate text={title} />
           </span>
-          <span className="text-[10px] font-bold text-white/20 uppercase tracking-widest leading-none">
+          <span className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest leading-none">
             <Translate text={description} />
           </span>
         </div>

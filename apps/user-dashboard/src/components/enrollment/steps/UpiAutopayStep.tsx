@@ -44,29 +44,29 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
         <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto border border-primary/20 shadow-inner group">
           <Smartphone className="w-8 h-8 text-primary group-hover:scale-110 transition-transform" />
         </div>
-        <h2 className="text-4xl font-manrope font-black text-white tracking-tighter leading-tight uppercase italic">
+        <h2 className="text-4xl font-display font-black text-white tracking-tighter leading-tight uppercase italic">
           <Translate text="Payout & Autopay" />
         </h2>
-        <p className="text-xs text-white/30 font-black uppercase tracking-[0.3em] max-w-md mx-auto leading-relaxed">
+        <p className="text-xs text-muted-foreground/70 font-black uppercase tracking-[0.3em] max-w-md mx-auto leading-relaxed">
           <Translate text="Link your UPI ID for instant parametric payouts and automated coverage renewal." />
         </p>
       </div>
 
-      <Card className="bg-surface-card border-white/5 rounded-[48px] p-10 shadow-2xl relative overflow-hidden backdrop-blur-md">
+      <Card className="glass-strong border-white/5 rounded-[48px] p-10 shadow-2xl relative overflow-hidden backdrop-blur-md">
          <div className="absolute top-0 right-0 w-32 h-32 bg-primary/5 blur-[50px] rounded-full -translate-y-1/2 translate-x-1/2" />
          
          <div className="space-y-8 relative">
             <div className="space-y-4">
-               <label className="text-[10px] font-black text-white/40 uppercase tracking-[0.3em] px-2 block">
+               <label className="text-[10px] font-black text-muted-foreground/80 uppercase tracking-[0.3em] px-2 block">
                   <Translate text="Enter UPI ID" />
                </label>
                <div className="relative group">
-                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-white/20 group-focus-within:text-primary transition-colors">
+                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground/60 group-focus-within:text-primary transition-colors">
                      <CreditCard className="w-5 h-5" />
                   </div>
                   <Input 
                     placeholder="example@upi"
-                    className="h-20 bg-white/[0.03] border-white/5 rounded-[32px] pl-16 text-xl font-manrope font-black text-white placeholder:text-white/10 focus:border-primary/50 transition-all border-dashed"
+                    className="h-20 bg-white/[0.03] border-white/5 rounded-[32px] pl-16 text-xl font-display font-black text-white placeholder:text-white/10 focus:border-primary/50 transition-all border-dashed"
                     value={upi}
                     onChange={(e) => {
                        setUpi(e.target.value);
@@ -89,7 +89,7 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
                </div>
                <div className="space-y-2">
                   <h4 className="text-sm font-black text-white uppercase tracking-tight italic leading-none"><Translate text="2hr Parametric Mandate" /></h4>
-                  <p className="text-[10px] font-bold text-white/30 uppercase leading-relaxed tracking-wider">
+                  <p className="text-[10px] font-bold text-muted-foreground/70 uppercase leading-relaxed tracking-wider">
                      <Translate text="By enabling Autopay, you authorize RideSuraksha to automatically deposit verified claims to this ID and renew your policy window." />
                   </p>
                </div>
@@ -99,7 +99,7 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
                <Button 
                  onClick={onBack} 
                  variant="ghost" 
-                 className="h-16 flex-1 px-8 rounded-3xl font-black text-xs uppercase text-white/30 border border-white/5 hover:bg-white/5 hover:text-white transition-all shadow-xl active:scale-95"
+                 className="h-16 flex-1 px-8 rounded-3xl font-black text-xs uppercase text-muted-foreground/70 border border-white/5 hover:bg-white/5 hover:text-white transition-all shadow-xl active:scale-95"
                  disabled={status !== 'idle'}
                >
                   <Translate text="Back" />
@@ -107,7 +107,7 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
                <Button 
                   onClick={handleVerify}
                   disabled={status !== 'idle' || !upi}
-                  className="h-16 flex-[2] bg-gradient-to-r from-primary to-primary-dark hover:opacity-95 transition-all font-black text-lg rounded-3xl flex items-center justify-center gap-3 shadow-[0_20px_40px_-5px_rgba(249,115,22,0.3)] border-none disabled:opacity-50 active:scale-98"
+                  className="h-16 flex-[2] bg-gradient-to-r from-primary to-primary-dark hover:opacity-95 transition-all font-black text-lg rounded-3xl flex items-center justify-center gap-3 shadow-[0_20px_40px_-5px_rgba(255,70,37,0.3)] border-none disabled:opacity-50 active:scale-98"
                >
                   {status === 'verifying' ? (
                      <>

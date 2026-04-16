@@ -1,16 +1,17 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
-  AlertCircle, LayoutDashboard, History, 
+  AlertCircle, History, 
   ShieldAlert, ShieldCheck, Zap, ArrowRight,
-  Info
+  Info, Plus
 } from "lucide-react";
 import { ClaimForm } from "@/components/dashboard/claims/ClaimForm";
 import { ClaimHistory } from "@/components/dashboard/claims/ClaimHistory";
 import { Button } from "@/components/ui/button";
 import { Translate } from "@/components/ui/translate";
+import anime from "animejs";
 
 // Mock initial data
 const initialClaims: any[] = [
@@ -49,63 +50,83 @@ export default function ClaimsPage() {
   const [claims, setClaims] = useState(initialClaims);
   const [activeTab, setActiveTab] = useState<"form" | "history">("form");
 
+  useEffect(() => {
+    // Premium entrance animation
+    const tl = anime.timeline({
+      easing: 'easeOutExpo',
+      duration: 1000
+    });
+
+    tl.add({
+      targets: '.animate-header-item',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100)
+    })
+    .add({
+      targets: '.animate-content-section',
+      translateY: [20, 0],
+      opacity: [0, 1],
+      duration: 800
+    }, '-=600');
+  }, []);
+
   const handleClaimSuccess = (newClaim: any) => {
     setClaims([newClaim, ...claims]);
     setActiveTab("history");
   };
 
   return (
-    <div className="max-w-6xl mx-auto space-y-12 pb-20">
+    <div className="space-y-12 pb-20 animate-in fade-in duration-700">
       
-      {/* Header Section */}
-      <div className="relative group">
-        <div className="absolute -top-10 -left-10 w-40 h-40 bg-primary/10 blur-[100px] rounded-full pointer-events-none group-hover:bg-primary/20 transition-all duration-700" />
-        <div className="flex flex-col md:flex-row md:items-center justify-between gap-8 relative z-10 px-4">
-          <div className="space-y-4">
-            <div className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-[0_0_40px_rgba(249,115,22,0.3)] group-hover:scale-110 transition-transform">
-                <ShieldAlert className="w-7 h-7 text-primary group-hover:rotate-12 transition-all duration-500" />
-              </div>
-              <div className="space-y-1">
-                <p className="text-[10px] font-black uppercase text-primary tracking-[0.5em] italic leading-none opacity-80">
+      {/* HEADER SECTION */}
+      <section className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 pt-4">
+         <div className="space-y-5 animate-header-item opacity-0">
+            <div className="flex items-center gap-3">
+               <ShieldAlert className="w-5 h-5 text-primary animate-pulse" />
+               <span className="text-[10px] font-black uppercase text-primary tracking-[0.4em] opacity-80">
                   <Translate text="Verification Terminal" />
-                </p>
-                <h1 className="text-4xl font-black text-white uppercase italic tracking-tighter leading-none">
-                  <Translate text="Protection Claims" />
-                </h1>
-              </div>
+               </span>
             </div>
-            <p className="text-white/30 text-[11px] font-black uppercase tracking-widest leading-relaxed max-w-xl">
-               <Translate text="Initiate parametric payouts by providing biometric evidence of disruptions." />
-            </p>
-          </div>
+            <div className="space-y-2">
+               <h1 className="text-6xl md:text-8xl font-display font-black text-white tracking-tighter leading-[0.8] flex flex-wrap items-center gap-x-4 uppercase">
+                  <Translate text="Protection" />
+                  <span className="text-white/40 italic font-medium underline-offset-[16px]"><Translate text="Claims" /></span>
+               </h1>
+               <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 mt-4 max-w-xl leading-relaxed">
+                  <Translate text="Initiate parametric payouts by providing biometric evidence of disruptions." />
+               </p>
+            </div>
+         </div>
 
-          <div className="flex bg-white/5 border border-white/5 p-1.5 rounded-[32px] self-start md:self-center shadow-2xl backdrop-blur-xl">
-             <button 
+         {/* TAB SWITCHER */}
+         <div className="animate-header-item opacity-0 bg-white/5 border border-white/5 p-2 rounded-[40px] flex shadow-2xl backdrop-blur-sm self-start xl:self-end">
+            <button 
                onClick={() => setActiveTab("form")}
-               className={`px-10 py-4 rounded-[28px] text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'form' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'text-white/30 hover:text-white'}`}
-             >
-                <Translate text="New Claim" />
-             </button>
-             <button 
+               className={`px-10 py-5 rounded-[32px] text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-3 ${activeTab === 'form' ? 'bg-primary text-white shadow-xl shadow-primary/20 neon-primary scale-[1.02]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+            >
+               <Plus className="w-3.5 h-3.5" />
+               <Translate text="New Claim" />
+            </button>
+            <button 
                onClick={() => setActiveTab("history")}
-               className={`px-10 py-4 rounded-[28px] text-[10px] font-black uppercase tracking-widest transition-all ${activeTab === 'history' ? 'bg-primary text-white shadow-xl shadow-primary/20' : 'text-white/30 hover:text-white'}`}
-             >
-                <Translate text="History" />
-             </button>
-          </div>
-        </div>
-      </div>
+               className={`px-10 py-5 rounded-[32px] text-[10px] font-black uppercase tracking-[0.2em] transition-all flex items-center gap-3 ${activeTab === 'history' ? 'bg-primary text-white shadow-xl shadow-primary/20 neon-primary scale-[1.02]' : 'text-white/30 hover:text-white hover:bg-white/5'}`}
+            >
+               <History className="w-4 h-4" />
+               <Translate text="History" />
+            </button>
+         </div>
+      </section>
 
       <AnimatePresence mode="wait">
         <motion.div
            key={activeTab}
-           initial={{ opacity: 0, y: 30 }}
-           animate={{ opacity: 1, y: 0 }}
-           exit={{ opacity: 0, y: -30 }}
-           transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-           className="px-2"
-        >
+         initial={{ opacity: 0, y: 30 }}
+         animate={{ opacity: 1, y: 0 }}
+         exit={{ opacity: 0, y: -30 }}
+         transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+         className="px-2 animate-content-section opacity-0"
+      >
           {activeTab === "form" ? (
              <div className="grid grid-cols-1 xl:grid-cols-3 gap-10">
                 <div className="xl:col-span-2">

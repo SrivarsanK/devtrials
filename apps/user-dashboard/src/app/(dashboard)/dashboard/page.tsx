@@ -10,10 +10,22 @@ import { Translate } from "@/components/ui/translate";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { motion, AnimatePresence } from "framer-motion";
+import { TriggerService as ApiService } from "@/lib/api";
+import anime from "animejs";
 
 // COMPONENTS
 import { RiskFeed } from "@/components/dashboard/RiskFeed";
 import { StatsHistory } from "@/components/dashboard/StatsHistory";
+import StatsCard from "@/components/dashboard/shared/StatsCard";
+
+const PARTNER_LOGOS: Record<string, string> = {
+  swiggy: "/logos/swiggy.png",
+  zomato: "/logos/zomato.png",
+  uber: "/logos/uber.svg",
+  rapido: "/logos/rapido.png",
+  zepto: "/logos/zepto.png",
+  porter: "/logos/porter.png",
+};
 
 export default function WorkerDashboardPage() {
   const { user } = useUser();
@@ -29,7 +41,8 @@ export default function WorkerDashboardPage() {
     coveredZones: ["Velachery", "Pallikaranai", "Guindy"],
     activeDaysRem: 2,
     premium: 35,
-    upiId: "ramesh.kumar@upi"
+    upiId: "ramesh.kumar@upi",
+    partner: "swiggy"
   });
 
   // SYNC WITH LOCALSTORAGE (POST-ONBOARDING)
@@ -43,6 +56,34 @@ export default function WorkerDashboardPage() {
   const adminFee = useMemo(() => {
     return Math.round(enrollmentData.premium * 0.02);
   }, [enrollmentData.premium]);
+
+  useEffect(() => {
+    // Premium entrance animation
+    const tl = anime.timeline({
+      easing: 'easeOutExpo',
+      duration: 1000
+    });
+
+    tl.add({
+      targets: '.animate-header-item',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100)
+    })
+    .add({
+      targets: '.animate-plan-card',
+      scale: [0.95, 1],
+      opacity: [0, 1],
+      duration: 800,
+      easing: 'spring(1, 80, 10, 0)'
+    }, '-=600')
+    .add({
+      targets: '.animate-grid-item',
+      translateY: [20, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100)
+    }, '-=600');
+  }, []);
 
   const handleUpdatePlan = () => {
     setUpdating(true);
@@ -61,109 +102,151 @@ export default function WorkerDashboardPage() {
     <div className="space-y-12 pb-12 animate-in fade-in duration-700">
       
       {/* WELCOME AREA */}
-      <section className="flex flex-col xl:flex-row xl:items-end justify-between gap-8 pt-4">
-         <div className="space-y-3">
-            <div className="flex items-center gap-3">
-               <BadgeCheck className="w-5 h-5 text-primary animate-pulse" />
-               <span className="text-[10px] font-black uppercase text-primary tracking-[0.4em] opacity-80">
-                  <Translate text="Verification Tier: Bio-Shield ✅" />
-               </span>
-            </div>
-            <h1 className="text-5xl md:text-7xl font-manrope font-black text-white tracking-tighter leading-[0.9] flex flex-wrap items-center gap-x-4">
-               <Translate text="Vanakkam," />
-               <span className="text-white/40 italic font-medium underline decoration-primary decoration-8 underline-offset-[16px]">{user?.firstName || <Translate text="Worker" />}</span>
-            </h1>
-         </div>
-
-         {/* INTERACTIVE PLAN CARD */}
-         <div className="bg-surface-card border border-white/5 rounded-[40px] p-8 flex flex-col sm:flex-row items-center gap-8 group hover:border-primary/40 transition-all shadow-2xl relative overflow-hidden backdrop-blur-sm min-w-[320px]">
-            <div className="absolute top-0 left-0 w-1.5 h-full bg-primary" />
-            <div className="flex items-center gap-6">
-               <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group-hover:scale-110 transition-transform">
-                  <Zap className="w-8 h-8 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.8)]" />
+      <section className="animate-header-item opacity-0">
+         <div className="flex flex-col lg:flex-row gap-8 items-stretch pt-4">
+            {/* Welcome Text Area */}
+            <div className="flex-1 flex flex-col justify-end space-y-6 pb-2">
+               <div className="flex items-center gap-3">
+                  <BadgeCheck className="w-5 h-5 text-primary animate-pulse" />
+                  <span className="text-[10px] font-black uppercase text-primary tracking-[0.4em] opacity-80">
+                     <Translate text="Verification Tier: Bio-Shield ✅" />
+                  </span>
                </div>
-               <div>
-                  <p className="text-[10px] font-black uppercase text-white/20 tracking-widest leading-none mb-1.5 flex items-center gap-2">
-                     <Translate text="Coverage Active" /> <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
-                  </p>
-                  <h4 className="text-2xl font-manrope font-black text-white tracking-tight uppercase leading-none">RideSuraksha</h4>
-                  <div className="flex flex-col gap-1.5 mt-3">
-                     <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none flex items-center gap-2">
-                        <Translate text="Premium" />: <span>₹{enrollmentData.premium}</span>
-                     </p>
-                     <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none flex items-center gap-2">
-                        {enrollmentData.activeDaysRem} <Translate text="Days Rem." />
-                     </p>
-                     <div className="flex items-center gap-2 pt-1">
-                        <div className="w-1 h-1 rounded-full bg-white/20" />
-                        <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.1em] flex items-center gap-2">
-                           <Translate text="Linked UPI" />: <span className="text-white/60 lowercase">{enrollmentData.upiId}</span>
+               <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black text-white tracking-tighter leading-[0.8] flex flex-wrap items-center gap-x-4 uppercase">
+                  <Translate text="Vanakkam," />
+                  <span className="text-white/40 italic font-medium underline-offset-[16px]">{user?.firstName || <Translate text="Worker" />}</span>
+               </h1>
+               <p className="text-[10px] font-black uppercase tracking-[0.5em] text-white/20 px-1 opacity-80 leading-relaxed max-w-xl">
+                  <Translate text="Precision parametric coverage active for your current geofence." />
+               </p>
+            </div>
+
+            {/* INTERACTIVE PLAN CARD */}
+            <div className="lg:w-[420px] bg-surface-card border border-white/5 rounded-[48px] p-10 flex flex-col justify-between gap-10 group hover:border-primary/40 transition-all shadow-2xl relative overflow-hidden backdrop-blur-sm">
+               <div className="absolute top-0 right-0 w-40 h-40 bg-primary/10 blur-[80px] rounded-full -translate-y-1/2 translate-x-1/2 group-hover:bg-primary/20 transition-all" />
+               <div className="absolute top-0 left-0 w-1.5 h-full bg-primary" />
+               
+               <div className="relative z-10 flex items-center justify-between">
+                  <div className="flex items-center gap-6">
+                     <div className="relative">
+                        <div className="w-16 h-16 rounded-3xl bg-primary/10 flex items-center justify-center border border-primary/20 shadow-inner group-hover:scale-110 transition-transform">
+                           <Zap className="w-8 h-8 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.8)]" />
+                        </div>
+                        <div className="absolute -bottom-2 -right-2 w-8 h-8 rounded-xl bg-white/10 border border-white/20 backdrop-blur-md flex items-center justify-center p-1.5 shadow-xl">
+                           <img src={PARTNER_LOGOS[enrollmentData.partner]} alt={enrollmentData.partner} className="w-full h-full object-contain" />
+                        </div>
+                     </div>
+                     <div>
+                        <p className="text-[10px] font-black uppercase text-white/20 tracking-widest leading-none mb-1.5 flex items-center gap-2">
+                           <Translate text="Coverage Active" /> <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
                         </p>
+                        <h4 className="text-2xl font-manrope font-black text-white tracking-tight uppercase leading-none italic">RideSuraksha</h4>
+                     </div>
+                  </div>
+                  <Button 
+                     onClick={() => setIsEditModalOpen(true)}
+                     size="icon"
+                     className="w-12 h-12 bg-white/5 border border-white/10 hover:bg-white hover:text-black rounded-2xl transition-all shadow-xl"
+                  >
+                     <Edit3 className="w-4 h-4" />
+                  </Button>
+               </div>
+               
+               <div className="relative z-10 space-y-6">
+                  <div className="flex items-end justify-between">
+                     <div className="space-y-3">
+                        <div className="flex flex-col gap-1.5">
+                           <p className="text-[10px] font-black text-primary uppercase tracking-widest leading-none flex items-center gap-2">
+                              <Translate text="Premium" />: <span>₹{enrollmentData.premium}</span>
+                           </p>
+                           <p className="text-[10px] font-bold text-white/40 uppercase tracking-widest leading-none">
+                              {enrollmentData.activeDaysRem} <Translate text="Days Rem." />
+                           </p>
+                        </div>
+                        <div className="flex items-center gap-2">
+                           <div className="w-1 h-1 rounded-full bg-emerald-500" />
+                           <p className="text-[9px] font-black text-white/30 uppercase tracking-[0.1em]">
+                              <span className="text-white/60 lowercase">{enrollmentData.upiId}</span>
+                           </p>
+                        </div>
+                     </div>
+                     <div className="flex -space-x-3">
+                        {[1, 2, 3].map(i => (
+                           <div key={i} className="w-9 h-9 rounded-full border-4 border-[#0a0a0a] bg-white/5 flex items-center justify-center overflow-hidden shadow-lg">
+                              <img src={`https://api.dicebear.com/7.x/avataaars/svg?seed=${i+10}`} alt="avatar" className="w-full h-full object-cover" />
+                           </div>
+                        ))}
                      </div>
                   </div>
                </div>
             </div>
-            <Button 
-               onClick={() => setIsEditModalOpen(true)}
-               className="h-12 px-6 bg-white/5 border border-white/10 hover:bg-white/10 text-white rounded-2xl flex items-center gap-3 transition-all active:scale-95"
-            >
-               <Edit3 className="w-4 h-4 text-primary" />
-               <span className="text-[10px] font-black uppercase tracking-widest"><Translate text="Edit Plan" /></span>
-            </Button>
          </div>
       </section>
 
+      {/* KEY METRICS GRID */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+         {[
+           { title: "Revenue Protected", value: "₹1,450", sub: "Monthly Yield secured", icon: "rupee", status: "active" },
+           { title: "Coverage Map", value: "24 Zones", sub: "Volatility hotspots", icon: "map" },
+           { title: "Contract Trust", value: "98.2%", sub: "Automated payout rate", icon: "check", status: "active" },
+           { title: "Node Uptime", value: "100%", sub: "Satellite verification", icon: "zap" }
+         ].map((stat, i) => (
+           <div key={i} className="animate-grid-item opacity-0 h-full">
+             <StatsCard 
+               title={stat.title}
+               value={stat.value}
+               subtitle={stat.sub}
+               icon={stat.icon}
+               status={stat.status as any}
+             />
+           </div>
+         ))}
+      </div>
+
       {/* CORE GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-         <div className="lg:col-span-8 space-y-12">
+         <div className="lg:col-span-8 flex flex-col gap-12">
             
             {/* Real-time Zone Disruptions */}
-            <div className="space-y-6">
+            <div className="space-y-6 animate-grid-item opacity-0 flex-1 flex flex-col">
                <div className="flex items-center justify-between px-2">
-                  <h3 className="text-xl font-manrope font-black text-white tracking-tight uppercase flex items-center gap-3 leading-none">
-                     <CloudRain className="w-6 h-6 text-primary" />
-                     <Translate text="Real-time Zone Disruptions" />
+                  <h3 className="text-3xl font-display font-black text-white tracking-tight uppercase flex items-center gap-3 leading-none italic">
+                     <CloudRain className="w-7 h-7 text-primary" />
+                     <Translate text="Zone Disruptions" />
                   </h3>
                   <Button variant="ghost" className="text-[9px] font-black uppercase tracking-[0.2em] text-white/20 hover:text-white transition-colors h-10 border border-white/5 rounded-xl px-4">
                     <Translate text="See All" />
                   </Button>
                </div>
-               <RiskFeed />
-            </div>
-            
-            {/* Insights Section */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-8 pt-4">
-               <Card className="bg-surface-card border-white/5 p-8 rounded-[48px] hover:border-primary/40 transition-all group shadow-2xl relative overflow-hidden backdrop-blur-sm">
-                  <div className="w-14 h-14 rounded-2xl bg-primary/5 flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                     <TrendingUp className="w-7 h-7 text-primary" />
-                  </div>
-                  <h5 className="text-xl font-manrope font-black text-white uppercase mb-2 leading-tight"><Translate text="Revenue Protection" /></h5>
-                  <p className="text-xs text-white/30 font-bold uppercase leading-relaxed tracking-widest italic leading-normal"><Translate text="Total payouts of ₹1,450 secured this month" /></p>
-               </Card>
-               <Card className="bg-surface-card border-white/5 p-8 rounded-[48px] hover:border-white/20 transition-all group shadow-2xl relative overflow-hidden backdrop-blur-sm">
-                  <div className="w-14 h-14 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:bg-white/10 transition-all group-hover:scale-110">
-                     <Globe className="w-7 h-7 text-white/40" />
-                  </div>
-                  <h5 className="text-xl font-manrope font-black text-white uppercase mb-2 leading-tight"><Translate text="Smart Coverage Map" /></h5>
-                  <p className="text-xs text-white/30 font-bold uppercase leading-relaxed tracking-widest italic leading-normal"><Translate text="Explore high-volatility earning zones" /></p>
-               </Card>
+               <div className="flex-1">
+                  <RiskFeed />
+               </div>
             </div>
          </div>
 
          {/* Sidebar Widgets */}
-         <aside className="lg:col-span-4 space-y-10">
-            <StatsHistory />
+         <aside className="lg:col-span-4 space-y-10 flex flex-col">
+            <div className="animate-grid-item opacity-0">
+               <StatsHistory />
+            </div>
             
             {/* Manual Trigger Button */}
-            <Button className="w-full h-24 bg-red-500/10 border border-red-500/20 hover:bg-red-500/15 text-red-500 rounded-[40px] p-8 flex items-center justify-between group transition-all duration-500 active:scale-98">
-               <div className="text-left font-black uppercase tracking-tight">
-                  <p className="text-lg leading-none mb-1.5"><Translate text="Signal Disruption" /></p>
-                  <p className="text-[10px] opacity-40 leading-none"><Translate text="Manual Override" /></p>
-               </div>
-               <div className="w-11 h-11 bg-red-500 rounded-2xl flex items-center justify-center shadow-[0_0_20px_rgba(239,68,68,0.3)] group-hover:scale-110 transition-transform">
-                  <ShieldCheck className="w-6 h-6 text-white" />
-               </div>
-            </Button>
+            <div className="animate-grid-item opacity-0">
+               <Button className="w-full h-32 bg-rose-500/5 border border-rose-500/10 hover:bg-rose-500/10 text-rose-500 rounded-[48px] p-8 flex items-center justify-between group transition-all duration-500 active:scale-98 shadow-xl">
+                  <div className="flex items-center gap-6">
+                     <div className="w-16 h-16 rounded-3xl bg-rose-500/10 flex items-center justify-center border border-rose-500/20 group-hover:scale-110 transition-transform">
+                        <AlertCircle className="w-8 h-8 text-rose-500" />
+                     </div>
+                     <div className="text-left font-black uppercase tracking-tight italic">
+                        <p className="text-[10px] opacity-60 leading-none mb-1.5"><Translate text="Emergency Override" /></p>
+                        <p className="text-2xl leading-none"><Translate text="Signal Loss" /></p>
+                     </div>
+                  </div>
+                  <div className="w-12 h-12 rounded-full border border-rose-500/20 flex items-center justify-center group-hover:bg-rose-500 group-hover:text-white transition-all">
+                     <Zap className="w-5 h-5" />
+                  </div>
+               </Button>
+            </div>
          </aside>
       </div>
 

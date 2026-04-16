@@ -15,7 +15,7 @@ import {
   LucideIcon
 } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { animate } from "animejs";
+import anime from "animejs";
 
 const iconMap: Record<string, LucideIcon> = {
   "activity": Activity,
@@ -49,14 +49,16 @@ export default function StatsCard({ title, value, subtitle, icon, status }: Stat
 
   const onMouseEnter = () => {
     if (cardRef.current) {
-        animate(cardRef.current, {
+        anime({
+          targets: cardRef.current,
           scale: 1.02,
           duration: 400,
           ease: 'easeOutElastic(1, .6)'
         });
     }
     if (iconRef.current) {
-        animate(iconRef.current, {
+        anime({
+          targets: iconRef.current,
           rotate: '15deg',
           scale: 1.2,
           duration: 600,
@@ -67,14 +69,16 @@ export default function StatsCard({ title, value, subtitle, icon, status }: Stat
 
   const onMouseLeave = () => {
     if (cardRef.current) {
-        animate(cardRef.current, {
+        anime({
+          targets: cardRef.current,
           scale: 1,
           duration: 400,
           ease: 'easeOutExpo'
         });
     }
     if (iconRef.current) {
-        animate(iconRef.current, {
+        anime({
+          targets: iconRef.current,
           rotate: '0deg',
           scale: 1,
           duration: 600,

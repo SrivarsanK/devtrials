@@ -6,7 +6,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, ChevronDown, ChevronUp, Radio, Ruler, Navigation } from "lucide-react";
 import { cn } from "@/lib/utils";
-import { animate } from "animejs";
+import anime from "animejs";
 
 interface ZoneCardProps {
   zone: Zone;
@@ -19,14 +19,16 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
 
   const handleEnter = () => {
     if (cardRef.current) {
-        animate(cardRef.current, {
+        anime({
+          targets: cardRef.current,
           scale: 1.02,
           duration: 400,
           ease: 'easeOutQuad'
         });
     }
     if (iconRef.current) {
-        animate(iconRef.current, {
+        anime({
+          targets: iconRef.current,
           rotate: '12deg',
           scale: 1.1,
           duration: 600,
@@ -37,14 +39,16 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
 
   const handleLeave = () => {
     if (cardRef.current) {
-        animate(cardRef.current, {
+        anime({
+          targets: cardRef.current,
           scale: 1,
           duration: 400,
           ease: 'easeOutQuad'
         });
     }
     if (iconRef.current) {
-        animate(iconRef.current, {
+        anime({
+          targets: iconRef.current,
           rotate: '0deg',
           scale: 1,
           duration: 600,

@@ -66,12 +66,12 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
     <div className="w-full max-w-2xl mx-auto space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-700">
       <div className="text-center space-y-4">
         <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto relative group">
-           <MapPin className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+           <MapPin className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,70,37,0.6)]" />
            <div className="absolute inset-x-[-20%] inset-y-[-20%] bg-primary/5 blur-[40px] rounded-full -z-10 animate-pulse transition-colors" />
         </div>
-        <h2 className="text-3xl font-manrope font-black text-white tracking-tight uppercase">
+        <h2 className="text-3xl font-display font-black text-white tracking-tight uppercase">
           <Translate text="Coverage Zones" /> <br />
-          <span className="text-white/40 font-bold italic normal-case text-lg tracking-normal">
+          <span className="text-muted-foreground/80 font-bold italic normal-case text-lg tracking-normal">
              <Translate text="Selection (1-3) by Priority" />
           </span>
         </h2>
@@ -81,7 +81,7 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
       <div className="flex items-center gap-3 overflow-x-auto pb-4 pt-4 px-2 scrollbar-none min-h-[60px]">
         <AnimatePresence mode="popLayout">
           {selectedZones.length === 0 && (
-             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] font-black text-white/20 uppercase tracking-[0.3em] pl-4 italic">
+             <motion.p initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.3em] pl-4 italic">
                 <Translate text="Select your primary work zones below" />
              </motion.p>
           )}
@@ -101,7 +101,7 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
                  <span className="text-xs font-black text-white max-w-[120px] truncate uppercase tracking-tight">
                     <Translate text={z?.name || zId} />
                  </span>
-                 <button onClick={() => toggleZone(zId)} className="text-white/20 hover:text-red-500 transition-colors active:scale-95">
+                 <button onClick={() => toggleZone(zId)} className="text-muted-foreground/60 hover:text-red-500 transition-colors active:scale-95">
                     <AlertTriangle className="w-4 h-4 rotate-45" />
                  </button>
               </motion.div>
@@ -113,7 +113,7 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
       <div className="space-y-6">
         {/* Search Bar */}
         <div className="relative group">
-           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-white/20 group-focus-within:text-primary transition-colors" />
+           <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground/60 group-focus-within:text-primary transition-colors" />
            <Input 
              placeholder="Search by City or Zone Name..." 
              className="bg-white/5 border-white/5 rounded-[32px] pl-16 h-16 text-lg tracking-tight font-bold text-white placeholder:text-white/10 focus:ring-primary/20 focus:border-primary/40 transition-all border-dashed"
@@ -140,7 +140,7 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
               >
                 <div className="flex items-center justify-between">
                   <div className="flex flex-col gap-0.5">
-                    <span className="text-[10px] font-black uppercase text-white/30 tracking-widest leading-none">
+                    <span className="text-[10px] font-black uppercase text-muted-foreground/70 tracking-widest leading-none">
                       <Translate text={zone.region} />
                     </span>
                     <span className={`text-base font-black tracking-tight uppercase group-hover/card:text-primary transition-colors ${isSelected ? 'text-primary' : 'text-white'}`}>
@@ -163,14 +163,14 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
           <Button 
             onClick={onBack}
             variant="ghost"
-            className="h-16 px-8 hover:bg-white/5 text-white/40 hover:text-white transition-all rounded-[32px] font-black text-xs uppercase tracking-widest border border-white/5"
+            className="h-16 px-8 hover:bg-white/5 text-muted-foreground/80 hover:text-white transition-all rounded-[32px] font-black text-xs uppercase tracking-widest border border-white/5"
           >
              <Translate text="Back" />
           </Button>
           <Button 
             onClick={() => onNext(selectedZones)}
             disabled={selectedZones.length === 0}
-            className="flex-1 h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all font-black text-xl rounded-[32px] flex items-center justify-center gap-3 border-none shadow-[0_0_30px_-5px_rgba(249,115,22,0.4)] disabled:opacity-30 disabled:grayscale transition-all"
+            className="flex-1 h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black text-xl rounded-[32px] flex items-center justify-center gap-3 border-none shadow-[0_0_30px_-5px_rgba(255,70,37,0.4)] disabled:opacity-30 disabled:grayscale transition-all"
           >
             <Translate text="Confirm Selection" />
             <ArrowRight className="w-5 h-5" />
@@ -178,7 +178,7 @@ export function ZoneSelectionStep({ onNext, onBack, initialSelected = [] }: Zone
         </div>
       </div>
       
-      <p className="text-center text-[10px] font-black uppercase text-white/20 tracking-[0.4em] pt-4 italic">
+      <p className="text-center text-[10px] font-black uppercase text-muted-foreground/60 tracking-[0.4em] pt-4 italic">
         Priority zones receive faster payout processing
       </p>
     </div>

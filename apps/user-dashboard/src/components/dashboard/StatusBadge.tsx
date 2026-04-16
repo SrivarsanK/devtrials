@@ -17,7 +17,7 @@ export function StatusBadge({
   expiry = "2024-04-11" 
 }: StatusBadgeProps) {
   return (
-    <Card className="bg-surface-card border-white/5 overflow-hidden relative group">
+    <Card className="glass-subtle card-glow border-white/[0.05] overflow-hidden relative group">
       <div className="absolute top-0 right-0 w-32 h-32 bg-primary/10 blur-[50px] -z-10 rounded-full group-hover:bg-primary/20 transition-all duration-700" />
       
       <CardContent className="p-8">

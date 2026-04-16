@@ -112,13 +112,13 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
   return (
     <div className="w-full max-w-lg mx-auto space-y-10 animate-in fade-in slide-in-from-bottom-4 duration-500">
       <div className="text-center space-y-4">
-        <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto relative group overflow-hidden border border-primary/20 shadow-[0_0_30px_-10px_rgba(249,115,22,0.3)]">
-           <Camera className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+        <div className="w-20 h-20 rounded-3xl bg-primary/10 flex items-center justify-center mx-auto relative group overflow-hidden border border-primary/20 shadow-[0_0_30px_-10px_rgba(255,70,37,0.3)]">
+           <Camera className="w-10 h-10 text-primary drop-shadow-[0_0_15px_rgba(255,70,37,0.6)]" />
            <div className="absolute inset-x-[-20%] inset-y-[-20%] bg-primary/2 blur-[20px] rounded-full -z-10 group-hover:bg-primary/5 transition-colors" />
         </div>
-        <h2 className="text-3xl font-manrope font-black text-white tracking-tight uppercase">
+        <h2 className="text-3xl font-display font-black text-white tracking-tight uppercase">
           <Translate text="Bio-Shield" /> <br />
-          <span className="text-white/40 font-bold italic normal-case text-lg tracking-normal">
+          <span className="text-muted-foreground/80 font-bold italic normal-case text-lg tracking-normal">
              <Translate text="Face Verification Enrollment" />
           </span>
         </h2>
@@ -136,27 +136,27 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
             >
                <button 
                 onClick={startCamera}
-                className="p-10 bg-white/5 border border-white/5 rounded-[48px] flex flex-col items-center gap-6 group hover:border-primary/50 hover:bg-primary/5 transition-all duration-500 shadow-xl"
+                className="p-10 glass-subtle border border-white/5 rounded-[48px] flex flex-col items-center gap-6 group hover:border-primary/50 hover:bg-primary/5 transition-all duration-500 shadow-xl"
                >
                   <div className="w-20 h-20 rounded-full bg-primary/10 flex items-center justify-center group-hover:scale-110 transition-transform ring-4 ring-primary/5">
                      <Camera className="w-10 h-10 text-primary" />
                   </div>
                   <div className="text-center space-y-2">
                     <h3 className="text-lg font-black text-white uppercase tracking-tight"><Translate text="Live Capture" /></h3>
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest"><Translate text="Use System Camera" /></p>
+                    <p className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest"><Translate text="Use System Camera" /></p>
                   </div>
                </button>
 
                <button 
                 onClick={() => { setView('upload'); fileInputRef.current?.click(); }}
-                className={`p-10 bg-white/5 border border-white/5 rounded-[48px] flex flex-col items-center gap-6 group hover:border-white/20 hover:bg-white/10 transition-all duration-500 shadow-xl ${view === 'upload' ? 'ring-2 ring-primary border-primary' : ''}`}
+                className={`p-10 glass-subtle border border-white/5 rounded-[48px] flex flex-col items-center gap-6 group hover:border-white/20 hover:bg-white/10 transition-all duration-500 shadow-xl ${view === 'upload' ? 'ring-2 ring-primary border-primary' : ''}`}
                >
                   <div className="w-20 h-20 rounded-full bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform ring-4 ring-white/5">
-                     <Upload className="w-10 h-10 text-white/40" />
+                     <Upload className="w-10 h-10 text-muted-foreground/80" />
                   </div>
                   <div className="text-center space-y-2">
                     <h3 className="text-lg font-black text-white uppercase tracking-tight"><Translate text="Upload Photo" /></h3>
-                    <p className="text-[10px] font-bold text-white/20 uppercase tracking-widest"><Translate text="From Device Storage" /></p>
+                    <p className="text-[10px] font-bold text-muted-foreground/60 uppercase tracking-widest"><Translate text="From Device Storage" /></p>
                   </div>
                   <input ref={fileInputRef} type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
                </button>
@@ -201,7 +201,7 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
                     <X className="w-6 h-6" />
                  </button>
               </div>
-              <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.4em] animate-pulse">
+              <p className="text-[10px] font-black text-muted-foreground/70 uppercase tracking-[0.4em] animate-pulse">
                 <Translate text="Position your face in the center of the frame" />
               </p>
               <canvas ref={canvasRef} className="hidden" />
@@ -227,7 +227,7 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
                
                <button 
                 onClick={reset}
-                className="mt-8 flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 rounded-full transition-all text-white/40 hover:text-white border border-white/5"
+                className="mt-8 flex items-center gap-3 px-8 py-4 bg-white/5 hover:bg-white/10 rounded-full transition-all text-muted-foreground/80 hover:text-white border border-white/5"
                >
                   <RefreshCw className="w-4 h-4" />
                   <span className="text-[10px] font-black uppercase tracking-widest"><Translate text="Retake or Change" /></span>
@@ -242,14 +242,14 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
             onClick={onBack}
             variant="ghost"
             disabled={loading}
-            className="h-16 px-8 hover:bg-white/5 text-white/40 hover:text-white transition-all rounded-[32px] font-black text-xs uppercase tracking-widest border border-white/10"
+            className="h-16 px-8 hover:bg-white/5 text-muted-foreground/80 hover:text-white transition-all rounded-[32px] font-black text-xs uppercase tracking-widest border border-white/10"
           >
              <Translate text="Back" />
           </Button>
           <Button 
             onClick={handleFinish}
             disabled={!image || loading || view === 'camera'}
-            className="flex-1 h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all font-black text-lg rounded-[32px] flex items-center justify-center gap-3 border-none shadow-[0_0_40px_-5px_rgba(249,115,22,0.5)] disabled:opacity-20 disabled:grayscale transition-all"
+            className="flex-1 h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black text-lg rounded-[32px] flex items-center justify-center gap-3 border-none shadow-[0_0_40px_-5px_rgba(255,70,37,0.5)] disabled:opacity-20 disabled:grayscale transition-all"
           >
             {loading ? (
               <Loader2 className="w-6 h-6 animate-spin" />
@@ -263,7 +263,7 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
         </div>
       </div>
       
-      <p className="text-center text-[10px] font-black uppercase text-white/20 tracking-[0.4em] pt-4 italic">
+      <p className="text-center text-[10px] font-black uppercase text-muted-foreground/60 tracking-[0.4em] pt-4 italic">
         <Translate text="Face recognition active — AI verification in progress" />
       </p>
 

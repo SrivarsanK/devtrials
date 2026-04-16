@@ -84,16 +84,16 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
            <Zap className="w-3 h-3 text-primary animate-pulse" />
            <span className="text-[10px] font-black text-primary uppercase tracking-[0.2em]"><Translate text="Parametric Protection" /></span>
         </div>
-        <h2 className="text-4xl font-manrope font-black text-white tracking-tight uppercase leading-none">
+        <h2 className="text-4xl font-display font-black text-white tracking-tight uppercase leading-none">
           RideSuraksha <br />
-          <span className="text-white/20 font-bold italic normal-case text-xl tracking-normal">
+          <span className="text-muted-foreground/60 font-bold italic normal-case text-xl tracking-normal">
              <Translate text="Dynamic Earnings Shield" />
           </span>
         </h2>
       </div>
 
       {/* PRICING CARD */}
-      <div className="bg-surface-card border border-white/5 rounded-[40px] p-8 md:p-10 shadow-2xl relative overflow-hidden group">
+      <div className="glass-strong border border-white/5 rounded-[40px] p-8 md:p-10 shadow-2xl relative overflow-hidden group">
          <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:opacity-20 transition-opacity">
             <Shield className="w-32 h-32 text-primary" />
          </div>
@@ -105,7 +105,7 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
                      <MapPin className="w-5 h-5 text-primary" />
                   </div>
                   <div>
-                     <p className="text-[10px] font-black text-white/20 uppercase tracking-widest"><Translate text="Selected Territory" /></p>
+                     <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest"><Translate text="Selected Territory" /></p>
                      <p className="text-white font-bold tracking-tight">{(selectedZones || []).length} <Translate text="Zones Protected" /></p>
                   </div>
                </div>
@@ -115,13 +115,13 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
                      <Clock className="w-5 h-5 text-primary" />
                   </div>
                   <div className="flex flex-col">
-                     <p className="text-[10px] font-black text-white/20 uppercase tracking-widest"><Translate text="Coverage Window" /></p>
+                     <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest"><Translate text="Coverage Window" /></p>
                      <div className="flex gap-2 mt-2">
                         {[1, 2, 3].map((d) => (
                            <button 
                              key={d} 
                              onClick={() => setDays(d)}
-                             className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${days === d ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white/5 text-white/40 hover:bg-white/10'}`}
+                             className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${days === d ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white/5 text-muted-foreground/80 hover:bg-white/10'}`}
                            >
                              {d} <Translate text="Day" />{d > 1 ? 's' : ''}
                            </button>
@@ -132,10 +132,10 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
             </div>
 
             <div className="text-center md:text-right bg-white/5 md:bg-transparent p-6 md:p-0 rounded-3xl md:rounded-none border border-white/5 md:border-none min-w-[140px]">
-               <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em] mb-1"><Translate text="Total Premium" /></p>
+               <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-[0.2em] mb-1"><Translate text="Total Premium" /></p>
                <div className="flex items-baseline justify-center md:justify-end gap-1">
                   <span className="text-primary font-black text-5xl tracking-tighter transition-all duration-300">₹{calculatePrice}</span>
-                  <span className="text-white/40 text-[10px] font-black uppercase tracking-widest">/ <Translate text="Policy" /></span>
+                  <span className="text-muted-foreground/80 text-[10px] font-black uppercase tracking-widest">/ <Translate text="Policy" /></span>
                </div>
                <div className="mt-4 flex items-center justify-center md:justify-end gap-2 text-primary font-black text-[10px] uppercase tracking-widest">
                   <TrendingUp className="w-3 h-3" />
@@ -147,26 +147,26 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
 
       {/* RISK SUMMARY */}
       <div className="flex items-center gap-3 p-4 bg-white/3 border border-white/5 rounded-2xl">
-         <AlertTriangle className="w-4 h-4 text-white/40" />
-         <p className="text-[10px] font-bold uppercase tracking-widest text-white/40">
+         <AlertTriangle className="w-4 h-4 text-muted-foreground/80" />
+         <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground/80">
             <Translate text="Premium capped at ₹50 max. Weighted by zone risk profiles." />
          </p>
       </div>
 
       {/* BENEFITS PANEL */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-         <div className="p-6 bg-white/5 border border-white/5 rounded-3xl flex items-start gap-4">
+         <div className="p-6 glass-subtle border border-white/5 rounded-3xl flex items-start gap-4">
             <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
             <div>
                <h4 className="text-sm font-black text-white uppercase tracking-tight"><Translate text="Rainfall Trigger" /></h4>
-               <p className="text-xs text-white/40 leading-relaxed"><Translate text="Automatic payouts if rainfall exceeds 5mm/hour in your zone." /></p>
+               <p className="text-xs text-muted-foreground/80 leading-relaxed"><Translate text="Automatic payouts if rainfall exceeds 5mm/hour in your zone." /></p>
             </div>
          </div>
-         <div className="p-6 bg-white/5 border border-white/5 rounded-3xl flex items-start gap-4">
+         <div className="p-6 glass-subtle border border-white/5 rounded-3xl flex items-start gap-4">
             <Check className="w-5 h-5 text-primary shrink-0 mt-1" />
             <div>
                <h4 className="text-sm font-black text-white uppercase tracking-tight"><Translate text="Instant Payouts" /></h4>
-               <p className="text-xs text-white/40 leading-relaxed"><Translate text="Money credited to your linked UPI within 15 minutes of the trigger." /></p>
+               <p className="text-xs text-muted-foreground/80 leading-relaxed"><Translate text="Money credited to your linked UPI within 15 minutes of the trigger." /></p>
             </div>
          </div>
       </div>
@@ -184,14 +184,14 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
         <Button 
           onClick={onBack}
           variant="ghost"
-          className="h-16 px-8 hover:bg-white/5 text-white/40 hover:text-white transition-all rounded-[32px] font-black text-xs uppercase tracking-widest border border-white/10"
+          className="h-16 px-8 hover:bg-white/5 text-muted-foreground/80 hover:text-white transition-all rounded-[32px] font-black text-xs uppercase tracking-widest border border-white/10"
         >
            <Translate text="Back" />
         </Button>
         <Button 
           onClick={handleConfirm}
           disabled={loading}
-          className="flex-1 h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 active:scale-95 transition-all font-black text-lg rounded-[32px] flex items-center justify-center gap-3 border-none shadow-[0_0_50px_-5px_rgba(249,115,22,0.5)]"
+          className="flex-1 h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black text-lg rounded-[32px] flex items-center justify-center gap-3 border-none shadow-[0_0_50px_-5px_rgba(255,70,37,0.5)]"
         >
           {loading ? (
             <div className="flex items-center gap-3">

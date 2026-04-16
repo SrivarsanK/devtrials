@@ -28,21 +28,23 @@ export function Sidebar({ onClose }: SidebarProps) {
   ];
 
   return (
-    <div className="h-full flex flex-col bg-[#0e0e0e] border-r border-white/5 w-72 lg:w-80 transition-all duration-500 relative overflow-hidden">
+    <div className="h-full flex flex-col glass-strong w-72 lg:w-80 transition-all duration-500 relative overflow-hidden">
       
       {/* Sidebar Glow Ambience */}
-      <div className="absolute -top-[20%] -left-[20%] w-[60%] h-[60%] bg-primary/5 blur-[80px] rounded-full pointer-events-none" />
+      <div className="absolute -top-[20%] -left-[20%] w-[60%] h-[60%] bg-primary/5 blur-[80px] rounded-full pointer-events-none animate-glow-pulse" />
 
       {/* Sidebar Header */}
       <div className="p-10 flex items-center justify-between relative">
         <Link href="/dashboard" className="flex items-center gap-3 group">
-          <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform shadow-[0_0_30px_rgba(249,115,22,0.25)] relative overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/10 to-transparent group-hover:from-primary/20 transition-all" />
-            <Shield className="w-6 h-6 text-primary group-hover:rotate-12 transition-all duration-500 relative" />
+          <div className="size-11 rounded-xl bg-primary flex items-center justify-center group-hover:scale-110 transition-transform shadow-[0_0_20px_rgba(255,70,37,0.3)] rotate-6">
+            <ShieldCheck className="size-6 text-white group-hover:rotate-12 transition-all duration-500" strokeWidth={2.5} />
           </div>
-          <span className="font-manrope font-black text-2xl tracking-tighter text-white uppercase italic">
-            Ride<span className="text-primary NOT-italic">Suraksha</span>
-          </span>
+          <div className="flex flex-col gap-0 leading-tight">
+            <span className="font-display font-black text-2xl tracking-tight text-foreground uppercase">
+              Ride<span className="text-primary italic">Suraksha</span>
+            </span>
+            <span className="text-[7px] font-bold tracking-[0.2em] text-muted-foreground uppercase opacity-50">Income Shield</span>
+          </div>
         </Link>
         {onClose && (
           <Button variant="ghost" size="icon" onClick={onClose} className="lg:hidden text-white/40 hover:bg-white/5 h-12 w-12 rounded-2xl border border-white/5">
@@ -64,8 +66,8 @@ export function Sidebar({ onClose }: SidebarProps) {
                 whileTap={{ scale: 0.98 }}
                 className={`flex items-center gap-5 px-7 py-4 rounded-[32px] transition-all duration-500 group relative overflow-hidden ${
                   isActive 
-                  ? "bg-primary/10 text-primary border border-primary/20 shadow-[0_15px_35px_-10px_rgba(249,115,22,0.2)]" 
-                  : "text-white/30 hover:text-white hover:bg-white/5 border border-transparent"
+                  ? "bg-primary/10 text-primary border border-primary/20 neon-primary" 
+                  : "text-white/30 hover:text-white hover:bg-white/[0.04] border border-transparent"
                 }`}
               >
                 {isActive && (
@@ -79,7 +81,7 @@ export function Sidebar({ onClose }: SidebarProps) {
                 <span className="text-[11px] font-black uppercase tracking-[0.3em] italic leading-none pt-0.5"><Translate text={item.name} /></span>
                 
                 {isActive && (
-                   <motion.div layoutId="sidebar-active-dot" className="ml-auto w-2 h-2 rounded-full bg-primary shadow-[0_0_15px_rgba(249,115,22,0.8)] border border-white/10" />
+                   <motion.div layoutId="sidebar-active-dot" className="ml-auto w-2 h-2 rounded-full bg-primary shadow-[0_0_15px_rgba(255,70,37,0.8)] border border-white/10" />
                 )}
               </motion.div>
             </Link>
@@ -87,10 +89,10 @@ export function Sidebar({ onClose }: SidebarProps) {
         })}
 
         {/* Premium Upgrade Module */}
-        <div className="mt-12 p-8 bg-[#121212] border border-white/5 rounded-[48px] space-y-6 mx-2 shadow-2xl group hover:border-primary/20 transition-all relative overflow-hidden cursor-default">
-           <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-[40px] rounded-full" />
-           <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
-              <ShieldCheck className="w-6 h-6 text-primary drop-shadow-[0_0_10px_rgba(249,115,22,0.5)]" />
+        <div className="mt-12 p-8 glass border border-white/5 rounded-[48px] space-y-6 mx-2 shadow-2xl group hover:border-primary/20 transition-all relative overflow-hidden cursor-default">
+           <div className="absolute top-0 right-0 w-24 h-24 bg-primary/5 blur-[40px] rounded-full animate-glow-pulse" />
+           <div className="size-12 rounded-2xl bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:scale-110 transition-transform">
+              <ShieldCheck className="size-6 text-primary drop-shadow-[0_0_10px_rgba(255,70,37,0.5)]" />
            </div>
            <div className="space-y-1.5">
               <p className="text-[9px] font-black uppercase text-white/30 tracking-widest leading-none"><Translate text="Identity Verified" /></p>
@@ -102,7 +104,7 @@ export function Sidebar({ onClose }: SidebarProps) {
 
       {/* Sidebar Footer */}
       <div className="p-8 border-t border-white/5 space-y-6 relative">
-         <div className="flex items-center gap-5 px-6 py-4 bg-white/5 rounded-[28px] border border-white/5 group hover:bg-white/10 transition-all cursor-pointer">
+         <div className="flex items-center gap-5 px-6 py-4 glass-subtle rounded-[28px] group hover:bg-white/[0.05] transition-all cursor-pointer">
             <div className="w-10 h-10 rounded-2xl bg-white/10 flex items-center justify-center border border-white/10 group-hover:text-primary transition-colors">
                <Info className="w-5 h-5 group-hover:rotate-12 transition-transform" />
             </div>
@@ -114,7 +116,7 @@ export function Sidebar({ onClose }: SidebarProps) {
          
          <div className="flex flex-col items-center gap-2 opacity-10 grayscale hover:grayscale-0 hover:opacity-30 transition-all cursor-default">
             <p className="text-[8px] font-black uppercase tracking-[0.6em] text-white italic">
-               Ride<span className="text-primary NOT-italic">Suraksha</span> v8.4.1
+               Ride<span className="text-primary">Suraksha</span> v8.4.1
             </p>
             <p className="text-[7px] font-black uppercase tracking-widest text-white/40">Obsidiana Engine</p>
          </div>

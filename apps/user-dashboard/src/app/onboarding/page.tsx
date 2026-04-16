@@ -20,6 +20,15 @@ import { CaptureStep } from "@/components/enrollment/steps/CaptureStep";
 import { RideSurakshaStep } from "@/components/enrollment/steps/RideSurakshaStep";
 import { UpiAutopayStep } from "@/components/enrollment/steps/UpiAutopayStep";
 
+const PARTNER_LOGOS: Record<string, string> = {
+  swiggy: "/logos/swiggy.png",
+  zomato: "/logos/zomato.png",
+  uber: "/logos/uber.svg",
+  rapido: "/logos/rapido.png",
+  zepto: "/logos/zepto.png",
+  porter: "/logos/porter.png",
+};
+
 export default function EnrollmentWizard() {
   const [step, setStep] = useState(1);
   const [scrolled, setScrolled] = useState(false);
@@ -57,20 +66,25 @@ export default function EnrollmentWizard() {
   };
 
   return (
-    <div className="min-h-screen bg-[#0e0e0e] text-foreground font-sans relative overflow-x-hidden selection:bg-primary/30">
+    <div className="min-h-screen bg-background text-foreground font-sans relative overflow-x-hidden selection:bg-primary/30">
       
-      {/* Dynamic Background */}
-      <div className="fixed inset-0 pointer-events-none -z-10">
-        <div className="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-primary/10 blur-[120px] rounded-full animate-pulse" />
-        <div className="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-primary/5 blur-[120px] rounded-full animate-pulse decoration-[10s]" />
+      {/* Ambient background glow */}
+      <div className="fixed inset-0 pointer-events-none z-0">
+        <div className="absolute top-1/4 left-1/4 w-[600px] h-[600px] bg-secondary/10 rounded-full blur-[120px] animate-glow-pulse" />
+        <div className="absolute bottom-1/4 right-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[100px] animate-glow-pulse" style={{ animationDelay: '1.5s' }} />
       </div>
 
       {/* NAVBAR */}
-      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "bg-[#0e0e0e]/95 backdrop-blur-md border-b border-white/5 py-4" : "bg-transparent py-7"}`}>
+      <nav className={`fixed top-0 w-full z-50 transition-all duration-300 ${scrolled ? "glass-subtle border-b border-white/5 py-4" : "bg-transparent py-7"}`}>
         <div className="container mx-auto px-6 max-w-7xl flex items-center justify-between">
-          <Link href="/" className="flex items-center gap-2 group transition-transform active:scale-95">
-            <Shield className="w-8 h-8 text-primary group-hover:rotate-12 transition-transform" />
-            <span className="font-manrope font-extrabold text-2xl tracking-tighter text-white">Ride<span className="text-primary">Suraksha</span></span>
+          <Link href="/" className="flex items-center gap-3 group transition-transform active:scale-95">
+            <div className="size-10 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(255,70,37,0.3)] rotate-6 group-hover:rotate-0 transition-transform duration-500">
+              <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
+            </div>
+            <div className="flex flex-col gap-0 leading-tight">
+              <span className="text-2xl font-display font-black tracking-tight text-foreground whitespace-nowrap uppercase">Ride<span className="text-primary italic">Suraksha</span></span>
+              <span className="text-[8px] font-bold tracking-[0.2em] text-muted-foreground uppercase opacity-60 whitespace-nowrap hidden sm:block">Parametric Oracle</span>
+            </div>
           </Link>
 
           <div className="flex items-center gap-6">
@@ -107,13 +121,13 @@ export default function EnrollmentWizard() {
             animate={{ opacity: 1, y: 0 }}
             className="w-full text-center mb-12"
           >
-             <h4 className="text-primary font-black text-xs tracking-[0.3em] uppercase mb-4 opacity-80 decoration-primary decoration-offset-4 decoration-2">
+             <h4 className="text-secondary font-black text-[10px] tracking-[0.3em] uppercase mb-4 opacity-80 decoration-secondary decoration-offset-4 decoration-2">
                <Translate text="Worker Enrollment" />
              </h4>
-             <h1 className="text-4xl md:text-5xl font-manrope font-black text-white tracking-tighter mb-8 leading-tight">
+             <h1 className="text-4xl md:text-5xl font-display font-black text-white tracking-tighter mb-8 leading-tight uppercase">
                <Translate text="Get Protected" /> <br className="sm:hidden" />
                <span className="text-white/20 italic font-medium px-2">—</span>
-               <Translate text="Step" /> {step}
+               <span className="text-primary italic"><Translate text="Step" /> {step}</span>
              </h1>
              <StepIndicator currentStep={step} />
           </motion.div>
@@ -211,34 +225,39 @@ export default function EnrollmentWizard() {
                </motion.div>
             )}
 
-            {step === 10 && (
+             {step === 10 && (
                <motion.div 
                  key="step10" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
-                 className="w-full max-w-2xl mx-auto flex flex-col items-center text-center py-20 bg-surface-card border-white/5 rounded-[40px] shadow-2xl relative overflow-hidden"
+                 className="w-full max-w-2xl mx-auto flex flex-col items-center text-center py-20 glass-strong card-glow rounded-[40px] relative overflow-hidden"
                >
-                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-primary via-orange-300 to-primary-dark" />
+                  <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-secondary via-primary to-secondary" />
                   
                   <div className="w-32 h-32 rounded-full bg-primary/10 border-4 border-primary/20 flex items-center justify-center mb-10 shadow-inner group overflow-hidden">
                      <motion.div initial={{ scale: 0, rotate: -45 }} animate={{ scale: 1, rotate: 0 }} transition={{ delay: 0.3, type: "spring" }}>
-                       <BadgeCheck className="w-20 h-20 text-primary drop-shadow-[0_0_15px_rgba(249,115,22,0.6)]" />
+                       <BadgeCheck className="w-20 h-20 text-primary drop-shadow-[0_0_15px_rgba(255,70,37,0.6)]" />
                      </motion.div>
                   </div>
 
-                  <h2 className="text-4xl md:text-5xl font-manrope font-black text-white mb-6 tracking-tight">
-                     <Translate text="Welcome to RideSuraksha" />
+                  <h2 className="text-4xl md:text-5xl font-display uppercase font-black text-white mb-6 tracking-tight">
+                     <span className="gradient-text"><Translate text="Welcome to RideSuraksha" /></span>
                   </h2>
-                  <p className="text-xl text-white/50 max-w-md mx-auto mb-10 leading-relaxed font-medium">
+                  <p className="text-lg text-muted-foreground max-w-md mx-auto mb-10 leading-relaxed font-medium">
                      <Translate text="Your identity is verified and income is now protected. Coverage starts in 3 days." />
                   </p>
                   
-                  <div className="bg-[#0e0e0e] border border-white/5 rounded-3xl p-8 w-full max-w-md mb-12 text-left space-y-4">
+                  <div className="glass-subtle border border-white/5 rounded-[24px] p-8 w-full max-w-md mb-12 text-left space-y-4">
                      <div className="flex items-center justify-between border-b border-white/5 pb-4">
-                        <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]"><Translate text="Active Plan" /></span>
-                        <span className="text-primary font-black uppercase tracking-tight text-lg">RideSuraksha</span>
+                        <span className="text-[10px] font-black text-muted-foreground uppercase tracking-[0.2em]"><Translate text="Active Plan" /></span>
+                        <span className="text-secondary font-black uppercase tracking-tight text-lg">RideSuraksha</span>
                      </div>
                      <div className="flex items-center justify-between">
                         <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]"><Translate text="Partner" /></span>
-                        <span className="text-white font-bold leading-none">{formData.partner}</span>
+                        <div className="flex items-center gap-2">
+                           <div className="w-5 h-5 rounded-md bg-white/5 flex items-center justify-center p-1 overflow-hidden">
+                              <img src={PARTNER_LOGOS[formData.partner]} alt={formData.partner} className="w-full h-full object-contain" />
+                           </div>
+                           <span className="text-white font-bold leading-none capitalize">{formData.partner}</span>
+                        </div>
                      </div>
                      <div className="flex items-center justify-between">
                         <span className="text-[10px] font-black text-white/20 uppercase tracking-[0.2em]"><Translate text="Coverage" /></span>
@@ -260,9 +279,9 @@ export default function EnrollmentWizard() {
                            localStorage.setItem('RideSuraksha_upi', formData.upiId);
                            window.location.href = '/dashboard';
                         }}
-                        className="w-full h-16 bg-gradient-to-r from-primary to-primary-dark hover:opacity-90 transition-all font-black text-xl rounded-[32px] flex items-center justify-center gap-3 shadow-[0_0_50px_-5px_rgba(249,115,22,0.5)] border-none"
+                        className="w-full h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black uppercase tracking-widest text-sm rounded-full flex items-center justify-center gap-3 shadow-[0_10px_20px_rgba(255,70,37,0.2)] hover:shadow-[0_15px_30px_rgba(255,70,37,0.3)] border-none hover:-translate-y-1"
                      >
-                        <Translate text="Go to Dashboard" /> <ArrowRight className="w-6 h-6" />
+                        <Translate text="Go to Dashboard" /> <ArrowRight className="w-5 h-5" />
                      </Button>
                   </div>
 

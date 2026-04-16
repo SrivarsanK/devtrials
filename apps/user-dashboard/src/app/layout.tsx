@@ -3,6 +3,8 @@ import { Inter, Nunito, JetBrains_Mono, Manrope } from "next/font/google";
 import { ClerkProvider } from "@clerk/nextjs";
 import { dark } from "@clerk/themes";
 import { LanguageProvider } from "@/contexts/LanguageContext";
+import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
+import { ConvexUserSync } from "@/components/auth/convex-user-sync";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
@@ -79,9 +81,12 @@ export default function RootLayout({
         className={`${inter.variable} ${nunito.variable} ${jetbrainsMono.variable} ${manrope.variable} h-full antialiased dark scroll-smooth`}
       >
         <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-primary/30">
-          <LanguageProvider>
-            {children}
-          </LanguageProvider>
+          <ConvexClientProvider>
+            <ConvexUserSync />
+            <LanguageProvider>
+              {children}
+            </LanguageProvider>
+          </ConvexClientProvider>
         </body>
       </html>
     </ClerkProvider>

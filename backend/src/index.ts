@@ -1,8 +1,10 @@
+import { createServer } from 'http';
 import app from './app';
 import { config } from './config';
 import { connectRedis } from './lib/redis';
 import { db } from './lib/db';
 import { startTriggerScheduler } from './triggers';
+import { initSocket } from './lib/socket';
 
 const startServer = async () => {
   try {
@@ -10,20 +12,24 @@ const startServer = async () => {
     await db.query('SELECT 1');
     console.log('PostgreSQL/TimescaleDB connection verified');
 
-    // 2. Start Listening (Start early so we can respond to health checks)
-    app.listen(config.port, () => {
+    // 2. Create HTTP Server & Init Socket
+    const server = createServer(app);
+    initSocket(server);
+
+    // 3. Start Listening
+    server.listen(config.port, () => {
       console.log(`
 🛡️ RideSuraksha Core API is running!
 🚀 Port: ${config.port}
 🌍 Environment: ${config.nodeEnv}
       `);
 
-      // 3. Connect to Redis (Fail-soft background)
+      // 4. Connect to Redis (Fail-soft background)
       connectRedis().catch(() => {
         console.warn('⚠️ WARNING: Redis connection failed. Deduplication handles this gracefully.');
       });
 
-      // 4. Start Trigger Monitoring Scheduler
+      // 5. Start Trigger Monitoring Scheduler
       startTriggerScheduler();
     });
   } catch (error) {

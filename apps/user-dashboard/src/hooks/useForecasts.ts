@@ -11,39 +11,39 @@ export function useForecasts() {
     // Neural Forecast Mocks (LSTM Model v4.0)
     const mockForecasts = [
       {
-        city: "Mumbai",
-        zone: "MUM-01",
+        city: "Chennai",
+        zone: "CH-RED-01",
         predictedPayoutLakhs: 12.4,
         riskStatus: "GREEN",
         dominantTrigger: "Precipitation"
       },
       {
-        city: "Mumbai",
-        zone: "MUM-02",
+        city: "Chennai",
+        zone: "CH-RED-02",
         predictedPayoutLakhs: 24.8,
         riskStatus: "AMBER",
         dominantTrigger: "Tidal Surge"
       },
       {
-        city: "Delhi",
-        zone: "DEL-01",
+        city: "Chennai",
+        zone: "CH-ORG-01",
         predictedPayoutLakhs: 8.2,
         riskStatus: "GREEN",
         dominantTrigger: "AQI Index"
       },
       {
-        city: "Delhi",
-        zone: "DEL-02",
+        city: "Chennai",
+        zone: "CH-RED-10",
         predictedPayoutLakhs: 32.5,
         riskStatus: "RED",
-        dominantTrigger: "AQI Index"
+        dominantTrigger: "Heat Index"
       },
       {
         city: "Chennai",
-        zone: "CHN-01",
+        zone: "CH-GRN-01",
         predictedPayoutLakhs: 6.8,
         riskStatus: "GREEN",
-        dominantTrigger: "Cyclone"
+        dominantTrigger: "Flood Monitoring"
       }
     ];
 

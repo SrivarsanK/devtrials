@@ -8,6 +8,7 @@ import { checkRainfall } from './rainfallMonitor';
 import { checkAqi } from './aqiMonitor';
 import { checkHeatIndex } from './heatIndexMonitor';
 import { getAllZones } from './zoneRepository';
+import { broadcastHealth } from '../lib/socket';
 
 let isRunning = false;
 
@@ -57,6 +58,35 @@ export async function runTriggerCycle(): Promise<{
     console.log(`  Heat Index triggers: ${heatEvents.length}`);
     console.log(`  Total triggered:     ${totalTriggered}`);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
+
+    // 3. Broadcast update to connected clients
+    broadcastHealth({
+      totalReserveCr: 124.5, // Dummy values for now (to be replaced by DB aggregation)
+      totalLiabilityCr: 132.2,
+      globalCoverageRatio: 94.2,
+      activePolicies: 184501,
+      reserveBalanceCrores: 124.5,
+      activeLiabilityCrores: 132.2,
+      coverageRatioPercent: 94.2,
+      lossRatioPercent: 62.4,
+      weeklyPremiumInflowLakhs: 84.5,
+      weeklyClaimsOutflowLakhs: 42.8,
+      globalStatus: totalTriggered > 10 ? 'RED' : totalTriggered > 0 ? 'AMBER' : 'GREEN',
+      globalMessage: totalTriggered > 0 
+        ? `Parametric triggers active in ${totalTriggered} instances. Coverage ratio monitoring active.`
+        : "All node clusters reporting normal claim velocity and healthy reserve levels.",
+      cities: [
+        {
+          city: "Mumbai",
+          status: "GREEN",
+          reserveLakhs: 4850,
+          liabilityLakhs: 5120,
+          activePolicies: 74200,
+          zones: [],
+          metrics: { lossRatio: 61.5, lapseRate: 4.2, fraudIndex: 0.8 }
+        }
+      ]
+    });
 
     return {
       rainfall: rainfallEvents.length,

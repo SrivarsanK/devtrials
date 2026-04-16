@@ -1,4 +1,4 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server";
+import { clerkMiddleware, createRouteMatcher, clerkClient } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 
 // Public routes — accessible without authentication
@@ -20,19 +20,51 @@ const isProtectedRoute = createRouteMatcher([
 ]);
 
 export default clerkMiddleware(async (auth, req) => {
-  const { userId } = await auth();
+  const { userId, sessionClaims } = await auth();
 
-  // If user is NOT signed in and tries to access a protected route,
-  // redirect them to sign-in with a redirect_url back to their intended page
+  // 1. Handle Unauthenticated Users
   if (!userId && isProtectedRoute(req)) {
     const signInUrl = new URL("/sign-in", req.url);
     signInUrl.searchParams.set("redirect_url", req.url);
     return NextResponse.redirect(signInUrl);
   }
 
-  // If user IS signed in and visits sign-in/sign-up, send them to onboarding
-  if (userId && (req.nextUrl.pathname.startsWith("/sign-in") || req.nextUrl.pathname.startsWith("/sign-up"))) {
-    return NextResponse.redirect(new URL("/onboarding", req.url));
+  // 2. Handle Authenticated Users
+  if (userId) {
+    const pathname = req.nextUrl.pathname;
+    
+    // Check if onboarding is complete from session claims (requires JWT template)
+    let isOnboardingComplete = !!(sessionClaims as any)?.metadata?.onboardingComplete;
+
+    // A. If we think onboarding is NOT complete, or we are at /onboarding, 
+    // we double check against the Clerk API to handle stale tokens or missing JWT templates.
+    if (!isOnboardingComplete || pathname.startsWith("/onboarding")) {
+      try {
+        // We only do this for protected routes to save API calls
+        if (isProtectedRoute(req)) {
+          const client = await clerkClient();
+          const user = await client.users.getUser(userId);
+          isOnboardingComplete = !!user.publicMetadata?.onboardingComplete;
+        }
+      } catch (e) {
+        console.error("Clerk API error in middleware:", e);
+      }
+    }
+
+    // B. Handle Sign-in/Sign-up page access for logged-in users
+    if (pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up")) {
+      return NextResponse.redirect(new URL(isOnboardingComplete ? "/dashboard" : "/onboarding", req.url));
+    }
+
+    // C. Enforce Onboarding: Redirect to /onboarding if not complete
+    if (!isOnboardingComplete && !pathname.startsWith("/onboarding") && isProtectedRoute(req)) {
+      return NextResponse.redirect(new URL("/onboarding", req.url));
+    }
+
+    // D. Prevent Access to Onboarding: Redirect to /dashboard if already complete
+    if (isOnboardingComplete && pathname.startsWith("/onboarding")) {
+      return NextResponse.redirect(new URL("/dashboard", req.url));
+    }
   }
 });
 

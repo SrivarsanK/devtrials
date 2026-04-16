@@ -9,7 +9,7 @@ export function useTriggers() {
     const mockTriggers: TriggerEvent[] = [
       {
         id: "T1",
-        name: "Rainfall Intensity (Mumbai South)",
+        name: "Rainfall Intensity (Chennai South)",
         status: "WATCH",
         progressPercent: 78,
         currentValue: "18mm/h",
@@ -17,15 +17,15 @@ export function useTriggers() {
       },
       {
         id: "T2",
-        name: "Wind Speed (Delhi NCR)",
+        name: "AQI Index (Chennai Central)",
         status: "NORMAL",
         progressPercent: 42,
-        currentValue: "12km/h",
-        thresholdLabel: "45km/h"
+        currentValue: "85",
+        thresholdLabel: "150"
       },
       {
         id: "T3",
-        name: "Flood Sensor (Chennai Hub)",
+        name: "Flood Sensor (Velachery Hub)",
         status: "TRIGGERED",
         progressPercent: 100,
         currentValue: "LEVEL 3",

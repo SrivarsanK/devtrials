@@ -152,24 +152,24 @@ export class TriggerService {
       { 
         id: 'mock-1', 
         triggerType: 'RAINFALL' as const, 
-        zoneId: 'T. Nagar', 
+        zoneId: 'CH-RED-01', 
         timestamp: new Date().toISOString(), 
         dataSource: 'Offline Engine',
         thresholdValue: 10,
         actualValue: 24,
         status: 'ACTIVE' as const,
-        metadata: { payoutAmount: 800, weatherDescription: 'Heavy downpour detected' }
+        metadata: { payoutAmount: 800, weatherDescription: 'Heavy downpour detected in Velachery corridor' }
       },
       { 
         id: 'mock-2', 
         triggerType: 'AQI' as const, 
-        zoneId: 'Chennai Central', 
+        zoneId: 'CH-GRN-01', 
         timestamp: new Date(Date.now() - 3600000).toISOString(), 
         dataSource: 'Offline Engine',
         thresholdValue: 100,
         actualValue: 145,
         status: 'ACTIVE' as const,
-        metadata: { payoutAmount: 500, weatherDescription: 'Unsafe air quality' }
+        metadata: { payoutAmount: 500, weatherDescription: 'Unsafe air quality near T Nagar' }
       }
     ];
   }

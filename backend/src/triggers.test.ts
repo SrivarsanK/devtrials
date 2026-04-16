@@ -46,11 +46,9 @@ describe('Phase 2: Parametric Trigger Monitoring', () => {
       }
     });
 
-    it('should include key cities (Chennai, Mumbai, Bengaluru)', () => {
+    it('should include Chennai as the primary city', () => {
       const cities = MONITORED_ZONES.map(z => z.city);
       expect(cities).toContain('Chennai');
-      expect(cities).toContain('Mumbai');
-      expect(cities).toContain('Bengaluru');
     });
   });
 

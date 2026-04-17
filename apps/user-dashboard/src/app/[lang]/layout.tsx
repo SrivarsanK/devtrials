@@ -54,10 +54,10 @@ export default async function RootLayout({
 
   return (
     <ClerkProvider
-      signInUrl="/sign-in"
-      signUpUrl="/sign-up"
-      afterSignInUrl={`/${lang}/dashboard`}
-      afterSignUpUrl={`/${lang}/onboarding`}
+      signInUrl={`/${lang}/sign-in`}
+      signUpUrl={`/${lang}/sign-up`}
+      signInFallbackRedirectUrl={`/${lang}/dashboard`}
+      signUpFallbackRedirectUrl={`/${lang}/dashboard`}
       appearance={{
         baseTheme: dark,
         variables: {

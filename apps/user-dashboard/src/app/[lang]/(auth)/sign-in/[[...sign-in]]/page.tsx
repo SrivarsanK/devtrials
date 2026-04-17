@@ -7,7 +7,9 @@ import { ShieldCheck, ArrowLeft, Sparkles } from "lucide-react";
 import anime from "animejs";
 import HeroShield from "@/components/HeroShield";
 
-export default function SignInPage() {
+export default function SignInPage({ params }: { params: Promise<{ lang: string }> }) {
+  const { lang } = React.use(params);
+
   React.useEffect(() => {
     const tl = anime.timeline({
       easing: "easeOutQuint",
@@ -57,7 +59,7 @@ export default function SignInPage() {
 
       {/* Navigation Header */}
       <nav className="fixed top-0 left-0 right-0 z-50 h-20 flex items-center px-6 md:px-12 justify-between anime-auth-nav opacity-0">
-        <Link href="/" className="flex items-center gap-3 group">
+        <Link href={`/${lang}`} className="flex items-center gap-3 group">
           <div className="size-10 rounded-xl bg-primary flex items-center justify-center shadow-[0_0_15px_rgba(255,70,37,0.3)] rotate-6 group-hover:rotate-0 transition-transform duration-500">
             <ShieldCheck className="size-6 text-white" strokeWidth={2.5} />
           </div>
@@ -67,7 +69,7 @@ export default function SignInPage() {
           </div>
         </Link>
         
-        <Link href="/" className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors group">
+        <Link href={`/${lang}`} className="flex items-center gap-2 text-[10px] font-black uppercase tracking-widest text-muted-foreground hover:text-white transition-colors group">
           <ArrowLeft size={14} className="group-hover:-translate-x-1 transition-transform" />
           Back to Portal
         </Link>
@@ -92,9 +94,9 @@ export default function SignInPage() {
             
             <SignIn 
               routing="path" 
-              path="/sign-in" 
-              signUpUrl="/sign-up"
-              forceRedirectUrl="/onboarding"
+              path={`/${lang}/sign-in`} 
+              signUpUrl={`/${lang}/sign-up`}
+              fallbackRedirectUrl={`/${lang}/dashboard`}
               appearance={{
                 elements: {
                   rootBox: "w-full",

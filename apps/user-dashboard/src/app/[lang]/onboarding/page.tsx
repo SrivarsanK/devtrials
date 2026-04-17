@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { Shield, ArrowRight, ShieldCheck, BadgeCheck } from "lucide-react";
@@ -33,7 +33,15 @@ const PARTNER_LOGOS: Record<string, string> = {
 
 import { usePathname } from "next/navigation";
 
-export default function EnrollmentWizard() {
+export default function EnrollmentWizardPage() {
+  return (
+    <Suspense fallback={<div className="min-h-screen bg-background flex items-center justify-center"><div className="animate-spin size-8 border-4 border-primary border-t-transparent rounded-full" /></div>}>
+      <EnrollmentWizard />
+    </Suspense>
+  );
+}
+
+function EnrollmentWizard() {
   const [step, setStep] = useState(1);
   const [scrolled, setScrolled] = useState(false);
   const { language } = useLanguage();

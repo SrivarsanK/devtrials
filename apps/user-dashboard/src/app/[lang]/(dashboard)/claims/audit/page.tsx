@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { 
   ShieldCheck, ShieldAlert, Loader2, Fingerprint, 
@@ -20,6 +20,14 @@ const AUDIT_STEPS = [
 ];
 
 export default function ClaimAuditPage() {
+  return (
+    <Suspense fallback={<div className="min-h-[80vh] flex items-center justify-center"><Loader2 className="w-12 h-12 text-primary animate-spin" /></div>}>
+      <ClaimAuditContent />
+    </Suspense>
+  );
+}
+
+function ClaimAuditContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const title = searchParams.get("title") || "Environmental Disruption";

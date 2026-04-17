@@ -246,3 +246,17 @@ export async function fetchReserveForecast(zoneId: string): Promise<ReserveForec
     return null;
   }
 }
+
+export async function fireSimulationTrigger(payload: { triggerId: string; zone: string; intensity: string; adminId: string }) {
+  const res = await fetch(`${BASE_URL}/api/simulation/trigger`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(payload),
+  });
+  if (!res.ok) {
+    const error = await res.json();
+    throw new Error(error.message || "Simulation failed");
+  }
+  return await res.json();
+}
+

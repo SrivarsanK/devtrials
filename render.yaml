@@ -1,11 +1,69 @@
+# ============================================================
+# RideSuraksha — Render Blueprint (render.yaml)
+# Deploys: Node.js Core API + Python ML Suite
+# Docs: https://render.com/docs/blueprint-spec
+# ============================================================
+
 services:
+  # ── 1. Node.js Core API (Express + Socket.IO) ──────────────
+  - type: web
+    name: ridesuraksha-api
+    runtime: node
+    rootDir: backend
+    plan: free
+    buildCommand: "npm install && npm run build"
+    startCommand: "npm start"
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      # Database (Neon Postgres) — set in Render Dashboard for security
+      - key: DATABASE_URL
+        sync: false
+      # JWT Secret — set in Render Dashboard
+      - key: JWT_SECRET
+        sync: false
+      # Clerk — set in Render Dashboard
+      - key: CLERK_SECRET_KEY
+        sync: false
+      # Weather APIs — set in Render Dashboard
+      - key: OPENWEATHER_API_KEY
+        sync: false
+      - key: AQICN_API_KEY
+        sync: false
+      - key: ACCUWEATHER_API_KEY
+        sync: false
+      # PhonePe — set in Render Dashboard
+      - key: PHONEPE_CLIENT_ID
+        sync: false
+      - key: PHONEPE_CLIENT_SECRET
+        sync: false
+      - key: PHONEPE_CLIENT_VERSION
+        sync: false
+      - key: PHONEPE_BASE_URL
+        sync: false
+      - key: PHONEPE_REDIRECT_URL
+        sync: false
+      - key: PHONEPE_CALLBACK_URL
+        sync: false
+      # ML Suite URL — points to the second service below
+      - key: ML_API_URL
+        fromService:
+          name: ridesuraksha-ml-suite
+          type: web
+          property: hostport
+          envVarKey: RENDER_ML_HOSTPORT
+
+  # ── 2. Python ML Suite (FastAPI Gateway + Sub-services) ────
   - type: web
     name: ridesuraksha-ml-suite
-    env: python
+    runtime: docker
     rootDir: backend/Dev_ML_Model
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "./entrypoint.sh"
+    dockerfilePath: ./Dockerfile
+    plan: free
     envVars:
       - key: PORT
         value: 9000
-    plan: free
+      - key: PYTHONUNBUFFERED
+        value: 1

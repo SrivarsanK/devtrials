@@ -10,5 +10,7 @@ export const socket: Socket = typeof window !== "undefined"
       autoConnect: false,
       reconnectionAttempts: 5,
       reconnectionDelay: 1000,
+      // Start with polling, then upgrade to websocket (required for Render proxy)
+      transports: ["polling", "websocket"],
     })
   : ({} as Socket);

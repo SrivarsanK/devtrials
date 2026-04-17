@@ -5,12 +5,21 @@ import { config } from '../config';
 let io: Server;
 
 export const initSocket = (server: HttpServer) => {
+  // Build allowed origins from env (comma-separated) or allow all in dev
+  const allowedOrigins = process.env.CORS_ORIGINS
+    ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+    : '*';
+
   io = new Server(server, {
     cors: {
-      origin: '*', // In production, replace with specific origins
+      origin: allowedOrigins,
       methods: ['GET', 'POST']
-    }
+    },
+    // Render's free tier proxy needs polling fallback before upgrading to ws
+    transports: ['websocket', 'polling'],
+    allowEIO3: true,
   });
+
 
   io.on('connection', (socket) => {
     console.log('📱 Socket connected:', socket.id);

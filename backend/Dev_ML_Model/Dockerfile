@@ -1,10 +1,3 @@
-FROM python:3.9-slim
-WORKDIR /app
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-COPY api_gateway.py .
-# Uvicorn bound to 9000
-CMD ["uvicorn", "api_gateway:app", "--host", "0.0.0.0", "--port", "9000"]
 FROM python:3.10-slim
 
 WORKDIR /app
@@ -15,22 +8,21 @@ RUN apt-get update && apt-get install -y \
     libpq-dev \
     && rm -rf /var/lib/apt/lists/*
 
-# Copy requirements
+# Copy requirements first (Docker layer caching)
 COPY requirements.txt .
 
-# Install dependencies
+# Install Python dependencies
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Copy all ML models and gateway
+# Copy all ML models and gateway code
 COPY . .
 
-# Make entrypoint executable and fix line endings
+# Make entrypoint executable and fix Windows line endings
 RUN tr -d '\r' < entrypoint.sh > entrypoint.sh.new && mv entrypoint.sh.new entrypoint.sh && chmod +x entrypoint.sh
 
 # Bootstrap the models (creates dummy files if missing)
 RUN python Dynamic_pricing_model/ml_service/bootstrap_model.py
 RUN python Reserve_model/bootstrap_reserve.py
-
 
 # Expose Gateway port
 EXPOSE 9000
@@ -39,5 +31,5 @@ EXPOSE 9000
 ENV PYTHONUNBUFFERED=1
 ENV PORT=9000
 
-# Start all services
+# Start all services via entrypoint
 CMD ["/bin/bash", "./entrypoint.sh"]

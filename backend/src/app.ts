@@ -8,6 +8,8 @@ import triggerRoutes from './routes/triggers';
 import heatmapRoutes from './routes/heatmap';
 import fraudRoutes from './routes/fraud';
 import paymentRoutes from './routes/payments';
+import simulationRoutes from './routes/simulation';
+
 
 const app = express();
 
@@ -16,7 +18,13 @@ app.set('trust proxy', 1);
 
 // Security & Rate Limiting
 app.use(helmet());
-app.use(cors());
+
+// Production CORS: restrict to dashboard origins from env var
+const corsOrigins = process.env.CORS_ORIGINS
+  ? process.env.CORS_ORIGINS.split(',').map(o => o.trim())
+  : '*';
+app.use(cors({ origin: corsOrigins }));
+
 app.use(express.json());
 
 // Global Rate Limiter: 500 requests / 15 min (increased for dev)
@@ -63,6 +71,8 @@ app.use('/api/triggers', triggerLimiter, triggerRoutes);
 app.use('/api/heatmap', triggerLimiter, heatmapRoutes);
 app.use('/api/fraud', triggerLimiter, fraudRoutes);
 app.use('/api/payments', paymentRoutes);
+app.use('/api/simulation', simulationRoutes);
+
 
 // Protected Test Route
 app.get('/api/protected-test', auth, (req, res) => {

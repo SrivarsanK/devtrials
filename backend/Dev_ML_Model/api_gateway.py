@@ -79,4 +79,5 @@ async def proxy_fraud(request: Request, path: str):
     return await route_request(request, SERVICES["fraud"], path)
 
 if __name__ == "__main__":
-    uvicorn.run(app, host="0.0.0.0", port=8001)
+    port = int(os.getenv("PORT", 9000))
+    uvicorn.run(app, host="0.0.0.0", port=port)

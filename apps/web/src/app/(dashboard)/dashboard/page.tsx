@@ -12,6 +12,8 @@ import MLForecastCard from "@/components/MLForecastCard";
 import { ALL_CHENNAI_ZONES, ZONE_TIER_CONFIG, ZoneTier } from "@/lib/chennaiZones";
 import Link from "next/link";
 import ZoneCard from "@/components/ZoneCard";
+import { TriggerSimulation } from "@/components/TriggerSimulation";
+
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
@@ -230,6 +232,11 @@ export default function DashboardPage() {
            <MLForecastCard zoneId="ZONE_CHN_001" className="h-full" />
         </div>
       </div>
+
+      <section className="anime-trigger-table opacity-0">
+        <TriggerSimulation />
+      </section>
     </div>
+
   );
 }

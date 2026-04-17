@@ -37,6 +37,16 @@ services:
       - redis
     volumes:
       - ./backend/src:/app/src
+    restart: unless-stopped
+
+  ml-suite:
+    build:
+      context: ./backend/Dev_ML_Model
+      dockerfile: Dockerfile
+    container_name: RideSuraksha-ml
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
 
 volumes:
   pgdata:

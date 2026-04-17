@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: ridesuraksha-ml-suite
+    env: python
+    rootDir: backend/Dev_ML_Model
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "./entrypoint.sh"
+    envVars:
+      - key: PORT
+        value: 9000
+    plan: free

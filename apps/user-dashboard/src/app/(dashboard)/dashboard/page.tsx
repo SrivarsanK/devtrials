@@ -16,6 +16,7 @@ import anime from "animejs";
 import { DisruptionHistory } from "@/components/dashboard/DisruptionHistory";
 import { PolicyStatusCard } from "@/components/dashboard/PolicyStatusCard";
 import { RecentClaims } from "@/components/dashboard/claims/RecentClaims";
+import { LatestTrigger } from "@/components/dashboard/LatestTrigger";
 
 // TYPES & API
 import { DashboardAPI } from "@/lib/api/dashboard";
@@ -104,7 +105,12 @@ export default function WorkerDashboardPage() {
 
       {/* CORE GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
-         <div className="lg:col-span-8 space-y-12">
+         <div className="lg:col-span-6 space-y-12">
+            
+             {/* Latest Trigger Section */}
+             <div className="animate-grid-item opacity-0">
+                <LatestTrigger trigger={data.latestTrigger} />
+             </div>
             
              {/* Triggered Disruptions History */}
              <div className="space-y-6 animate-grid-item opacity-0">
@@ -113,7 +119,7 @@ export default function WorkerDashboardPage() {
          </div>
 
          {/* Sidebar Widgets */}
-         <aside className="lg:col-span-4 space-y-10 flex flex-col">
+         <aside className="lg:col-span-6 space-y-10 flex flex-col">
             <div className="animate-grid-item opacity-0 flex-1">
                <RecentClaims claims={data.recentClaims} />
             </div>

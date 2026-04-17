@@ -22,7 +22,7 @@ export interface ClaimHistoryItem {
   type: 'RAINFALL' | 'AQI' | 'HEAT_INDEX' | 'FLOOD' | 'CIVIL';
   amount: number;
   timestamp: string;
-  status: 'PAID' | 'PROCESSING' | 'FAILED' | 'EXPIRED';
+  status: 'PAID' | 'PROCESSING' | 'FAILED' | 'EXPIRED' | 'PENDING_APP';
   zone: string;
   verificationSource: string;
 }
@@ -39,4 +39,5 @@ export interface DashboardSummary {
     contractTrust: number;
     nodeUptime: number;
   };
+  latestTrigger: ClaimHistoryItem | null;
 }

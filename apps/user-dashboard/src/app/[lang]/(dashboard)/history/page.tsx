@@ -55,8 +55,8 @@ export default function PayoutHistoryPage() {
 
   const totalProtected = events.reduce((sum, event) => sum + (event.metadata?.payoutAmount || 0), 0);
   const filteredEvents = events.filter(e => 
-    e.zoneId.toLowerCase().includes(searchQuery.toLowerCase()) ||
-    e.triggerType.toLowerCase().includes(searchQuery.toLowerCase())
+    (e.zoneId || "").toLowerCase().includes(searchQuery.toLowerCase()) ||
+    (e.triggerType || "").toLowerCase().includes(searchQuery.toLowerCase())
   );
 
   const formatDate = (dateInput: string | Date) => {

@@ -37,6 +37,14 @@ export const config = {
       key: process.env.ACCUWEATHER_API_KEY || '',
       baseUrl: 'https://dataservice.accuweather.com',
     },
+    phonePe: {
+      clientId: process.env.PHONEPE_CLIENT_ID || '',
+      clientSecret: process.env.PHONEPE_CLIENT_SECRET || '',
+      clientVersion: process.env.PHONEPE_CLIENT_VERSION || '1',
+      baseUrl: process.env.PHONEPE_BASE_URL || 'https://api-preprod.phonepe.com/apis/pg-sandbox',
+      redirectUrl: process.env.PHONEPE_REDIRECT_URL || 'http://localhost:3000/payment-status',
+      callbackUrl: process.env.PHONEPE_CALLBACK_URL || 'http://localhost:5678/api/payments/webhook',
+    },
   },
   triggers: {
     pollingIntervalMs: 5 * 60 * 1000, // 5 minutes

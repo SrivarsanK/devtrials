@@ -76,7 +76,7 @@ export default function WorkerDashboardPage() {
         <div className="flex flex-col items-center gap-6">
           <Loader2 className="w-12 h-12 text-primary animate-spin" />
           <p className="text-[10px] font-black uppercase tracking-[0.4em] text-white/20 animate-pulse">
-            <Translate text="Syncing Precision Data..." />
+            <Translate text="dashboard.syncingData" />
           </p>
         </div>
       </div>
@@ -91,8 +91,8 @@ export default function WorkerDashboardPage() {
          {/* Welcome Header */}
          <div className="flex flex-col space-y-6 pt-4">
             <h1 className="text-6xl md:text-8xl lg:text-9xl font-display font-black text-white tracking-tighter leading-[0.8] flex flex-wrap items-center gap-x-4 uppercase">
-               <Translate text="Vanakkam," />
-               <span className="text-white/40 italic font-medium underline-offset-[16px]">{user?.firstName || <Translate text="Worker" />}</span>
+               <Translate text="dashboard.welcome" />
+               <span className="text-white/40 italic font-medium underline-offset-[16px]">{user?.firstName || <Translate text="dashboard.worker" />}</span>
             </h1>
          </div>
 
@@ -103,14 +103,19 @@ export default function WorkerDashboardPage() {
          />
       </section>
 
+      {/* EMERGENCY ALERT AREA: Latest Trigger - Now Full Width */}
+      {data.latestTrigger && (
+        <section className="animate-grid-item opacity-0">
+          <LatestTrigger 
+            trigger={data.latestTrigger} 
+            upiId={data.policy.upiId} 
+          />
+        </section>
+      )}
+
       {/* CORE GRID */}
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
          <div className="lg:col-span-6 space-y-12">
-            
-             {/* Latest Trigger Section */}
-             <div className="animate-grid-item opacity-0">
-                <LatestTrigger trigger={data.latestTrigger} />
-             </div>
             
              {/* Triggered Disruptions History */}
              <div className="space-y-6 animate-grid-item opacity-0">

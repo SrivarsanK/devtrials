@@ -10,31 +10,50 @@ import { motion, AnimatePresence } from "framer-motion";
 
 interface UpiAutopayStepProps {
   initialUpi?: string;
+  amount: number;
+  mobile: string;
   onNext: (upi: string) => void;
   onBack: () => void;
 }
 
-export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopayStepProps) {
+export function UpiAutopayStep({ initialUpi = "", amount, mobile, onNext, onBack }: UpiAutopayStepProps) {
   const [upi, setUpi] = useState(initialUpi);
   const [status, setStatus] = useState<'idle' | 'verifying' | 'success'>('idle');
   const [error, setError] = useState("");
 
-  const handleVerify = () => {
-    if (!upi || !upi.includes("@")) {
-      setError("Please enter a valid UPI ID (e.g. name@upi)");
-      return;
-    }
-    
+  const handleVerify = async () => {
     setError("");
     setStatus('verifying');
     
-    // Simulate mandate verification
-    setTimeout(() => {
-      setStatus('success');
-      setTimeout(() => {
-        onNext(upi);
-      }, 1500);
-    }, 2000);
+    try {
+      const response = await fetch('/api/payments/initiate', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          amount: amount,
+          mobileNumber: mobile || '9999999999',
+          transactionId: `TXN_${Date.now()}`
+        })
+      });
+
+      if (!response.ok) throw new Error('Payment initiation failed');
+      
+      const data = await response.json();
+      
+      if (data.url) {
+        // Store UPI locally so it persists after redirect back
+        localStorage.setItem('RideSuraksha_pending_upi', upi);
+        // Store premium amount locally so dashboard reads the correct dynamically chosen rate
+        localStorage.setItem('RideSuraksha_premiumAmount', amount.toString());
+        // Redirect to PhonePe
+        window.location.href = data.url;
+      } else {
+        throw new Error('No redirect URL received');
+      }
+    } catch (err: any) {
+      setError(err.message || "Failed to start payment. Try again.");
+      setStatus('idle');
+    }
   };
 
   return (
@@ -58,28 +77,8 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
          <div className="space-y-8 relative">
             <div className="space-y-4">
                <label className="text-[10px] font-black text-muted-foreground/80 uppercase tracking-[0.3em] px-2 block">
-                  <Translate text="Enter UPI ID" />
+                  <Translate text="Secure Payment" />
                </label>
-               <div className="relative group">
-                  <div className="absolute left-6 top-1/2 -translate-y-1/2 text-muted-foreground/60 group-focus-within:text-primary transition-colors">
-                     <CreditCard className="w-5 h-5" />
-                  </div>
-                  <Input 
-                    placeholder="example@upi"
-                    className="h-20 bg-white/[0.03] border-white/5 rounded-[32px] pl-16 text-xl font-display font-black text-white placeholder:text-white/10 focus:border-primary/50 transition-all border-dashed"
-                    value={upi}
-                    onChange={(e) => {
-                       setUpi(e.target.value);
-                       setError("");
-                    }}
-                    disabled={status !== 'idle'}
-                  />
-                  {status === 'success' && (
-                     <div className="absolute right-6 top-1/2 -translate-y-1/2 w-8 h-8 bg-emerald-500 rounded-full flex items-center justify-center animate-in zoom-in-50">
-                        <Check className="w-5 h-5 text-white" />
-                     </div>
-                  )}
-               </div>
                {error && <p className="text-[10px] font-black text-rose-500 uppercase tracking-widest px-6 italic animate-in fade-in">{error}</p>}
             </div>
 
@@ -104,9 +103,9 @@ export function UpiAutopayStep({ initialUpi = "", onNext, onBack }: UpiAutopaySt
                >
                   <Translate text="Back" />
                </Button>
-               <Button 
+                <Button 
                   onClick={handleVerify}
-                  disabled={status !== 'idle' || !upi}
+                  disabled={status !== 'idle'}
                   className="h-16 flex-[2] bg-gradient-to-r from-primary to-primary-dark hover:opacity-95 transition-all font-black text-lg rounded-3xl flex items-center justify-center gap-3 shadow-[0_20px_40px_-5px_rgba(255,70,37,0.3)] border-none disabled:opacity-50 active:scale-98"
                >
                   {status === 'verifying' ? (

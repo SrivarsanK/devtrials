@@ -123,7 +123,7 @@ export function RideSurakshaStep({ selectedZones, onNext, onBack }: RideSuraksha
                              onClick={() => setDays(d)}
                              className={`px-4 py-2 rounded-xl text-xs font-black transition-all ${days === d ? 'bg-primary text-white shadow-lg shadow-primary/30' : 'bg-white/5 text-muted-foreground/80 hover:bg-white/10'}`}
                            >
-                             {d} <Translate text="Day" />{d > 1 ? 's' : ''}
+                             {d} <Translate text="Week" />{d > 1 ? 's' : ''}
                            </button>
                         ))}
                      </div>

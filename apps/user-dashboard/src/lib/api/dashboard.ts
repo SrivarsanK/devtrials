@@ -25,6 +25,7 @@ export class DashboardAPI {
         },
         latestTrigger: {
           id: "trg_99",
+          title: "Heavy Rainfall",
           type: "RAINFALL",
           amount: 250,
           timestamp: new Date().toISOString(),
@@ -45,6 +46,8 @@ export class DashboardAPI {
   private static mapTriggerEventsToClaims(events: TriggerEvent[]): ClaimHistoryItem[] {
     return events.map(e => ({
       id: e.id || Math.random().toString(36).substr(2, 9),
+      title: e.triggerType === 'RAINFALL' ? 'Heavy Rainfall' : 
+             e.triggerType === 'AQI' ? 'Poor Air Quality' : 'Environmental Disruption',
       type: e.triggerType,
       amount: e.metadata?.payoutAmount || 0,
       timestamp: typeof e.timestamp === 'string' ? e.timestamp : e.timestamp.toISOString(),
@@ -58,7 +61,7 @@ export class DashboardAPI {
    * Mock User Policy Data
    */
   private static getMockPolicy(): UserPolicy {
-    let storedPremium = 35;
+    let storedPremium = 23;
     if (typeof window !== 'undefined') {
       const p = localStorage.getItem('RideSuraksha_premiumAmount');
       if (p) storedPremium = Number(p);
@@ -69,13 +72,38 @@ export class DashboardAPI {
       tier: "Bio-Shield",
       status: "Active",
       zone: "Velachery Corridor",
-      expiryDate: new Date(Date.now() + 86400000 * 2).toISOString(), // 2 days rem
+      expiryDate: new Date(Date.now() + 86400000 * 7).toISOString(), // 7 days rem (1 week cycle)
       premiumAmount: storedPremium,
       totalPremiumPaid: 450,
       upiId: typeof window !== 'undefined' ? localStorage.getItem('RideSuraksha_pending_upi') || "" : "",
       partner: "swiggy",
       autoDeduct: true
     };
+  }
+
+  /**
+   * Submit a claim request to the backend (triggers PhonePe Refund/Payout)
+   */
+  static async applyForClaim(claimData: { amount: number, zone: string, reason: string }): Promise<any> {
+    try {
+      const response = await fetch('/api/payments/claim', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(claimData)
+      });
+      
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.message || `Claim failed (Error ${response.status})`);
+      }
+      
+      return await response.json();
+    } catch (error) {
+      console.error("DashboardAPI: Error applying for claim", error);
+      throw error;
+    }
   }
 
   /**

@@ -28,6 +28,7 @@ import { cn } from "@/lib/utils";
 import { TriggerService as ApiService } from "@/lib/api";
 import anime from "animejs";
 import { Translate } from "@/components/ui/translate";
+import { useLanguage } from "@/contexts/LanguageContext";
 
 const data = {
   navMain: [
@@ -53,6 +54,7 @@ const USE_MOCK = process.env.NEXT_PUBLIC_USE_MOCK === 'true';
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
   const pathname = usePathname();
+  const { language } = useLanguage();
 
   const [isOnline, setIsOnline] = React.useState(true);
 
@@ -121,11 +123,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
           </p>
           <SidebarMenu className="gap-1 group-data-[collapsible=icon]:items-center">
             {data.navMain.map((item) => {
-              const isActive = pathname === item.url;
+              const localizedUrl = `/${language}${item.url}`;
+              const isActive = pathname === localizedUrl;
               return (
                 <SidebarMenuItem key={item.title} className="anime-sidebar-item opacity-0">
                   <SidebarMenuButton
-                    render={<Link href={item.url} />}
+                    render={<Link href={localizedUrl} />}
                     isActive={isActive}
                     tooltip={item.title}
                     className={cn(

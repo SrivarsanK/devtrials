@@ -54,7 +54,7 @@ export function PolicyStatusCard({ policy, onEdit }: PolicyStatusCardProps) {
             <p className="text-[10px] font-black text-white/20 uppercase tracking-widest"><Translate text="Premium Rate" /></p>
             <div className="flex items-baseline gap-1">
                <span className="text-2xl font-black text-white italic">₹{policy.premiumAmount}</span>
-               <span className="text-[10px] font-bold text-white/40 uppercase">/Day</span>
+               <span className="text-[10px] font-bold text-white/40 uppercase">/Week</span>
             </div>
          </div>
 
@@ -92,10 +92,12 @@ export function PolicyStatusCard({ policy, onEdit }: PolicyStatusCardProps) {
                </div>
              ))}
            </div>
-           <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2">
-              <UserCheck className="w-3 h-3" />
-              <span className="lowercase underline underline-offset-4 decoration-white/10">{policy.upiId}</span>
-           </p>
+           {policy.upiId && (
+             <p className="text-[9px] font-black text-white/20 uppercase tracking-[0.2em] flex items-center gap-2">
+                <UserCheck className="w-3 h-3" />
+                <span className="lowercase underline underline-offset-4 decoration-white/10">{policy.upiId}</span>
+             </p>
+           )}
         </div>
         
         <Button 

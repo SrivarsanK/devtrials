@@ -14,8 +14,8 @@ This document tracks all validated, active, and out-of-scope requirements for Ri
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| CLM-01 | Phase 11 | Pending |
-| CLM-02 | Phase 11 | Pending |
+| CLM-01 | Phase 11 | Completed |
+| CLM-02 | Phase 11 | Completed |
 | PAY-01 | Phase 12 | Pending |
 | PAY-02 | Phase 12 | Pending |
 

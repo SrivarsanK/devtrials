@@ -19,6 +19,7 @@ export interface UserPolicy {
  */
 export interface ClaimHistoryItem {
   id: string;
+  title?: string;
   type: 'RAINFALL' | 'AQI' | 'HEAT_INDEX' | 'FLOOD' | 'CIVIL';
   amount: number;
   timestamp: string;

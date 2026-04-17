@@ -2,6 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Shield, ArrowRight, ShieldCheck, BadgeCheck } from "lucide-react";
 import { Translate } from "@/components/ui/translate";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -30,10 +31,13 @@ const PARTNER_LOGOS: Record<string, string> = {
   porter: "/logos/porter.png",
 };
 
+import { usePathname } from "next/navigation";
+
 export default function EnrollmentWizard() {
   const [step, setStep] = useState(1);
   const [scrolled, setScrolled] = useState(false);
-  const { language, setLanguage } = useLanguage();
+  const { language } = useLanguage();
+  const pathname = usePathname();
 
   const [formData, setFormData] = useState({
     partner: "",
@@ -48,13 +52,25 @@ export default function EnrollmentWizard() {
     upiId: "",
   });
 
+  const searchParams = useSearchParams();
+  const router = useRouter();
+
   useEffect(() => {
     const handleScroll = () => {
       setScrolled(window.scrollY > 20);
     };
     window.addEventListener("scroll", handleScroll);
+    
+    // Check for payment success
+    const status = searchParams.get('status');
+    const upi = searchParams.get('upi');
+    if (status === 'success') {
+      if (upi) setFormData(prev => ({ ...prev, upiId: upi }));
+      setStep(10);
+    }
+
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+  }, [searchParams]);
 
   const nextStep = () => {
     setStep(prev => prev + 1);
@@ -91,13 +107,19 @@ export default function EnrollmentWizard() {
           <div className="flex items-center gap-6">
             <div className="flex bg-white/5 rounded-full p-0.5 border border-white/10">
               <button 
-                onClick={() => setLanguage("en")}
+                onClick={() => {
+                  const newPath = pathname.replace(`/${language}`, `/en`);
+                  router.push(newPath);
+                }}
                 className={`text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full transition-all duration-300 ${language === 'en' ? 'bg-primary text-white font-black' : 'text-white/40 hover:text-white'}`}
               >
                 EN
               </button>
               <button 
-                onClick={() => setLanguage("ta")}
+                onClick={() => {
+                  const newPath = pathname.replace(`/${language}`, `/ta`);
+                  router.push(newPath);
+                }}
                 className={`text-[10px] uppercase tracking-widest px-3 py-1.5 rounded-full transition-all duration-300 ${language === 'ta' ? 'bg-primary text-white font-black' : 'text-white/40 hover:text-white'}`}
               >
                 தமிழ்
@@ -106,7 +128,7 @@ export default function EnrollmentWizard() {
             
             <Link href="/">
               <Button variant="ghost" size="sm" className="hidden sm:flex text-white/50 hover:text-white text-xs font-bold tracking-widest uppercase border-none hover:bg-white/5">
-                <Translate text="Exit Flow" />
+                <Translate text="common.exitFlow" />
               </Button>
             </Link>
           </div>
@@ -123,12 +145,12 @@ export default function EnrollmentWizard() {
             className="w-full text-center mb-12"
           >
              <h4 className="text-secondary font-black text-[10px] tracking-[0.3em] uppercase mb-4 opacity-80 decoration-secondary decoration-offset-4 decoration-2">
-               <Translate text="Worker Enrollment" />
+               <Translate text="onboarding.workerEnrollment" />
              </h4>
              <h1 className="text-4xl md:text-5xl font-display font-black text-white tracking-tighter mb-8 leading-tight uppercase">
-               <Translate text="Get Protected" /> <br className="sm:hidden" />
+               <Translate text="onboarding.getProtected" /> <br className="sm:hidden" />
                <span className="text-white/20 italic font-medium px-2">—</span>
-               <span className="text-primary italic"><Translate text="Step" /> {step}</span>
+               <span className="text-primary italic"><Translate text="common.step" /> {step}</span>
              </h1>
              <StepIndicator currentStep={step} />
           </motion.div>
@@ -220,6 +242,8 @@ export default function EnrollmentWizard() {
                <motion.div key="step9" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="w-full">
                  <UpiAutopayStep 
                    initialUpi={formData.upiId}
+                   amount={formData.policy?.premium || 50}
+                   mobile={formData.mobile}
                    onNext={(upi) => { setFormData({...formData, upiId: upi}); nextStep(); }} 
                    onBack={prevStep} 
                  />
@@ -277,9 +301,12 @@ export default function EnrollmentWizard() {
                   <div className="w-full px-12">
                       <Button 
                         onClick={async () => {
-                           await completeOnboarding();
+                           await completeOnboarding({ 
+                             zones: formData.zones, 
+                             partner: formData.partner 
+                           });
                            localStorage.setItem('RideSuraksha_upi', formData.upiId);
-                           window.location.href = '/dashboard';
+                           window.location.href = `/${language}/dashboard`;
                         }}
                         className="w-full h-16 bg-primary hover:bg-primary/90 text-white transition-all font-black uppercase tracking-widest text-sm rounded-full flex items-center justify-center gap-3 shadow-[0_10px_20px_rgba(255,70,37,0.2)] hover:shadow-[0_15px_30px_rgba(255,70,37,0.3)] border-none hover:-translate-y-1"
                      >

@@ -51,6 +51,7 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
 function BottomNav() {
   const pathname = usePathname();
   const isMobile = useIsMobile();
+  const { language } = useLanguage();
   
   if (!isMobile) return null;
 
@@ -64,9 +65,10 @@ function BottomNav() {
   return (
     <div className="fixed bottom-0 left-0 right-0 z-[100] h-16 glass-strong border-t border-white/[0.08] flex items-center justify-around px-4 animate-in slide-in-from-bottom duration-500">
       {navItems.map((item) => {
-        const isActive = pathname === item.url;
+        const localizedUrl = `/${language}${item.url}`;
+        const isActive = pathname === localizedUrl;
         return (
-          <Link key={item.title} href={item.url} className="flex flex-col items-center gap-1 group">
+          <Link key={item.title} href={localizedUrl} className="flex flex-col items-center gap-1 group">
             <div className={cn(
               "p-2 rounded-xl transition-all duration-300",
               isActive ? "bg-primary/10 text-primary scale-110 shadow-[0_0_10px_rgba(255,70,37,0.2)]" : "text-muted-foreground"

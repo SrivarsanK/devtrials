@@ -5,7 +5,8 @@ import { dark } from "@clerk/themes";
 import { LanguageProvider } from "@/contexts/LanguageContext";
 import { ConvexClientProvider } from "@/components/providers/convex-client-provider";
 import { ConvexUserSync } from "@/components/auth/convex-user-sync";
-import "./globals.css";
+import { Toaster } from "sonner";
+import "@/app/globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-sans" });
 const jetbrainsMono = JetBrains_Mono({ subsets: ["latin"], variable: "--font-mono" });
@@ -35,17 +36,28 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-export default function RootLayout({
+import { getDictionary } from "./dictionaries";
+
+export async function generateStaticParams() {
+  return [{ lang: 'en' }, { lang: 'ta' }]
+}
+
+export default async function RootLayout({
   children,
-}: Readonly<{
+  params,
+}: {
   children: React.ReactNode;
-}>) {
+  params: Promise<{ lang: string }>;
+}) {
+  const { lang } = await params;
+  const dictionary = await getDictionary(lang as any);
+
   return (
     <ClerkProvider
       signInUrl="/sign-in"
       signUpUrl="/sign-up"
-      signInFallbackRedirectUrl="/onboarding"
-      signUpFallbackRedirectUrl="/onboarding"
+      afterSignInUrl={`/${lang}/dashboard`}
+      afterSignUpUrl={`/${lang}/onboarding`}
       appearance={{
         baseTheme: dark,
         variables: {
@@ -77,16 +89,17 @@ export default function RootLayout({
       }}
     >
       <html
-        lang="en"
+        lang={lang}
         suppressHydrationWarning
         className={`${inter.variable} ${nunito.variable} ${jetbrainsMono.variable} ${manrope.variable} h-full antialiased dark scroll-smooth`}
       >
         <body className="min-h-full flex flex-col font-sans bg-background text-foreground selection:bg-primary/30">
           <ConvexClientProvider>
             <ConvexUserSync />
-            <LanguageProvider>
+            <LanguageProvider dictionary={dictionary} lang={lang as any}>
               {children}
             </LanguageProvider>
+            <Toaster position="top-center" richColors theme="dark" closeButton />
           </ConvexClientProvider>
         </body>
       </html>

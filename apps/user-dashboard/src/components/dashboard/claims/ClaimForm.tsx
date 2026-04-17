@@ -2,6 +2,7 @@
 
 import React, { useState, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
+import { useSearchParams, useRouter } from "next/navigation";
 import { 
   Upload, FileText, CheckCircle, AlertCircle, 
   Video, X, Trash2, Shield, Info
@@ -19,12 +20,25 @@ const claimTypes = [
 ];
 
 export function ClaimForm({ onSuccess }: { onSuccess: (claim: any) => void }) {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const typeParam = searchParams.get('type');
+  
+  const titleParam = searchParams.get('title');
+  
   const [video, setVideo] = useState<File | null>(null);
   const [reason, setReason] = useState("");
-  const [claimType, setClaimType] = useState(claimTypes[0]);
+  const [claimType, setClaimType] = useState(typeParam || claimTypes[0]);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
+
+  // Sync state if param changes (e.g. user navigates while component mounted)
+  React.useEffect(() => {
+    if (typeParam && claimTypes.includes(typeParam)) {
+      setClaimType(typeParam);
+    }
+  }, [typeParam]);
 
   const handleVideoUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
@@ -34,29 +48,31 @@ export function ClaimForm({ onSuccess }: { onSuccess: (claim: any) => void }) {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!video || !reason) return;
+    if (!video || !reason) {
+      console.warn("Validation failed: video or reason missing");
+      return;
+    }
 
     setIsSubmitting(true);
-    await new Promise(resolve => setTimeout(resolve, 2000));
-    
-    const newClaim = {
-      id: Math.random().toString(36).substr(2, 9),
-      type: claimType,
-      reason,
-      status: "Pending",
-      date: new Date().toLocaleDateString(),
-      videoName: video.name,
-      amountRequested: "₹1,200",
-    };
-    
-    setIsSubmitting(false);
-    setIsSuccess(true);
-    setTimeout(() => {
-      onSuccess(newClaim);
-      setVideo(null);
-      setReason("");
-      setIsSuccess(false);
-    }, 1500);
+    console.log("Submitting claim evidence...", { title: titleParam || claimType });
+
+    try {
+      // Mimic small upload delay for UX
+      await new Promise(resolve => setTimeout(resolve, 1500));
+      
+      // Redirect to the AI Audit/Fraud detection page
+      const params = new URLSearchParams();
+      params.set('title', titleParam || claimType);
+      
+      const amountParam = searchParams.get('amount');
+      if (amountParam) params.set('amount', amountParam);
+      
+      console.log("Redirecting to audit page:", `/claims/audit?${params.toString()}`);
+      router.push(`/claims/audit?${params.toString()}`);
+    } catch (err) {
+      console.error("Submission failed:", err);
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -166,8 +182,8 @@ export function ClaimForm({ onSuccess }: { onSuccess: (claim: any) => void }) {
 
           {/* Claim Type */}
           <div className="space-y-4">
-            <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-white/30 italic">
-              <Translate text="Protection Type" />
+            <Label className="text-[10px] font-black uppercase tracking-[0.2em] text-primary italic">
+              <Translate text={`Selected: ${titleParam || claimType}`} />
             </Label>
             <div className="flex flex-wrap gap-3">
               {claimTypes.map((type) => (
@@ -201,6 +217,7 @@ export function ClaimForm({ onSuccess }: { onSuccess: (claim: any) => void }) {
           </div>
 
           <Button 
+            type="submit"
             disabled={!video || !reason || isSubmitting || isSuccess}
             className={`w-full h-16 rounded-full uppercase font-black text-[11px] tracking-[0.3em] italic transition-all relative overflow-hidden border-none ${
               isSuccess 

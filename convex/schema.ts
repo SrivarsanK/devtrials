@@ -57,4 +57,37 @@ export default defineSchema({
     .index("by_clerkId", ["clerkId"])
     .index("by_partner", ["partner"])
     .index("by_email", ["email"]),
+
+  payments: defineTable({
+    userId: v.string(),
+    amount: v.number(),
+    status: v.string(), // PENDING, SUCCESS, FAILED
+    merchantTransactionId: v.string(),
+    phonepeTransactionId: v.optional(v.string()),
+    createdAt: v.number(),
+    updatedAt: v.number(),
+  })
+    .index("by_merchantTransactionId", ["merchantTransactionId"])
+    .index("by_userId", ["userId"]),
+
+  triggers: defineTable({
+    type: v.string(), // RAINFALL, AQI, HEAT
+    zoneId: v.string(),
+    status: v.string(), // WATCH, TRIGGERED, NORMAL
+    currentValue: v.number(),
+    threshold: v.number(),
+    timestamp: v.number(),
+    workersAffected: v.optional(v.number()),
+    payout: v.optional(v.number()),
+  })
+    .index("by_type", ["type"])
+    .index("by_zoneId", ["zoneId"])
+    .index("by_timestamp", ["timestamp"]),
+
+  zones: defineTable({
+    slug: v.string(), // chennai-south
+    name: v.string(),
+    geometry: v.any(), // GeoJSON
+    activeTriggers: v.array(v.string()),
+  }).index("by_slug", ["slug"]),
 });

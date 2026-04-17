@@ -19,28 +19,42 @@ const isProtectedRoute = createRouteMatcher([
   "/settings(.*)",
 ]);
 
+import { locales, defaultLocale } from "./app/[lang]/dictionaries";
+
 export default clerkMiddleware(async (auth, req) => {
+  const { pathname } = req.nextUrl;
   const { userId, sessionClaims } = await auth();
 
-  // 1. Handle Unauthenticated Users
-  if (!userId && isProtectedRoute(req)) {
+  // 1. Handle Locale Redirection
+  const pathnameHasLocale = locales.some(
+    (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
+  );
+
+  if (!pathnameHasLocale) {
+    // Detect locale (simplified: default to 'en' for now or check headers)
+    const locale = defaultLocale; 
+    return NextResponse.redirect(new URL(`/${locale}${pathname}`, req.url));
+  }
+
+  // 2. Handle Unauthenticated Users
+  const isPublic = isPublicRoute(req);
+  if (!userId && !isPublic) {
     const signInUrl = new URL("/sign-in", req.url);
     signInUrl.searchParams.set("redirect_url", req.url);
     return NextResponse.redirect(signInUrl);
   }
 
-  // 2. Handle Authenticated Users
+  // 3. Handle Authenticated Users
   if (userId) {
-    const pathname = req.nextUrl.pathname;
+    // Extract locale from pathname for correct redirection targets
+    const locale = pathname.split('/')[1];
+    const internalPath = pathname.replace(`/${locale}`, '') || '/';
     
-    // Check if onboarding is complete from session claims (requires JWT template)
+    // Check if onboarding is complete from session claims
     let isOnboardingComplete = !!(sessionClaims as any)?.metadata?.onboardingComplete;
 
-    // A. If we think onboarding is NOT complete, or we are at /onboarding, 
-    // we double check against the Clerk API to handle stale tokens or missing JWT templates.
-    if (!isOnboardingComplete || pathname.startsWith("/onboarding")) {
+    if (!isOnboardingComplete || internalPath.startsWith("/onboarding")) {
       try {
-        // We only do this for protected routes to save API calls
         if (isProtectedRoute(req)) {
           const client = await clerkClient();
           const user = await client.users.getUser(userId);
@@ -51,19 +65,19 @@ export default clerkMiddleware(async (auth, req) => {
       }
     }
 
-    // B. Handle Sign-in/Sign-up page access for logged-in users
-    if (pathname.startsWith("/sign-in") || pathname.startsWith("/sign-up")) {
-      return NextResponse.redirect(new URL(isOnboardingComplete ? "/dashboard" : "/onboarding", req.url));
+    // Handle Sign-in/Sign-up page access for logged-in users
+    if (internalPath.startsWith("/sign-in") || internalPath.startsWith("/sign-up")) {
+      return NextResponse.redirect(new URL(`/${locale}${isOnboardingComplete ? "/dashboard" : "/onboarding"}`, req.url));
     }
 
-    // C. Enforce Onboarding: Redirect to /onboarding if not complete
-    if (!isOnboardingComplete && !pathname.startsWith("/onboarding") && isProtectedRoute(req)) {
-      return NextResponse.redirect(new URL("/onboarding", req.url));
+    // Enforce Onboarding
+    if (!isOnboardingComplete && !internalPath.startsWith("/onboarding") && isProtectedRoute(req)) {
+      return NextResponse.redirect(new URL(`/${locale}/onboarding`, req.url));
     }
 
-    // D. Prevent Access to Onboarding: Redirect to /dashboard if already complete
-    if (isOnboardingComplete && pathname.startsWith("/onboarding")) {
-      return NextResponse.redirect(new URL("/dashboard", req.url));
+    // Prevent Access to Onboarding
+    if (isOnboardingComplete && internalPath.startsWith("/onboarding")) {
+      return NextResponse.redirect(new URL(`/${locale}/dashboard`, req.url));
     }
   }
 });

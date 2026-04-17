@@ -6,8 +6,12 @@ import { auth } from './middleware/auth';
 import triggerRoutes from './routes/triggers';
 import heatmapRoutes from './routes/heatmap';
 import fraudRoutes from './routes/fraud';
+import paymentRoutes from './routes/payments';
 
 const app = express();
+
+// Trust proxy for rate limiting (e.g. if behind Nginx/Vercel/etc)
+app.set('trust proxy', 1);
 
 // Security & Rate Limiting
 app.use(helmet());
@@ -57,6 +61,7 @@ app.get('/health', (req, res) => {
 app.use('/api/triggers', triggerLimiter, triggerRoutes);
 app.use('/api/heatmap', triggerLimiter, heatmapRoutes);
 app.use('/api/fraud', triggerLimiter, fraudRoutes);
+app.use('/api/payments', paymentRoutes);
 
 // Protected Test Route
 app.get('/api/protected-test', auth, (req, res) => {

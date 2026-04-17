@@ -2,7 +2,7 @@
 
 import { auth, clerkClient } from "@clerk/nextjs/server";
 
-export async function completeOnboarding() {
+export async function completeOnboarding(onboardingData?: { zones: string[], partner: string }) {
   const { userId } = await auth();
 
   if (!userId) {
@@ -14,6 +14,8 @@ export async function completeOnboarding() {
     await client.users.updateUser(userId, {
       publicMetadata: {
         onboardingComplete: true,
+        selectedZones: onboardingData?.zones || [],
+        partner: onboardingData?.partner || "",
       },
     });
     return { success: true };

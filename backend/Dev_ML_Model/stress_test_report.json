@@ -1,0 +1,21 @@
+{
+    "summary": {
+        "total_requests": 15000,
+        "duration_sec": 269.4619565010071,
+        "throughput": 55.66648514980236
+    },
+    "details": {
+        "pricing": {
+            "200_ok": 0,
+            "errors": 5000
+        },
+        "fraud": {
+            "200_ok": 0,
+            "errors": 5000
+        },
+        "reserve": {
+            "200_ok": 4913,
+            "errors": 87
+        }
+    }
+}

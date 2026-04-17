@@ -13,10 +13,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
+import os
+
 SERVICES = {
-    "fraud": "http://127.0.0.1:5000",        # Flask backend
-    "pricing": "http://127.0.0.1:8000",      # Dynamic Pricing Model
-    "reserve": "http://127.0.0.1:8002",      # Reserve Forecasting Model
+    "fraud": os.getenv("FRAUD_SERVICE_URL", "http://127.0.0.1:5000"),
+    "pricing": os.getenv("PRICING_SERVICE_URL", "http://127.0.0.1:8000"),
+    "reserve": os.getenv("RESERVE_SERVICE_URL", "http://127.0.0.1:8002"),
 }
 
 @app.get("/")

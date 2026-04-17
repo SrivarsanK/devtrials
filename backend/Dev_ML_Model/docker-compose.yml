@@ -1,0 +1,61 @@
+version: '3.8'
+
+services:
+  fraud-model:
+    build:
+      context: ./Fraud_detect_heuristic/Fraud_detect_heuristic/fraud-engine/backend
+      dockerfile: Dockerfile
+    container_name: gigshield-fraud-model
+    ports:
+      - "5000:5000"
+    restart: unless-stopped
+    environment:
+      - FLASK_APP=app.py
+      - FLASK_ENV=production
+    networks:
+      - ml-net
+
+  pricing-model:
+    build:
+      context: ./Dynamic_pricing_model/ml_service
+      dockerfile: Dockerfile
+    container_name: gigshield-pricing-model
+    ports:
+      - "8000:8000"
+    restart: unless-stopped
+    networks:
+      - ml-net
+
+  reserve-model:
+    build:
+      context: ./Reserve_model
+      dockerfile: Dockerfile
+    container_name: gigshield-reserve-model
+    ports:
+      - "8002:8002"
+    restart: unless-stopped
+    networks:
+      - ml-net
+
+  ml-gateway:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: gigshield-ml-gateway
+    ports:
+      - "9000:9000"
+    restart: unless-stopped
+    environment:
+      - FRAUD_SERVICE_URL=http://fraud-model:5000
+      - PRICING_SERVICE_URL=http://pricing-model:8000
+      - RESERVE_SERVICE_URL=http://reserve-model:8002
+    depends_on:
+      - fraud-model
+      - pricing-model
+      - reserve-model
+    networks:
+      - ml-net
+
+networks:
+  ml-net:
+    driver: bridge

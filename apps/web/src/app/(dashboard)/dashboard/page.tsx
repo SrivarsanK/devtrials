@@ -4,10 +4,14 @@ import React, { useEffect, useState } from "react";
 import StatsCard from "@/components/StatsCard";
 import TriggerTable from "@/components/TriggerTable";
 import { fetchTriggers, fetchZones, fetchHealth, Trigger, Zone } from "@/lib/api";
-import { RefreshCcw, Activity as ActivityIcon, ShieldCheck, ArrowUpRight } from "lucide-react";
+import { RefreshCcw, Activity as ActivityIcon, ShieldCheck, ArrowUpRight, Cpu } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import anime from "animejs";
 import { useUser } from "@clerk/nextjs";
+import MLForecastCard from "@/components/MLForecastCard";
+import { ALL_CHENNAI_ZONES, ZONE_TIER_CONFIG, ZoneTier } from "@/lib/chennaiZones";
+import Link from "next/link";
+import ZoneCard from "@/components/ZoneCard";
 
 export default function DashboardPage() {
   const { user, isLoaded } = useUser();
@@ -132,14 +136,14 @@ export default function DashboardPage() {
             subtitle="Real-time trigger pipeline"
           />
         </div>
-        <div className="anime-stats-card opacity-0">
+        <Link href="/zones" className="anime-stats-card opacity-0 block">
           <StatsCard
             title="Protected Hubs"
-            value={zones.length}
+            value={ALL_CHENNAI_ZONES.length}
             icon="map"
             subtitle="Indian Metropolitan Coverage"
           />
-        </div>
+        </Link>
         <div className="anime-stats-card opacity-0">
           <StatsCard
             title="Yield Index"
@@ -149,6 +153,27 @@ export default function DashboardPage() {
           />
         </div>
       </div>
+
+      <section className="space-y-6">
+        <div className="flex items-center justify-between anime-stream-title opacity-0">
+          <div className="flex items-center gap-3">
+            <h2 className="text-4xl font-display font-black text-foreground tracking-tight uppercase">Protected Hubs</h2>
+            <div className="h-2 w-16 bg-secondary rounded-full" />
+          </div>
+          <Link href="/zones" className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground hover:text-secondary transition-colors flex items-center gap-1.5 group">
+            View All Zones
+            <ArrowUpRight className="size-3 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </Link>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 max-h-[400px] overflow-y-auto pr-2 custom-scroll">
+          {ALL_CHENNAI_ZONES.slice(0, 12).map((z) => (
+            <div key={z.name} className="anime-trigger-table opacity-0">
+              <ZoneCard zone={z} />
+            </div>
+          ))}
+        </div>
+      </section>
 
       <section className="space-y-6">
         <div className="flex items-center justify-between anime-stream-title opacity-0">
@@ -168,7 +193,7 @@ export default function DashboardPage() {
         </div>
       </section>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         <div className="p-8 rounded-2xl glass card-glow relative overflow-hidden group anime-info-card opacity-0">
           <div className="absolute top-0 right-0 p-8 opacity-5 group-hover:scale-110 transition-transform duration-700">
             <ShieldCheck className="size-20 text-primary" />
@@ -199,6 +224,10 @@ export default function DashboardPage() {
               <div className="size-2 bg-secondary rounded-full" />
             </div>
           </div>
+        </div>
+
+        <div className="anime-info-card opacity-0">
+           <MLForecastCard zoneId="ZONE_CHN_001" className="h-full" />
         </div>
       </div>
     </div>

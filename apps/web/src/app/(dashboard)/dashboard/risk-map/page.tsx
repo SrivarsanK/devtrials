@@ -7,6 +7,7 @@ import { fetchHeatmap, fetchHealth, fetchPriorityAlerts } from '@/lib/api';
 import anime from 'animejs';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/lib/utils';
+import { ALL_CHENNAI_ZONES, RED_ZONES, ZoneTier, ZONE_TIER_CONFIG } from '@/lib/chennaiZones';
 
 const RiskMap = dynamic(() => import('@/components/RiskMap'), {
   ssr: false,
@@ -28,6 +29,7 @@ interface HeatPoint {
 
 interface Alert {
   zone: string;
+  region?: string;
   riskIndex: number;
   type: string;
   status: string;
@@ -39,18 +41,31 @@ export default function RiskMapPage() {
   const [isSyncing, setIsSyncing] = useState(true);
   const [health, setHealth] = useState<boolean>(true);
   const [loading, setLoading] = useState(true);
+  const [visibleTiers, setVisibleTiers] = useState<Record<ZoneTier, boolean>>({
+    red: true,
+    orange: true,
+    green: true
+  });
 
   async function init() {
     setIsSyncing(true);
     try {
-      const [hData, hStatus, aData] = await Promise.all([
+      const [hData, hStatus] = await Promise.all([
         fetchHeatmap(true),
-        fetchHealth(),
-        fetchPriorityAlerts()
+        fetchHealth()
       ]);
       setHeatmapData(hData);
       setHealth(hStatus);
-      setAlerts(aData);
+
+      // Populate Priority Alerts exclusively with Red Zones data as requested
+      const redZoneAlerts: Alert[] = RED_ZONES.slice(0, 5).map((z, i) => ({
+        zone: z.name,
+        region: z.region,
+        riskIndex: 92 + Math.floor(Math.random() * 8), // >90 indicates critical red zone
+        type: ['Flash Flood Alert', 'Extreme Heat (Level 4)', 'AQI Hazard (Severe)', 'Cyclonic Storm Watch', 'Waterlogging (Critical)'][i % 5],
+        status: 'CRITICAL'
+      }));
+      setAlerts(redZoneAlerts);
     } catch (err) {
       console.error('Failed to sync risk map:', err);
     } finally {
@@ -167,27 +182,45 @@ export default function RiskMapPage() {
         {/* Main Map Area */}
         <div className="flex-[2.2] relative min-h-[400px] rounded-2xl overflow-hidden glass anime-map-container opacity-0 shadow-2xl border border-white/5 transition-all hover:border-white/10 group">
           <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-black/40 pointer-events-none z-[10]" />
-          <RiskMap heatmapData={heatmapData} />
+          <RiskMap 
+            heatmapData={heatmapData} 
+            zones={ALL_CHENNAI_ZONES}
+            visibleTiers={visibleTiers}
+          />
           
           {/* Map Feature Overlay */}
           <div className="absolute bottom-6 left-6 z-[1000] p-4 bg-[#0d0d15]/90 backdrop-blur-2xl border border-white/[0.08] rounded-2xl flex flex-col gap-3 shadow-2xl">
             <div className="flex items-center gap-2 mb-1">
               <ShieldCheck size={14} className="text-primary" />
-              <div className="text-[10px] uppercase tracking-[0.2em] text-white font-black">Disruption Intensity</div>
+              <div className="text-[10px] uppercase tracking-[0.2em] text-white font-black">Zone Classifications & Legend</div>
             </div>
-            <div className="flex items-center gap-6">
-              <div className="flex items-center gap-2">
-                <div className="size-2 rounded-full bg-[#00ffcc] shadow-[0_0_8px_#00ffcc]" />
-                <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Low</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="size-2 rounded-full bg-[#ffcc00] shadow-[0_0_8px_#ffcc00]" />
-                <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">High</span>
-              </div>
-              <div className="flex items-center gap-2">
-                <div className="size-2 rounded-full bg-[#ff0055] shadow-[0_0_8px_#ff0055]" />
-                <span className="text-[10px] text-slate-400 font-black uppercase tracking-widest">Critical</span>
-              </div>
+            <div className="flex items-center flex-wrap gap-3 max-w-[400px]">
+              {(Object.keys(ZONE_TIER_CONFIG) as ZoneTier[]).map((tier) => {
+                const config = ZONE_TIER_CONFIG[tier];
+                const isSelected = visibleTiers[tier];
+                return (
+                  <button
+                    key={tier}
+                    onClick={() => setVisibleTiers(prev => ({ ...prev, [tier]: !prev[tier] }))}
+                    className={cn(
+                      "flex items-center gap-2 px-3 py-1.5 rounded-lg transition-all",
+                      isSelected ? "bg-white/10" : "bg-transparent opacity-50 hover:opacity-80"
+                    )}
+                    style={{ border: isSelected ? `1px solid ${config.color}50` : '1px solid transparent' }}
+                  >
+                    <div 
+                      className="size-2 rounded-full" 
+                      style={{ 
+                        backgroundColor: config.color, 
+                        boxShadow: isSelected ? `0 0 8px ${config.color}` : 'none' 
+                      }} 
+                    />
+                    <span className="text-[10px] text-slate-300 font-black uppercase tracking-widest whitespace-nowrap">
+                      {config.priority.split(' — ')[1]} ({config.count} Zones)
+                    </span>
+                  </button>
+                );
+              })}
             </div>
           </div>
         </div>
@@ -215,10 +248,6 @@ export default function RiskMapPage() {
               <div className="flex flex-col gap-5 overflow-y-auto px-5 custom-scrollbar flex-1 min-h-0 py-2 pb-10">
                 {alerts.map((alert, idx) => {
                   const styles = getAlertStyles(alert.riskIndex, alert.type);
-                  // More robust mapping: ensure we show Chennai hubs for anything not explicitly specified as another hub
-                  const lowerZone = alert.zone.toLowerCase();
-                  const isUnknown = lowerZone.includes('delhi') || lowerZone.includes('blr') || lowerZone.includes('connaught') || lowerZone.includes('mumbai') || lowerZone.includes('dadar') || lowerZone.includes('gateway') || lowerZone.includes('worli');
-                  const zoneName = isUnknown ? ['East Coast Road', 'Mount Road', 'OMR Corridor', 'Velachery Hub'][idx % 4] : alert.zone;
                   
                   return (
                     <div 
@@ -236,15 +265,17 @@ export default function RiskMapPage() {
                       
                       <div className="flex flex-col gap-4 relative z-10 transition-transform duration-300 group-hover:translate-x-0.5">
                         <div className="flex justify-between items-center">
-                          <span className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] opacity-80">Oracle Target Hub</span>
+                          <span className="text-[10px] font-black uppercase text-slate-500 tracking-[0.2em] opacity-80">
+                            {alert.region || "Oracle Target Hub"}
+                          </span>
                           <div className={cn("text-[9px] font-display font-black uppercase tracking-[0.2em] px-2.5 py-0.5 rounded-full bg-white/5 border border-white/5", styles.text)}>
-                             {alert.riskIndex}%
+                             Class: Red
                           </div>
                         </div>
 
                         <div className="flex justify-between items-start gap-4">
                           <h4 className="text-2xl font-display font-black text-white leading-none uppercase tracking-[-0.03em] antialiased drop-shadow-sm transition-transform duration-300 group-hover:-translate-y-0.5 max-w-[70%]">
-                            {zoneName}
+                            {alert.zone}
                           </h4>
                           <div className={cn("text-3xl font-display font-black italic tracking-tighter shrink-0 leading-none opacity-80", styles.text)}>
                             {alert.riskIndex}

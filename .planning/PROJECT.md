@@ -1,15 +1,16 @@
 # RideSuraksha
 
-## Current Milestone: v1.4 Backend & ML Deployment
+## Current Milestone: v1.4 Chennai Zone Classification Integration
 
-**Goal:** Containerize ML suite for production hosting, migrate API to Vercel, and establish end-to-end cloud connectivity.
+**Goal:** Integrate 62 classified Chennai zones (18 Red, 28 Orange, 16 Green) with priority-based risk visualization into the live risk map and zones pages in the `apps/web` insurer dashboard.
 
 **Target features:**
 
-- Dockerized ML Suite (Gateway + 3 Models)
-- Render.yaml for ML Deployment
-- Vercel API migration (Serverless)
-- Cross-service environment configuration
+- Zone data layer with geocoded coordinates for 62 Chennai localities
+- Color-coded zone markers (Red/Orange/Green) on the Leaflet risk map
+- Interactive legend and filter controls for zone tiers
+- Zones page classification with priority-based visual styling
+- Red zones integrated into priority alerts sidebar
 
 ## What This Is
 
@@ -169,4 +170,4 @@ This document evolves at phase transitions and milestone boundaries.
 
 ---
 
-*Last updated: 2026-03-22 after cleaning up planning files*
+*Last updated: 2026-04-17 — Milestone v1.4 started*

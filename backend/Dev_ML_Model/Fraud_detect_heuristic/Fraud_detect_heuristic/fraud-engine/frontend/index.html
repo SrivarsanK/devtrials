@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submit Claim Details</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        // Load FingerprintJS
+        let fpPromise;
+        window.addEventListener('load', () => {
+            const fpScript = document.createElement('script');
+            fpScript.src = 'https://openfpcdn.io/fingerprintjs/v4';
+            fpScript.onload = () => {
+                fpPromise = FingerprintJS.load();
+            };
+            document.head.appendChild(fpScript);
+        });
+    </script>
+</head>
+<body class="bg-gray-100 min-h-screen p-8 text-gray-800">
+    <div class="max-w-md mx-auto bg-white p-6 rounded-lg shadow-md">
+        <h1 class="text-2xl font-bold mb-6 text-center">Parametric Flood Claim</h1>
+        
+        <form id="claim-form" class="space-y-4 text-sm">
+            <div>
+                <label>Worker ID</label>
+                <input type="text" id="worker_id" value="WK-9921" class="w-full border rounded p-2 mt-1">
+            </div>
+            <div>
+                <label>Claim Event ID</label>
+                <select id="claim_event_id" class="w-full border rounded p-2 mt-1">
+                    <option disabled selected>Loading dynamic zones...</option>
+                </select>
+            </div>
+            <div>
+                <label class="flex items-center space-x-2 cursor-pointer mt-3 p-2 bg-blue-50 border border-blue-200 rounded">
+                    <input type="checkbox" id="desktop_test" class="form-checkbox text-blue-600 h-5 w-5">
+                    <span class="text-blue-800 font-semibold">Enable Desktop Testing Mode</span>
+                </label>
+                <p class="text-xs text-gray-500 mt-1 ml-1">(Bypasses gyroscope & IP/GPS telemetry matching rules)</p>
+            </div>
+            <button type="submit" id="submit-btn" class="w-full bg-blue-600 text-white font-bold py-2 px-4 rounded hover:bg-blue-700">Submit Claim</button>
+        </form>
+
+        <div id="status" class="mt-4 p-3 rounded hidden"></div>
+        <div id="loader" class="mt-4 text-center hidden text-blue-600">Collecting device telemetry... please wait (2s)</div>
+    </div>
+
+    <script>
+        const statusDiv = document.getElementById('status');
+        const loaderDiv = document.getElementById('loader');
+        const btn = document.getElementById('submit-btn');
+        const claimSelect = document.getElementById('claim_event_id');
+
+        // Fetch zones on load
+        window.addEventListener('DOMContentLoaded', async () => {
+            try {
+                const response = await fetch('http://127.0.0.1:5000/api/zones');
+                if (response.ok) {
+                    const data = await response.json();
+                    claimSelect.innerHTML = ''; // clear loading
+
+                    const buildOptGroup = (label, items) => {
+                        if (!items || !items.length) return '';
+                        const group = document.createElement('optgroup');
+                        group.label = label;
+                        items.forEach(item => {
+                            const opt = document.createElement('option');
+                            opt.value = item.name;
+                            opt.textContent = `${item.name} (${item.region})`;
+                            group.appendChild(opt);
+                        });
+                        return group;
+                    };
+
+                    const redGroup = buildOptGroup('RED ZONES (Priority 1 — High Scrutiny)', data.red);
+                    if (redGroup) claimSelect.appendChild(redGroup);
+
+                    const orangeGroup = buildOptGroup('ORANGE ZONES (Priority 2 — Standard)', data.orange);
+                    if (orangeGroup) claimSelect.appendChild(orangeGroup);
+
+                    const greenGroup = buildOptGroup('GREEN ZONES (Priority 3 — Fast Track)', data.green);
+                    if (greenGroup) claimSelect.appendChild(greenGroup);
+                } else {
+                    claimSelect.innerHTML = '<option>Failed to load zones</option>';
+                }
+            } catch (err) {
+                console.error("Zone fetch error", err);
+                claimSelect.innerHTML = '<option>Error connecting to server</option>';
+            }
+        });
+
+        function showMessage(type, msg) {
+            statusDiv.className = `mt-4 p-3 rounded font-bold ${
+                type === 'success' ? 'bg-green-100 text-green-800' :
+                type === 'error' ? 'bg-red-100 text-red-800' :
+                'bg-yellow-100 text-yellow-800'
+            }`;
+            statusDiv.textContent = msg;
+            statusDiv.style.display = 'block';
+        }
+
+        async function collectTelemetryAndSubmit(e) {
+            e.preventDefault();
+            btn.disabled = true;
+            statusDiv.style.display = 'none';
+            loaderDiv.style.display = 'block';
+
+            try {
+                // 1. Fingerprint
+                let visitorId = "unknown";
+                if (fpPromise) {
+                    const fp = await fpPromise;
+                    const result = await fp.get();
+                    visitorId = result.visitorId;
+                }
+
+                // 2. Gyroscope
+                let gyroMax = -Infinity;
+                let gyroMin = Infinity;
+                let readingCount = 0;
+
+                const listener = (event) => {
+                    if (event.accelerationIncludingGravity) {
+                        const {x, y, z} = event.accelerationIncludingGravity;
+                        if (x !== null) {
+                            const mag = Math.sqrt(x*x + y*y + z*z);
+                            gyroMax = Math.max(gyroMax, mag);
+                            gyroMin = Math.min(gyroMin, mag);
+                            readingCount++;
+                        }
+                    }
+                };
+                
+                window.addEventListener('devicemotion', listener);
+
+                await new Promise(r => setTimeout(r, 2000));
+                window.removeEventListener('devicemotion', listener);
+
+                const gyroVariance = readingCount > 0 ? (gyroMax - gyroMin) : 0.0;
+
+                // 3. Location
+                const pos = await new Promise((resolve, reject) => {
+                    if (!navigator.geolocation) reject("No geo");
+                    navigator.geolocation.getCurrentPosition(resolve, reject, {
+                        enableHighAccuracy: true, timeout: 5000
+                    });
+                });
+
+                const payload = {
+                    worker_id: document.getElementById('worker_id').value,
+                    claim_event_id: document.getElementById('claim_event_id').value,
+                    device_fingerprint_hash: visitorId,
+                    gyroscope_variance: Math.max(0, gyroVariance), // float
+                    html5_lat: pos.coords.latitude || 0,
+                    html5_lng: pos.coords.longitude || 0,
+                    html5_accuracy_meters: pos.coords.accuracy || 2000,
+                    desktop_test: document.getElementById('desktop_test').checked
+                };
+
+                // 4. API Call
+                loaderDiv.style.display = 'none';
+                
+                const response = await fetch('http://127.0.0.1:5000/api/submit_claim', {
+                    method: 'POST',
+                    headers: {'Content-Type': 'application/json'},
+                    body: JSON.stringify(payload)
+                });
+                
+                const data = await response.json();
+
+                // 5. Handle Response
+                if (response.status === 200) {
+                    showMessage('success', `Claim approved. ${data.message || 'Payout initiated.'}`);
+                } else if (response.status === 403) {
+                    showMessage('error', `Claim denied. ${data.reason || 'Security policy violation.'} [${data.error}]`);
+                } else if (response.status === 202) {
+                    showMessage('warning', `Location unverified. ${data.message || 'Please submit photo'}`);
+                } else {
+                    showMessage('error', `Unexpected error: ${response.status}`);
+                }
+
+            } catch (err) {
+                loaderDiv.style.display = 'none';
+                showMessage('error', "Failed: " + err.message);
+                console.error(err);
+            } finally {
+                btn.disabled = false;
+            }
+        }
+
+        document.getElementById('claim-form').addEventListener('submit', collectTelemetryAndSubmit);
+    </script>
+</body>
+</html>

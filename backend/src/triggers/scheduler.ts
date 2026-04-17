@@ -59,6 +59,20 @@ export async function runTriggerCycle(): Promise<{
     console.log(`  Total triggered:     ${totalTriggered}`);
     console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n');
 
+    // 2.5 Broadcast specific trigger alerts via Socket.IO
+    const allEvents = [...rainfallEvents, ...aqiEvents, ...heatEvents];
+    import('../lib/socket').then(({ broadcastTrigger }) => {
+      allEvents.forEach(event => {
+        broadcastTrigger({
+          message: `${event.triggerType} Threshold Exceeded`,
+          city: event.zoneId,
+          severity: event.metadata?.severity || 'HIGH',
+          timestamp: new Date().toISOString()
+        });
+      });
+    });
+
+
     // 3. Broadcast update to connected clients
     broadcastHealth({
       totalReserveCr: 124.5, // Dummy values for now (to be replaced by DB aggregation)
@@ -69,8 +83,8 @@ export async function runTriggerCycle(): Promise<{
       activeLiabilityCrores: 132.2,
       coverageRatioPercent: 94.2,
       lossRatioPercent: 62.4,
-      weeklyPremiumInflowLakhs: 84.5,
-      weeklyClaimsOutflowLakhs: 42.8,
+      dailyPremiumInflowLakhs: 84.5,
+      dailyClaimsOutflowLakhs: 42.8,
       globalStatus: totalTriggered > 10 ? 'RED' : totalTriggered > 0 ? 'AMBER' : 'GREEN',
       globalMessage: totalTriggered > 0 
         ? `Parametric triggers active in ${totalTriggered} instances. Coverage ratio monitoring active.`

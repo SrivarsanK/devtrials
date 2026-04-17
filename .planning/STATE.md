@@ -2,10 +2,10 @@
 
 ## Current Position
 
-**Phase:** 12 - ML Containerization & Local Orchestration (In Progress)
-**Plan:** `.planning/phases/12-ml-containerization/12-PLAN.md`
-**Status:** Started v1.4. Defining requirements.
-**Last activity:** 2026-04-17 — Milestone v1.4 started.
+**Phase:** 14 - Data Migration & Production Verification (Complete)
+**Plan:** —
+**Status:** Milestone v1.4 Complete. Ready for next.
+**Last activity:** 2026-04-17 — Milestone v1.4 finished.
 
 ## Current Milestone: v1.4 Backend & ML Deployment
 

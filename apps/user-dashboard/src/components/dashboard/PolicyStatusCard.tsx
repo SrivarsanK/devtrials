@@ -44,7 +44,6 @@ export function PolicyStatusCard({ policy, onEdit }: PolicyStatusCardProps) {
             <span className="w-1.5 h-1.5 bg-primary rounded-full animate-pulse" />
           </p>
           <h4 className="text-4xl font-display font-black text-white tracking-tighter uppercase leading-none italic">{policy.plan}</h4>
-          <p className="text-[10px] font-bold text-white/20 uppercase tracking-[0.2em]">{policy.tier} Tier · {policy.zone}</p>
         </div>
       </div>
 
@@ -54,7 +53,7 @@ export function PolicyStatusCard({ policy, onEdit }: PolicyStatusCardProps) {
             <p className="text-[10px] font-black text-white/20 uppercase tracking-widest"><Translate text="Premium Rate" /></p>
             <div className="flex items-baseline gap-1">
                <span className="text-2xl font-black text-white italic">₹{policy.premiumAmount}</span>
-               <span className="text-[10px] font-bold text-white/40 uppercase">/Week</span>
+               <span className="text-[10px] font-bold text-white/40 uppercase">/Day</span>
             </div>
          </div>
 

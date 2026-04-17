@@ -42,8 +42,8 @@ export interface ReserveHealthData {
   activeLiabilityCrores: number;
   coverageRatioPercent: number;
   lossRatioPercent: number;
-  weeklyPremiumInflowLakhs: number;
-  weeklyClaimsOutflowLakhs: number;
+   dailyPremiumInflowLakhs: number;
+   dailyClaimsOutflowLakhs: number;
   globalStatus: 'GREEN' | 'AMBER' | 'RED';
   globalMessage: string;
   cities: CityReserveSummary[];

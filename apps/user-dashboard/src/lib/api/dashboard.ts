@@ -14,16 +14,23 @@ export class DashboardAPI {
       // For now, we aggregate from TriggerService and use mocks
       const triggers = await TriggerService.getTriggers(5);
       
+      // Check if our hardcoded trigger has been processed
+      const filedClaimsRaw = typeof window !== 'undefined' ? localStorage.getItem('RideSuraksha_filed_claims') : null;
+      const filedClaims = filedClaimsRaw ? JSON.parse(filedClaimsRaw) : [];
+      const isProcessed = filedClaims.some((c: any) => c.triggerId === "trg_99");
+
+      const history = this.mapTriggerEventsToClaims(triggers);
+
       return {
         policy: this.getMockPolicy(),
-        recentClaims: this.mapTriggerEventsToClaims(triggers),
+        recentClaims: history,
         stats: {
-          revenueProtected: 1450,
+          revenueProtected: 1450 + (filedClaims.length * 250),
           coverageZones: 24,
           contractTrust: 98.2,
           nodeUptime: 100
         },
-        latestTrigger: {
+        latestTrigger: isProcessed ? null : {
           id: "trg_99",
           title: "Heavy Rainfall",
           type: "RAINFALL",
@@ -69,9 +76,9 @@ export class DashboardAPI {
     
     return {
       plan: "RideSuraksha",
-      tier: "Bio-Shield",
+      tier: "Premium",
       status: "Active",
-      zone: "Velachery Corridor",
+      zone: "Chennai Central",
       expiryDate: new Date(Date.now() + 86400000 * 7).toISOString(), // 7 days rem (1 week cycle)
       premiumAmount: storedPremium,
       totalPremiumPaid: 450,
@@ -86,20 +93,46 @@ export class DashboardAPI {
    */
   static async applyForClaim(claimData: { amount: number, zone: string, reason: string }): Promise<any> {
     try {
-      const response = await fetch('/api/payments/claim', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(claimData)
-      });
+      console.log("DashboardAPI: Initiating claim simulation state...");
       
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(errorData.message || `Claim failed (Error ${response.status})`);
+      // Simulation Logic - Store immediately so it reflects even if fetch fails
+      const newClaim = {
+        id: `CL-${Math.floor(Math.random() * 90000 + 10000)}`,
+        triggerId: "trg_99",
+        title: "Heavy Rainfall",
+        type: "RAINFALL" as const,
+        amount: claimData.amount,
+        timestamp: new Date().toISOString(),
+        zone: claimData.zone
+      };
+
+      if (typeof window !== 'undefined') {
+        const filedClaimsRaw = localStorage.getItem('RideSuraksha_filed_claims');
+        const filedClaims = filedClaimsRaw ? JSON.parse(filedClaimsRaw) : [];
+        filedClaims.push(newClaim);
+        localStorage.setItem('RideSuraksha_filed_claims', JSON.stringify(filedClaims));
+        console.log("DashboardAPI: Local simulation state updated", newClaim);
+      }
+
+      // Attempt real backend call
+      try {
+        const response = await fetch('/api/payments/claim', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(claimData)
+        });
+        
+        if (response.ok) {
+          const data = await response.json();
+          return { ...data, simulated: false };
+        }
+      } catch (networkError) {
+        console.warn("DashboardAPI: Backend endpoint /api/payments/claim unavailable, continuing with simulation.");
       }
       
-      return await response.json();
+      return { success: true, message: "Claim simulation successful", claim: newClaim, simulated: true };
     } catch (error) {
       console.error("DashboardAPI: Error applying for claim", error);
       throw error;

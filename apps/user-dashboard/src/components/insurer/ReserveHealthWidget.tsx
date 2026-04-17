@@ -78,14 +78,14 @@ export function ReserveHealthWidget() {
           icon={TrendingUp}
         />
         <MetricCard
-          label="Weekly Inflow"
-          value={`₹${reserveHealth.weeklyPremiumInflowLakhs} L`}
+          label="Daily Inflow"
+          value={`₹${reserveHealth.dailyPremiumInflowLakhs} L`}
           color="blue"
           icon={ArrowUpRight}
         />
         <MetricCard
-          label="Weekly Outflow"
-          value={`₹${reserveHealth.weeklyClaimsOutflowLakhs} L`}
+          label="Daily Outflow"
+          value={`₹${reserveHealth.dailyClaimsOutflowLakhs} L`}
           color="white"
           icon={ArrowDownRight}
         />

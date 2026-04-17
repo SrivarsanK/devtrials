@@ -7,7 +7,7 @@ services:
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=password
-      - POSTGRES_DB=RideSuraksha
+      - POSTGRES_DB=ridesuraksha
     ports:
       - "5432:5432"
     volumes:
@@ -30,8 +30,9 @@ services:
       - "8080:8080"
     environment:
       - NODE_ENV=development
-      - DATABASE_URL=postgresql://postgres:password@db:5432/RideSuraksha
+      - DATABASE_URL=postgresql://postgres:password@db:5432/ridesuraksha
       - REDIS_URL=redis://redis:6379
+      - ML_API_URL=http://ml-suite:9000
     depends_on:
       - db
       - redis

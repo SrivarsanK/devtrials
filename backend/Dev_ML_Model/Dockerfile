@@ -17,8 +17,13 @@ RUN pip install --no-cache-dir -r requirements.txt
 # Copy all ML models and gateway
 COPY . .
 
-# Make entrypoint executable
-RUN chmod +x entrypoint.sh
+# Make entrypoint executable and fix line endings
+RUN tr -d '\r' < entrypoint.sh > entrypoint.sh.new && mv entrypoint.sh.new entrypoint.sh && chmod +x entrypoint.sh
+
+# Bootstrap the models (creates dummy files if missing)
+RUN python Dynamic_pricing_model/ml_service/bootstrap_model.py
+RUN python Reserve_model/bootstrap_reserve.py
+
 
 # Expose Gateway port
 EXPOSE 9000
@@ -28,4 +33,4 @@ ENV PYTHONUNBUFFERED=1
 ENV PORT=9000
 
 # Start all services
-CMD ["./entrypoint.sh"]
+CMD ["/bin/bash", "./entrypoint.sh"]

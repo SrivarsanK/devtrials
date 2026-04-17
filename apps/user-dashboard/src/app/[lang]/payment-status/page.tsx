@@ -20,9 +20,12 @@ function PaymentStatusContent() {
         const data = await res.json();
         if (data.success || data.state === 'COMPLETED' || data.state === 'SUCCESS') {
           await completeOnboarding();
-          window.location.href = `/dashboard`;
+          // Redirect to localized dashboard
+          const locale = window.location.pathname.split('/')[1] || 'en';
+          window.location.href = `/${locale}/dashboard`;
         } else {
-          router.push(`/onboarding?status=failed`);
+          const locale = window.location.pathname.split('/')[1] || 'en';
+          router.push(`/${locale}/onboarding?status=failed`);
         }
       } catch (error) {
         console.error("Status check failed", error);

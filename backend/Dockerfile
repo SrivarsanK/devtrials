@@ -4,14 +4,11 @@ FROM node:20-slim AS builder
 # Set working directory
 WORKDIR /app
 
-# Install pnpm
-RUN npm install -g pnpm
-
 # Copy package files
-COPY package.json pnpm-lock.yaml* ./
+COPY package.json package-lock.json* ./
 
-# Install all dependencies (production + dev for build)
-RUN pnpm install --frozen-lockfile || pnpm install
+# Install all dependencies
+RUN npm install
 
 # Copy source code
 COPY . .

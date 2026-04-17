@@ -117,7 +117,7 @@ export function CaptureStep({ onComplete, onBack }: CaptureStepProps) {
            <div className="absolute inset-x-[-20%] inset-y-[-20%] bg-primary/2 blur-[20px] rounded-full -z-10 group-hover:bg-primary/5 transition-colors" />
         </div>
         <h2 className="text-3xl font-display font-black text-white tracking-tight uppercase">
-          <Translate text="Bio-Shield" /> <br />
+          <Translate text="Premium Verification" /> <br />
           <span className="text-muted-foreground/80 font-bold italic normal-case text-lg tracking-normal">
              <Translate text="Face Verification Enrollment" />
           </span>

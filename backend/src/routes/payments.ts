@@ -25,16 +25,17 @@ router.post('/initiate', auth, async (req, res) => {
       [userId, amount, 'PENDING', merchantTransactionId]
     );
 
-    const result = await PhonePe.initiatePayment({
+    const result = await PhonePe.setupSubscription({
       amount,
       merchantOrderId: merchantTransactionId,
-      metadata: { userId }
+      mobileNumber: req.body.mobileNumber
     });
 
     res.json({
       success: true,
       url: result.redirectUrl,
-      transactionId: merchantTransactionId
+      transactionId: merchantTransactionId,
+      subscriptionId: result.merchantSubscriptionId
     });
   } catch (error: any) {
     console.error('Payment initiation error:', error);
@@ -61,13 +62,16 @@ router.post('/webhook', async (req, res) => {
 
     console.log('PhonePe Webhook Payload:', payload);
 
-    const { state, merchantOrderId, transactionId } = payload as any;
+    const { state, merchantOrderId, transactionId, subscriptionDetails } = payload as any;
 
     if (state === 'COMPLETED') {
-      console.log(`✅ Payment successful for ${merchantOrderId}`);
+      console.log(`✅ Payment & Mandate successful for ${merchantOrderId}`);
+      
+      const metadata = subscriptionDetails ? { subscriptionId: subscriptionDetails.subscriptionId } : {};
+
       await db.query(
-        'UPDATE payments SET status = $1, phonepe_transaction_id = $2, updated_at = NOW() WHERE merchant_transaction_id = $3',
-        ['SUCCESS', transactionId, merchantOrderId]
+        'UPDATE payments SET status = $1, phonepe_transaction_id = $2, metadata = $3, updated_at = NOW() WHERE merchant_transaction_id = $4',
+        ['SUCCESS', transactionId, JSON.stringify(metadata), merchantOrderId]
       );
     } else {
       console.log(`❌ Payment failed/pending for ${merchantOrderId}: ${state}`);

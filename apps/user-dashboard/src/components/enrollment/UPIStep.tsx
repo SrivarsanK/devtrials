@@ -52,7 +52,7 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
           <Translate text="Payout & Payment Setup" />
         </CardTitle>
         <CardDescription className="text-white/50 text-base">
-          <Translate text="Link your UPI ID for automatic payouts and weekly premium deductions." />
+          <Translate text="Link your UPI ID for automatic payouts and daily premium deductions." />
         </CardDescription>
       </CardHeader>
       <CardContent className="space-y-8 px-8 pb-10">
@@ -82,7 +82,7 @@ export function UPIStep({ onComplete, onBack }: UPIStepProps) {
                 <Translate text="Enable Auto-Deduction" />
               </label>
               <p className="text-xs text-white/40 leading-relaxed font-medium">
-                <Translate text="I authorize RideSuraksha to deduct the weekly premium automatically from my delivery platform earnings or via UPI mandate." />
+                <Translate text="I authorize RideSuraksha to deduct the daily premium automatically from my delivery platform earnings or via UPI mandate." />
               </p>
             </div>
           </div>

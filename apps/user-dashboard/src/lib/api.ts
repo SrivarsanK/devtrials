@@ -22,14 +22,39 @@ export class TriggerService {
    * Fetch recent trigger events for the dashboard with high-fidelity mock fallback
    */
   static async getTriggers(limit = 5): Promise<TriggerEvent[]> {
+    // Simulation: Load locally filed claims
+    let localEvents: TriggerEvent[] = [];
+    if (typeof window !== 'undefined') {
+      try {
+        const filedClaimsRaw = localStorage.getItem('RideSuraksha_filed_claims');
+        if (filedClaimsRaw) {
+          const filedClaims = JSON.parse(filedClaimsRaw);
+          localEvents = filedClaims.map((c: any) => ({
+            id: c.id,
+            triggerType: c.type,
+            zoneId: c.zone,
+            timestamp: c.timestamp,
+            dataSource: 'D-ORACLE-TX',
+            thresholdValue: 0,
+            actualValue: 0,
+            status: 'ACTIVE',
+            metadata: { payoutAmount: c.amount, simulation: true }
+          }));
+        }
+      } catch (e) {
+        console.error("TriggerService: Failed to parse local filed claims", e);
+      }
+    }
+
     // Circuit Breaker Logic: Skip fetch if server was recently down
     if (this.backendState === 'DOWN' && Date.now() - this.lastCheck < 60000) {
-      return this.getMockData();
+      const mockData = this.getMockData();
+      return [...localEvents, ...mockData].slice(0, limit);
     }
 
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 2000); // 2s timeout
+      const timeoutId = setTimeout(() => controller.abort(), 5000); // Increased to 5s
 
       const response = await fetch(`/api/triggers?limit=${limit}&includeMock=true`, {
         signal: controller.signal
@@ -41,12 +66,19 @@ export class TriggerService {
       
       const data = await response.json();
       this.backendState = 'UP';
-      return data.events || [];
-    } catch (error) {
+      const remoteEvents = data.events || [];
+      return [...localEvents, ...remoteEvents].slice(0, limit);
+    } catch (error: any) {
       this.backendState = 'DOWN';
       this.lastCheck = Date.now();
-      console.warn('TriggerService: Backend unavailable, returning mock fallback data.', error);
-      return this.getMockData();
+      
+      // Don't spam warnings for timeouts/aborts as they are handled by mock fallback
+      if (error.name !== 'AbortError') {
+        console.warn('TriggerService: Backend unavailable, returning mock fallback data.', error.message || error);
+      }
+      
+      const mockData = this.getMockData();
+      return [...localEvents, ...mockData].slice(0, limit);
     }
   }
 

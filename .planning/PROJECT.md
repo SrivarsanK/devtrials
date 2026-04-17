@@ -1,15 +1,15 @@
 # RideSuraksha
 
-## Current Milestone: v1.3 Claim Application & PhonePe Payouts
+## Current Milestone: v1.4 Backend & ML Deployment
 
-**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
+**Goal:** Containerize ML suite for production hosting, migrate API to Vercel, and establish end-to-end cloud connectivity.
 
 **Target features:**
 
-- Latest Trigger Dashboard Section
-- User "Apply for Claim" actionable UI
-- PhonePe Refund API integration (mocked payout)
-- Payout success reconciliation
+- Dockerized ML Suite (Gateway + 3 Models)
+- Render.yaml for ML Deployment
+- Vercel API migration (Serverless)
+- Cross-service environment configuration
 
 ## What This Is
 

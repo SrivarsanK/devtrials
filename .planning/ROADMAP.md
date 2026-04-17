@@ -1,27 +1,29 @@
-# Project Roadmap: Milestone v1.3
+# Roadmap - Milestone v1.4
 
-## Milestone v1.3: Claim Application & PhonePe Payouts
+## Phase 12: ML Containerization & Local Orchestration
+**Goal:** Create a unified ML suite and orchestrate the full stack locally via Docker.
 
-**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
+- [ ] **ML-01**: Build `backend/ML-Dockerfile` bundling Gateway + 3 models.
+- [ ] **ML-02**: Create root `docker-compose.yml` for Node API, ML Suite, and DB.
+- [ ] **Success Criteria:** 
+  - `docker compose up` starts all services.
+  - Gateway correctly proxies requests to Pricing, Fraud, and Reserve models.
 
-### Phase 11: Claim Application UI Integration
+## Phase 13: Cloud Deployment Prep (Render & Vercel)
+**Goal:** Configure deployments for external hosting.
 
-**Goal:** Build the Latest Trigger dashboard section and the Application confirmation UI.
+- [ ] **ML-03**: Create `render.yaml` for ML Suite deployment.
+- [ ] **API-01**: Refine `vercel.json` for Node.js API.
+- [ ] **API-02**: Update API config to use Render service URL in production.
+- [ ] **Success Criteria:** 
+  - ML Suite builds and deploys to Render.
+  - API functions on Vercel reach the ML Suite.
 
-- **Requirements:** CLM-01, CLM-02
+## Phase 14: Data Migration & Production Verification
+**Goal:** Provision production DB and verify full stack connectivity.
 
-- **Success Criteria:**
-  1. A new "Latest Trigger" visual section appears in the `/dashboard`.
-  2. The section clearly describes the recent parameter breach.
-  3. A robust "Apply for Claim" call-to-action button allows users to initiate the payout process.
-
-### Phase 12: PhonePe Refund Flow & Auto-Payout Simulation
-
-**Goal:** Implement the PhonePe Refund transaction API to simulate automated payouts and verify status reconciliation.
-
-- **Requirements:** PAY-01, PAY-02
-
-- **Success Criteria:**
-  1. Hitting "Apply for Claim" triggers a backend call making a mock refund request to PhonePe for the policy's premium equivalent/amount.
-  2. System receives the refund success via SDK polling or webhook.
-  3. Dashboard reflects the new "PAID" status of the fresh claim gracefully.
+- [ ] **DB-01**: Set up Render PostgreSQL and execute schema `.sql` files.
+- [ ] **CON-01**: End-to-end verification of Dashboard -> Vercel API -> Render ML Suite -> DB.
+- [ ] **Success Criteria:** 
+  - Production DB contains all necessary schemas.
+  - Real-time claims flow through the entire cloud infrastructure.

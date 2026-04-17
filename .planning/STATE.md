@@ -2,14 +2,14 @@
 
 ## Current Position
 
-**Phase:** 11 - Claim Application UI Integration (Complete)
-**Plan:** `.planning/phases/11-claim-application-ui-integration/11-PLAN.md`
-**Status:** Completed Phase 11. Ready for Phase 12.
-**Last activity:** 2026-04-17 — Phase 11 complete.
+**Phase:** 12 - ML Containerization & Local Orchestration (In Progress)
+**Plan:** `.planning/phases/12-ml-containerization/12-PLAN.md`
+**Status:** Started v1.4. Defining requirements.
+**Last activity:** 2026-04-17 — Milestone v1.4 started.
 
-## Current Milestone: v1.3 Claim Application & PhonePe Payouts
+## Current Milestone: v1.4 Backend & ML Deployment
 
-**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
+**Goal:** Containerize ML suite for production hosting, migrate API to Vercel, and establish end-to-end cloud connectivity.
 
 **Target Features:**
 

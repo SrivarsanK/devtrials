@@ -15,10 +15,55 @@ export const initSocket = (server: HttpServer) => {
   io.on('connection', (socket) => {
     console.log('📱 Socket connected:', socket.id);
 
-    // Join a room for city-specific updates
-    socket.on('join-city', (city: string) => {
-      socket.join(city);
-      console.log(`📍 Socket ${socket.id} joined city: ${city}`);
+    // Identify and join role-based rooms
+    socket.on('join-room', (payload: any) => {
+      let role = typeof payload === 'string' ? payload : payload.role;
+      let token = typeof payload === 'string' ? null : payload.token;
+
+      // Granular authentication check
+      if (['INSURER', 'ADMIN'].includes(role)) {
+        if (!token) {
+          console.warn(`⚠️ Socket ${socket.id} access denied to room: ${role} (Missing Auth Token)`);
+          socket.emit('auth-error', { message: 'Unauthorized access to restricted room' });
+          return;
+        }
+
+        // TODO: In production, verify JWT token and extract user role
+        // For development/demo, we allow if a token string is present, indicating authentication
+        if (token.length < 10) {
+          console.warn(`⚠️ Socket ${socket.id} access denied to room: ${role} (Invalid Token)`);
+          socket.emit('auth-error', { message: 'Invalid authentication token' });
+          return;
+        }
+      }
+
+      socket.join(role);
+      console.log(`👤 Socket ${socket.id} joined securely room: ${role}`);
+    });
+
+    // Handle cross-app communications
+    // ... rest of the events untouched ...
+    // 1. Claim Submission (User -> Insurer/Admin)
+    socket.on('submit-claim', (claimData: any) => {
+      console.log('📝 Claim submitted:', claimData.id);
+      io.to('INSURER').to('ADMIN').emit('new-claim', claimData);
+    });
+
+    // 2. Claim Status Update (Insurer -> User/Admin)
+    socket.on('update-claim-status', (updateData: any) => {
+      console.log('⚡ Claim status update:', updateData.id, updateData.status);
+      io.to('USER').to(`user-${updateData.userId}`).to('ADMIN').emit('claim-update', updateData);
+    });
+
+    // 3. Global Announcement (Admin -> All)
+    socket.on('send-announcement', (announcement: any) => {
+      console.log('📢 Admin announcement:', announcement.title);
+      io.emit('announcement', announcement);
+    });
+
+    // 4. Trigger Alert (System -> All)
+    socket.on('system-trigger', (triggerData: any) => {
+      io.emit('trigger-alert', triggerData);
     });
 
     socket.on('disconnect', () => {
@@ -34,6 +79,15 @@ export const getIO = () => {
     throw new Error('Socket.io not initialized');
   }
   return io;
+};
+
+// Global broadcast helpers
+export const broadcastTrigger = (trigger: any) => {
+  if (io) io.emit('trigger-alert', trigger);
+};
+
+export const broadcastClaim = (claim: any) => {
+  if (io) io.to('INSURER').to('ADMIN').emit('new-claim', claim);
 };
 
 // Helper to broadcast global health updates

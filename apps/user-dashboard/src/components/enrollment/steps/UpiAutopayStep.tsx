@@ -88,6 +88,8 @@ export function UpiAutopayStep({ initialUpi = "", amount, mobile, onNext, onBack
                </div>
                <div className="space-y-2">
                   <h4 className="text-sm font-black text-white uppercase tracking-tight italic leading-none"><Translate text="2hr Parametric Mandate" /></h4>
+                  <p className="text-[10px] font-black text-muted-foreground/60 uppercase tracking-widest"><Translate text="Deduction Frequency" /></p>
+                  <p className="text-white font-bold tracking-tight uppercase"><Translate text="Weekly Automation" /></p>
                   <p className="text-[10px] font-bold text-muted-foreground/70 uppercase leading-relaxed tracking-wider">
                      <Translate text="By enabling Autopay, you authorize RideSuraksha to automatically deposit verified claims to this ID and renew your policy window." />
                   </p>

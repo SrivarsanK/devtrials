@@ -10,6 +10,14 @@
 ## Current Milestone: v1.4 Chennai Zone Classification Integration
 
 **Goal:** Integrate 62 classified Chennai zones (18 Red, 28 Orange, 16 Green) with priority-based risk visualization into the live risk map and zones pages in the `apps/web` insurer dashboard.
+**Phase:** 14 - Data Migration & Production Verification (Complete)
+**Plan:** —
+**Status:** Milestone v1.4 Complete. Ready for next.
+**Last activity:** 2026-04-17 — Milestone v1.4 finished.
+
+## Current Milestone: v1.4 Backend & ML Deployment
+
+**Goal:** Containerize ML suite for production hosting, migrate API to Vercel, and establish end-to-end cloud connectivity.
 
 **Target Features:**
 

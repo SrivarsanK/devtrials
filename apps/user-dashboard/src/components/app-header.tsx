@@ -24,19 +24,75 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Translate } from "@/components/ui/translate";
 import { useLanguage } from "@/contexts/LanguageContext";
 import { usePathname, useRouter } from "next/navigation";
+import { DashboardAPI } from "@/lib/api/dashboard";
 
 export function AppHeader() {
   const { user } = useUser();
   const isMobile = useIsMobile();
   const { state } = useSidebar();
   const isCollapsed = state === "collapsed";
-  const [notifications, setNotifications] = useState([
-    { id: 1, title: "Weather Alert", message: "Heavy Rainfall in Velachery. Claimable: ₹1,450", time: "2m ago", unread: true, type: "urgent" },
-    { id: 2, title: "Payout Sent", message: "₹1,200 deposited for AQI disruption", time: "1h ago", unread: true, type: "payout" },
-    { id: 3, title: "Policy Active", message: "Your 24h coverage is now in effect", time: "5h ago", unread: false, type: "system" }
-  ]);
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [notifications, setNotifications] = useState<any[]>([]);
+  const [loading, setLoading] = useState(true);
 
+  useEffect(() => {
+    async function fetchNotifications() {
+      try {
+        const summary = await DashboardAPI.getSummary();
+        const realNotifications: any[] = [];
+        let idCount = 1;
+
+        // 1. Add Latest Trigger (as Weather Alert)
+        if (summary.latestTrigger) {
+          realNotifications.push({
+            id: idCount++,
+            title: "Weather Alert",
+            message: `${summary.latestTrigger.title} in ${summary.latestTrigger.zone}. Claimable: ₹${summary.latestTrigger.amount}`,
+            time: "Live",
+            unread: true,
+            type: "urgent"
+          });
+        }
+
+        // 2. Add Recent Claims (as Payouts)
+        summary.recentClaims.slice(0, 3).forEach(claim => {
+          realNotifications.push({
+            id: idCount++,
+            title: "Payout Sent",
+            message: `₹${claim.amount} deposited for ${claim.title.toLowerCase()}`,
+            time: new Date(claim.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+            unread: claim.status === 'PAID',
+            type: "payout"
+          });
+        });
+
+        // 3. System Notification
+        if (summary.policy.status === 'Active') {
+          realNotifications.push({
+            id: idCount++,
+            title: "Policy Active",
+            message: "Your 24h coverage is now in effect",
+            time: "System",
+            unread: false,
+            type: "system"
+          });
+        }
+
+        setNotifications(realNotifications);
+      } catch (err) {
+        console.error("Header: Failed to fetch notifications", err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchNotifications();
+    
+    // Refresh notifications every 30 seconds
+    const interval = setInterval(fetchNotifications, 30000);
+    return () => clearInterval(interval);
+  }, []);
+
+  const [showNotifications, setShowNotifications] = useState(false);
   const unreadCount = notifications.filter(n => n.unread).length;
 
   const { language } = useLanguage();

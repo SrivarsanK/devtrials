@@ -3,20 +3,20 @@ import { NextResponse } from "next/server";
 
 // Public routes — accessible without authentication
 const isPublicRoute = createRouteMatcher([
-  "/",
-  "/sign-in(.*)",
-  "/sign-up(.*)",
+  "/:lang",
+  "/:lang/sign-in(.*)",
+  "/:lang/sign-up(.*)",
   "/api/public(.*)",
 ]);
 
 // Protected routes that require authentication
 const isProtectedRoute = createRouteMatcher([
-  "/dashboard(.*)",
-  "/onboarding(.*)",
-  "/zones(.*)",
-  "/history(.*)",
-  "/claims(.*)",
-  "/settings(.*)",
+  "/:lang/dashboard(.*)",
+  "/:lang/onboarding(.*)",
+  "/:lang/zones(.*)",
+  "/:lang/history(.*)",
+  "/:lang/claims(.*)",
+  "/:lang/settings(.*)",
 ]);
 
 import { locales, defaultLocale } from "./app/[lang]/dictionaries";
@@ -29,6 +29,11 @@ export default clerkMiddleware(async (auth, req) => {
   const pathnameHasLocale = locales.some(
     (locale) => pathname.startsWith(`/${locale}/`) || pathname === `/${locale}`
   );
+
+  // Skip redirection for API routes to allow next.config.ts rewrites to handle them
+  if (pathname.startsWith('/api') || pathname.startsWith('/trpc')) {
+    return NextResponse.next();
+  }
 
   if (!pathnameHasLocale) {
     // Detect locale (simplified: default to 'en' for now or check headers)
@@ -71,7 +76,7 @@ export default clerkMiddleware(async (auth, req) => {
     }
 
     // Enforce Onboarding
-    if (!isOnboardingComplete && !internalPath.startsWith("/onboarding") && isProtectedRoute(req)) {
+    if (!isOnboardingComplete && !internalPath.startsWith("/onboarding") && !internalPath.startsWith("/payment-status") && isProtectedRoute(req)) {
       return NextResponse.redirect(new URL(`/${locale}/onboarding`, req.url));
     }
 

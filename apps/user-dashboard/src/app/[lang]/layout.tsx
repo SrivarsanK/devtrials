@@ -42,6 +42,8 @@ export async function generateStaticParams() {
   return [{ lang: 'en' }, { lang: 'ta' }]
 }
 
+import { SocketProvider } from "@/components/providers/socket-provider";
+
 export default async function RootLayout({
   children,
   params,
@@ -97,7 +99,9 @@ export default async function RootLayout({
           <ConvexClientProvider>
             <ConvexUserSync />
             <LanguageProvider dictionary={dictionary} lang={lang as any}>
-              {children}
+              <SocketProvider>
+                {children}
+              </SocketProvider>
             </LanguageProvider>
             <Toaster position="top-center" richColors theme="dark" closeButton />
           </ConvexClientProvider>

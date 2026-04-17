@@ -2,7 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import Link from "next/link";
-import { Shield, Smartphone, ArrowDown, Droplet, Wind, AlertTriangle, ShieldCheck, Banknote, MapPin, Star, Menu, X } from "lucide-react";
+import { Shield, Smartphone, ArrowDown, Droplet, Wind, AlertTriangle, ShieldCheck, Banknote, MapPin, Star, Menu, X, Zap } from "lucide-react";
 import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 import { Translate } from "@/components/ui/translate";
 import { useLanguage } from "@/contexts/LanguageContext";
@@ -159,7 +159,7 @@ export default function LandingPage() {
           <div className="flex items-center gap-2 glass-subtle px-5 py-2.5 rounded-full">
             <Banknote className="w-5 h-5 text-fs-yellow" />
             <span className="text-[11px] font-black uppercase tracking-widest text-white/80">
-              <Translate text="₹79/wk Starting Premium" />
+              <Translate text="₹20/week Starting Premium" />
             </span>
           </div>
           <div className="flex items-center gap-2 glass-subtle px-5 py-2.5 rounded-full">
@@ -250,85 +250,141 @@ export default function LandingPage() {
             <div className="flex items-center justify-center gap-3 text-secondary font-black uppercase tracking-[0.2em] text-[11px] mb-4">
               <Translate text="PLANS" />
             </div>
-            <h2 className="font-display font-black text-3xl md:text-6xl text-white tracking-tight uppercase">
+            <h2 className="font-display font-black text-3xl md:text-6xl text-white tracking-tight uppercase mb-6">
               <Translate text="Pick the " /><span className="text-primary italic"><Translate text="protection." /></span>
             </h2>
+            <div className="flex flex-col md:flex-row items-center justify-center gap-4 md:gap-8 text-white/50 text-sm font-medium">
+              <div className="flex items-center gap-2">
+                <MapPin className="size-4 text-primary" />
+                <Translate text="Varies by Zone Risk" />
+              </div>
+              <div className="hidden md:block w-1 h-1 bg-white/20 rounded-full" />
+              <div className="flex items-center gap-2">
+                <ShieldCheck className="size-4 text-primary" />
+                <Translate text="Scales with Insured Days" />
+              </div>
+            </div>
           </div>
 
-          <div className="grid md:grid-cols-3 gap-8 items-center max-w-5xl mx-auto">
-            {/* Guard Lite */}
-            <Card className="glass-subtle card-glow border-white/[0.05] hover:border-white/[0.1] transition-all text-white rounded-3xl">
-              <CardHeader>
-                <CardTitle className="text-2xl font-manrope"><Translate text="Guard Lite" /></CardTitle>
-                <div className="mt-4 flex items-baseline text-4xl font-extrabold">
-                  ₹79
-                  <span className="ml-1 text-xl font-medium text-white/50">/wk</span>
+          <div className="grid md:grid-cols-3 gap-8 items-stretch max-w-5xl mx-auto">
+            {/* Lite Pass */}
+            <Card className="glass-subtle border-white/5 rounded-[40px] flex flex-col p-10 transition-all hover:border-white/10 group relative overflow-hidden">
+              <div className="absolute top-0 right-0 w-32 h-32 bg-white/5 blur-3xl rounded-full translate-x-12 -translate-y-12" />
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 italic">Basic Protection</span>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                <div className="flex items-center text-white/80"><ShieldCheck className="w-5 h-5 mr-3 text-primary" /> <Translate text="50% coverage" /></div>
-                <div className="flex items-center text-white/80"><AlertTriangle className="w-5 h-5 mr-3 text-white/40" /> <Translate text="24hr payout" /></div>
-                <div className="flex items-center text-white/80"><Droplet className="w-5 h-5 mr-3 text-white/40" /> <Translate text="Rain & Flood only" /></div>
-              </CardContent>
-              <CardFooter>
-                 <Link href="/sign-up" className="w-full">
-                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 hover:bg-white/10">
-                    <Translate text="Choose Plan" /> <ArrowDown className="w-4 h-4 ml-2 -rotate-90" />
-                  </Button>
-                </Link>
-              </CardFooter>
-            </Card>
-
-            {/* Guard Plus (Popular) */}
-            <Card className="relative glass-subtle card-glow border-primary/50 ring-1 ring-primary/30 neon-primary transition-all md:-translate-y-4 text-white rounded-3xl transform">
-              <div className="absolute -top-4 left-0 right-0 flex justify-center">
-                <span className="bg-primary text-white text-xs font-bold px-3 py-1 uppercase tracking-wider rounded-full">
-                  <Translate text="MOST POPULAR" />
-                </span>
+                <h3 className="text-3xl font-display font-black text-white mb-2 uppercase italic tracking-tighter"><Translate text="Lite Pass" /></h3>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-5xl font-display font-black text-white italic">₹20</span>
+                  <span className="text-sm font-bold text-white/20 uppercase tracking-widest">/wk*</span>
+                </div>
               </div>
-              <CardHeader className="pt-8">
-                <CardTitle className="text-2xl font-manrope text-primary"><Translate text="Guard Plus" /></CardTitle>
-                <div className="mt-4 flex items-baseline text-5xl font-extrabold text-white">
-                  ₹119
-                  <span className="ml-1 text-xl font-medium text-white/50">/wk</span>
+              
+              <div className="space-y-6 mb-12 flex-grow">
+                <div className="flex items-center text-[12px] font-black text-white/60 uppercase tracking-widest">
+                  <ShieldCheck className="size-5 mr-4 text-primary" strokeWidth={3} />
+                  <Translate text="Rainfall Protection" />
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                 <div className="flex items-center text-white/90"><ShieldCheck className="w-5 h-5 mr-3 text-primary" /> <span className="font-bold"><Translate text="70% coverage" /></span></div>
-                 <div className="flex items-center text-white/90"><AlertTriangle className="w-5 h-5 mr-3 text-primary" /> <Translate text="12hr payout" /></div>
-                 <div className="flex items-center text-white/90"><Wind className="w-5 h-5 mr-3 text-primary" /> <Translate text="All weather & curfews" /></div>
-              </CardContent>
-              <CardFooter>
-                 <Link href="/sign-up" className="w-full">
-                  <Button className="w-full h-12 bg-primary hover:bg-primary/90 active:scale-95 text-white rounded-xl font-bold border-none transition-all shadow-[0_10px_20px_rgba(255,70,37,0.3)] uppercase text-xs tracking-widest">
-                    <Translate text="Choose Plan" /> <ArrowDown className="w-4 h-4 ml-2 -rotate-90" />
-                  </Button>
-                </Link>
-              </CardFooter>
+                <div className="flex items-center text-[12px] font-black text-white/20 uppercase tracking-widest">
+                  <AlertTriangle className="size-5 mr-4 opacity-20" strokeWidth={3} />
+                  <Translate text="Standard Payout" />
+                </div>
+                <div className="flex items-center text-[12px] font-black text-white/20 uppercase tracking-widest">
+                  <Droplet className="size-5 mr-4 opacity-20" strokeWidth={3} />
+                  <Translate text="Low Risk Zones Only" />
+                </div>
+              </div>
+
+              <Link href="/sign-up" className="w-full">
+                <Button variant="outline" className="w-full h-16 rounded-[28px] border-white/5 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-xs tracking-widest transition-all flex items-center justify-center gap-3 group/btn">
+                  <Translate text="Select Pass" /> <ArrowDown className="size-4 -rotate-90 group-hover/btn:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
             </Card>
 
-            {/* Guard Max */}
-            <Card className="glass-subtle card-glow border-white/[0.05] hover:border-white/[0.1] transition-all text-white rounded-3xl">
-              <CardHeader>
-                <CardTitle className="text-2xl font-manrope"><Translate text="Guard Max" /></CardTitle>
-                <div className="mt-4 flex items-baseline text-4xl font-extrabold">
-                  ₹159
-                  <span className="ml-1 text-xl font-medium text-white/50">/wk</span>
+            {/* Plus Pass (Popular) */}
+            <Card className="relative bg-[#0d0d0d] border-primary/20 ring-1 ring-primary/30 rounded-[48px] flex flex-col p-12 md:scale-105 shadow-[0_50px_100px_rgba(255,70,37,0.2)] z-10 transition-all overflow-hidden group">
+              <div className="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-transparent via-primary to-transparent" />
+              <div className="absolute -top-20 -right-20 w-64 h-64 bg-primary/10 blur-[100px] rounded-full group-hover:bg-primary/20 transition-all duration-700" />
+              
+              <div className="mb-10 text-center">
+                <div className="inline-flex items-center px-4 py-1.5 bg-primary/10 border border-primary/20 rounded-full mb-6">
+                  <span className="text-[10px] font-black uppercase tracking-[0.2em] text-primary italic">Most Popular Protocol</span>
                 </div>
-              </CardHeader>
-              <CardContent className="space-y-4">
-                 <div className="flex items-center text-white/80"><ShieldCheck className="w-5 h-5 mr-3 text-primary" /> <span className="font-bold"><Translate text="80% coverage" /></span></div>
-                 <div className="flex items-center text-white/80"><AlertTriangle className="w-5 h-5 mr-3 text-white/40" /> <span className="font-bold"><Translate text="2hr expedited payout" /></span></div>
-                 <div className="flex items-center text-white/80"><Wind className="w-5 h-5 mr-3 text-white/40" /> <Translate text="All disruptions + VIP support" /></div>
-              </CardContent>
-              <CardFooter>
-                 <Link href="/sign-up" className="w-full">
-                  <Button variant="outline" className="w-full h-12 rounded-xl border-white/20 hover:bg-white/10">
-                    <Translate text="Choose Plan" /> <ArrowDown className="w-4 h-4 ml-2 -rotate-90" />
-                  </Button>
-                </Link>
-              </CardFooter>
+                <h3 className="text-4xl font-display font-black text-white mb-2 uppercase italic tracking-tighter"><Translate text="Plus Pass" /></h3>
+                <div className="flex items-baseline justify-center gap-1.5">
+                  <span className="text-7xl font-display font-black text-white italic">₹35</span>
+                  <span className="text-sm font-bold text-white/30 uppercase tracking-widest">/wk*</span>
+                </div>
+              </div>
+              
+              <div className="space-y-6 mb-12 flex-grow">
+                <div className="flex items-center text-[13px] font-black text-white uppercase tracking-widest">
+                  <ShieldCheck className="size-6 mr-4 text-primary" strokeWidth={3} />
+                  <Translate text="Full Weather Suite" />
+                </div>
+                <div className="flex items-center text-[13px] font-black text-white uppercase tracking-widest">
+                  <Zap className="size-6 mr-4 text-primary animate-pulse" strokeWidth={3} />
+                  <Translate text="Instant UPI Settlement" />
+                </div>
+                <div className="flex items-center text-[13px] font-black text-white uppercase tracking-widest">
+                  <Wind className="size-6 mr-4 text-primary" strokeWidth={3} />
+                  <Translate text="Mid-High Risk Coverage" />
+                </div>
+              </div>
+
+              <Link href="/sign-up" className="w-full">
+                <Button className="w-full h-20 bg-primary hover:bg-primary/90 text-white font-black uppercase text-sm tracking-widest rounded-[32px] border-none shadow-[0_15px_40px_rgba(255,70,37,0.5)] transition-all flex items-center justify-center gap-3 group/btn active:scale-95">
+                  <Translate text="ACTIVATE PLUS" /> <ArrowDown className="size-5 -rotate-90 group-hover/btn:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
             </Card>
+
+            {/* Elite Pass */}
+            <Card className="glass-subtle border-white/5 rounded-[40px] flex flex-col p-10 transition-all hover:border-white/10 group relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-32 h-32 bg-primary/5 blur-3xl rounded-full -translate-x-12 -translate-y-12" />
+              <div className="mb-8">
+                <div className="flex items-center gap-2 mb-4">
+                  <span className="text-[10px] font-black uppercase tracking-[0.3em] text-white/30 italic">UNLIMITED ESCROW</span>
+                </div>
+                <h3 className="text-3xl font-display font-black text-white mb-2 uppercase italic tracking-tighter"><Translate text="Elite Pass" /></h3>
+                <div className="flex items-baseline gap-1.5">
+                  <span className="text-5xl font-display font-black text-white italic">₹50</span>
+                  <span className="text-sm font-bold text-white/20 uppercase tracking-widest">/wk*</span>
+                </div>
+              </div>
+              
+              <div className="space-y-6 mb-12 flex-grow">
+                <div className="flex items-center text-[12px] font-black text-white/60 uppercase tracking-widest">
+                  <ShieldCheck className="size-5 mr-4 text-primary" strokeWidth={3} />
+                  <Translate text="Global Geofence Coverage" />
+                </div>
+                <div className="flex items-center text-[12px] font-black text-white/60 uppercase tracking-widest">
+                  <AlertTriangle className="size-5 mr-4 text-primary" strokeWidth={3} />
+                  <Translate text="Priority Field Support" />
+                </div>
+                 <div className="flex items-center text-[12px] font-black text-white/60 uppercase tracking-widest">
+                  <Wind className="size-5 mr-4 text-primary" strokeWidth={3} />
+                  <Translate text="All Risk Zone Profiles" />
+                </div>
+              </div>
+
+              <Link href="/sign-up" className="w-full">
+                <Button variant="outline" className="w-full h-16 rounded-[28px] border-white/5 bg-white/5 hover:bg-white/10 text-white font-black uppercase text-xs tracking-widest transition-all flex items-center justify-center gap-3 group/btn">
+                  <Translate text="Select Elite" /> <ArrowDown className="size-4 -rotate-90 group-hover/btn:translate-x-1 transition-transform" />
+                </Button>
+              </Link>
+            </Card>
+          </div>
+
+          <div className="mt-16 text-center">
+            <p className="text-[10px] font-black text-white/20 uppercase tracking-[0.4em] italic mb-2">
+              <Translate text="* Pricing dynamically adjusts based on Zone Risk Indices and Insured Window duration." />
+            </p>
+            <p className="text-[8px] font-bold text-white/10 uppercase tracking-widest">
+              <Translate text="RideSuraksha Protocol v4.2 | Parametric Underwriting Active" />
+            </p>
           </div>
         </div>
       </section>
@@ -414,7 +470,7 @@ export default function LandingPage() {
             </Link>
             
             <p className="mt-6 text-sm text-white/40">
-              <Translate text="Starting at ₹79/week. Cancel anytime." />
+              <Translate text="Starting at ₹20/week. Cancel anytime." />
             </p>
          </div>
       </section>

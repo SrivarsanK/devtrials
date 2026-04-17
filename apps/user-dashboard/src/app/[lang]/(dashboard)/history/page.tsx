@@ -76,8 +76,199 @@ export default function PayoutHistoryPage() {
     }
   };
 
+  const [isExporting, setIsExporting] = useState(false);
+
+  const handleDownload = (format: 'pdf' | 'csv') => {
+    const timestamp = new Date().toISOString().split('T')[0];
+    const fileName = `RideSuraksha_Statement_${timestamp}`;
+
+    if (format === 'csv') {
+      // Generate CSV
+      const headers = ["ID", "Type", "Zone", "Status", "Amount", "Timestamp"];
+      const rows = events.map((e, idx) => [
+        `#00${idx + 1}`,
+        e.triggerType,
+        e.zoneId,
+        e.status,
+        e.metadata?.payoutAmount || 0,
+        new Date(e.timestamp).toLocaleString()
+      ]);
+
+      const csvContent = [
+        headers.join(","),
+        ...rows.map(r => r.join(","))
+      ].join("\n");
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement("a");
+      const url = URL.createObjectURL(blob);
+      link.setAttribute("href", url);
+      link.setAttribute("download", `${fileName}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    } else {
+      // Professional PDF/Print Report Generation
+      const reportWindow = window.open('', '_blank');
+      if (!reportWindow) return;
+
+      const reportHtml = `
+        <!DOCTYPE html>
+        <html>
+          <head>
+            <title>RideSuraksha - Payout Audit Report</title>
+            <style>
+              @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&display=swap');
+              body { font-family: 'Inter', sans-serif; padding: 40px; color: #111; line-height: 1.6; }
+              .header { border-bottom: 2px solid #ff4625; padding-bottom: 20px; margin-bottom: 30px; display: flex; justify-content: space-between; align-items: flex-end; }
+              .logo { font-size: 24px; font-weight: 900; letter-spacing: -1px; text-transform: uppercase; }
+              .logo span { color: #ff4625; }
+              .title { text-align: right; }
+              .title h1 { margin: 0; font-size: 14px; text-transform: uppercase; letter-spacing: 2px; color: #666; }
+              .summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; margin-bottom: 40px; }
+              .stat-card { background: #f9f9f9; padding: 20px; border-radius: 12px; border: 1px solid #eee; }
+              .stat-label { font-size: 10px; font-weight: 700; color: #999; text-transform: uppercase; margin-bottom: 5px; }
+              .stat-value { font-size: 20px; font-weight: 900; }
+              table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+              th { text-align: left; background: #f4f4f4; padding: 12px; font-size: 11px; text-transform: uppercase; border-bottom: 2px solid #eee; }
+              td { padding: 12px; font-size: 12px; border-bottom: 1px solid #eee; }
+              .status { font-weight: 700; font-size: 10px; text-transform: uppercase; padding: 4px 8px; border-radius: 4px; }
+              .status-active { background: #e6f7ef; color: #10b981; }
+              .amount { font-weight: 700; color: #ff4625; }
+              .footer { margin-top: 50px; font-size: 10px; color: #999; text-align: center; border-top: 1px solid #eee; padding-top: 20px; }
+              @media print { .no-print { display: none; } }
+            </style>
+          </head>
+          <body>
+            <div class="header">
+              <div class="logo">RIDE<span>SURAKSHA</span></div>
+              <div class="title">
+                <h1>Payout Audit Statement</h1>
+                <div style="font-size: 10px; color: #999;">Generated on ${new Date().toLocaleString()}</div>
+              </div>
+            </div>
+
+            <div class="summary">
+              <div class="stat-card">
+                <div class="stat-label">Total Settlements</div>
+                <div class="stat-value">₹${totalProtected.toLocaleString()}</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Event Count</div>
+                <div class="stat-value">${events.length}</div>
+              </div>
+              <div class="stat-card">
+                <div class="stat-label">Coverage Zones</div>
+                <div class="stat-value">24 Active</div>
+              </div>
+            </div>
+
+            <table>
+              <thead>
+                <tr>
+                  <th>Ref ID</th>
+                  <th>Description</th>
+                  <th>Location</th>
+                  <th>Timestamp</th>
+                  <th>Status</th>
+                  <th>Amount</th>
+                </tr>
+              </thead>
+              <tbody>
+                ${events.map((e, idx) => `
+                  <tr>
+                    <td>#00${idx + 1}</td>
+                    <td>${getTriggerLabel(e.triggerType)}</td>
+                    <td>${e.zoneId}</td>
+                    <td>${new Date(e.timestamp).toLocaleDateString()}</td>
+                    <td><span class="status ${e.status === 'ACTIVE' ? 'status-active' : ''}">${e.status === 'ACTIVE' ? 'Settled' : 'Expired'}</span></td>
+                    <td class="amount">₹${e.metadata?.payoutAmount || 0}</td>
+                  </tr>
+                `).join('')}
+              </tbody>
+            </table>
+
+            <div class="footer">
+              This is a computationally verified audit document. For support, contact support@ridesuraksha.io
+              <br/>© 2026 RideSuraksha Parametric Insurance Platform
+            </div>
+
+            <script>
+              window.onload = () => {
+                window.print();
+                // Optionally close the window after printing
+                // window.onafterprint = () => window.close();
+              };
+            </script>
+          </body>
+        </html>
+      `;
+
+      reportWindow.document.write(reportHtml);
+      reportWindow.document.close();
+    }
+    setIsExporting(false);
+  };
+
   return (
     <div className="space-y-12 pb-12 animate-in fade-in duration-700">
+      
+      {/* EXPORT MODAL */}
+      <AnimatePresence>
+        {isExporting && (
+           <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
+              <motion.div 
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                onClick={() => setIsExporting(false)}
+                className="absolute inset-0 bg-black/80 backdrop-blur-md"
+              />
+              <motion.div 
+                initial={{ opacity: 0, scale: 0.9, y: 20 }}
+                animate={{ opacity: 1, scale: 1, y: 0 }}
+                exit={{ opacity: 0, scale: 0.9, y: 20 }}
+                className="relative bg-[#12121a] border border-white/10 rounded-[48px] p-12 w-full max-w-md shadow-2xl overflow-hidden"
+              >
+                  <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-primary to-transparent opacity-50" />
+                  
+                  <div className="text-center space-y-4 mb-10">
+                    <h3 className="text-3xl font-display font-black text-white uppercase tracking-tight italic"><Translate text="Select Format" /></h3>
+                    <p className="text-[10px] font-black text-white/30 uppercase tracking-[0.3em]"><Translate text="Choose export specification" /></p>
+                  </div>
+
+                  <div className="grid grid-cols-2 gap-6">
+                      <button 
+                        onClick={() => handleDownload('pdf')}
+                        className="group flex flex-col items-center gap-6 p-8 bg-white/5 border border-white/5 rounded-[40px] hover:border-primary/40 hover:bg-primary/5 transition-all"
+                      >
+                          <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+                             <Download className="w-8 h-8 text-white/20 group-hover:text-primary" />
+                          </div>
+                          <span className="text-xl font-display font-black text-white italic uppercase tracking-tighter">.PDF</span>
+                      </button>
+
+                      <button 
+                        onClick={() => handleDownload('csv')}
+                        className="group flex flex-col items-center gap-6 p-8 bg-white/5 border border-white/5 rounded-[40px] hover:border-primary/40 hover:bg-primary/5 transition-all"
+                      >
+                          <div className="w-16 h-16 rounded-3xl bg-white/5 flex items-center justify-center group-hover:scale-110 transition-transform">
+                             <Download className="w-8 h-8 text-white/20 group-hover:text-primary" />
+                          </div>
+                          <span className="text-xl font-display font-black text-white italic uppercase tracking-tighter">.CSV</span>
+                      </button>
+                  </div>
+
+                  <button 
+                    onClick={() => setIsExporting(false)}
+                    className="w-full mt-10 py-4 text-[10px] font-black text-white/20 uppercase tracking-[0.4em] hover:text-white transition-colors"
+                  >
+                    <Translate text="Dismiss Terminal" />
+                  </button>
+              </motion.div>
+           </div>
+        )}
+      </AnimatePresence>
       
       {/* HEADER SECTION */}
       <section className="flex flex-col md:flex-row md:items-end justify-between gap-8 pt-4">
@@ -92,7 +283,10 @@ export default function PayoutHistoryPage() {
          </div>
 
          {/* EXPORT TERMINAL */}
-         <div className="bg-white/5 border border-white/5 rounded-[40px] p-6 flex flex-col sm:flex-row items-center gap-8 shadow-2xl relative overflow-hidden backdrop-blur-sm min-w-[320px] group hover:border-primary/20 transition-all cursor-pointer">
+         <div 
+            onClick={() => setIsExporting(true)}
+            className="bg-white/5 border border-white/5 rounded-[40px] p-6 flex flex-col sm:flex-row items-center gap-8 shadow-2xl relative overflow-hidden backdrop-blur-sm min-w-[320px] group hover:border-primary/20 transition-all cursor-pointer active:scale-95"
+          >
             <div className="w-16 h-16 rounded-[28px] bg-primary/10 flex items-center justify-center border border-primary/20 group-hover:scale-105 transition-all duration-500 shadow-[0_0_20px_rgba(255,70,37,0.1)]">
                <Download className="w-7 h-7 text-primary drop-shadow-[0_0_8px_rgba(255,70,37,0.8)]" strokeWidth={3} />
             </div>

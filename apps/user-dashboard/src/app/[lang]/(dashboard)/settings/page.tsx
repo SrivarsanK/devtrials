@@ -147,7 +147,7 @@ export default function SettingsPage() {
               </div>
               <div className="flex flex-wrap items-center justify-center md:justify-start gap-4">
                  <Badge className="bg-emerald-500/10 text-emerald-500 border border-emerald-500/20 font-black tracking-widest text-[10px] px-5 py-2 uppercase rounded-full">
-                    <Translate text="policy.bioShieldTier" />
+                    <Translate text="policy.premiumTier" />
                  </Badge>
                  <Badge variant="outline" className="border-white/10 text-white/40 font-black tracking-widest text-[10px] px-5 py-2 uppercase rounded-full">
                     ID: {user?.id?.slice(-12).toUpperCase()}

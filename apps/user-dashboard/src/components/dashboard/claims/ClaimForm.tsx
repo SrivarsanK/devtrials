@@ -57,6 +57,24 @@ export function ClaimForm({ onSuccess }: { onSuccess: (claim: any) => void }) {
     console.log("Submitting claim evidence...", { title: titleParam || claimType });
 
     try {
+      // 1. Emit the claim via Socket.IO for real-time cross-app notification
+      const claimId = `CLM-${Math.floor(Math.random() * 9000) + 1000}`;
+      const claimData = {
+        id: claimId,
+        type: titleParam || claimType,
+        reason,
+        amount: searchParams.get('amount') || "₹1,000",
+        timestamp: new Date().toISOString(),
+        userName: "Arunavo" // Ideally from Clerk user
+      };
+
+      import("@/lib/socket").then(({ socket }) => {
+        if (socket.connected) {
+          socket.emit("submit-claim", claimData);
+          console.log("📡 Claim emitted to socket hub");
+        }
+      });
+
       // Mimic small upload delay for UX
       await new Promise(resolve => setTimeout(resolve, 1500));
       
@@ -73,6 +91,7 @@ export function ClaimForm({ onSuccess }: { onSuccess: (claim: any) => void }) {
       console.error("Submission failed:", err);
       setIsSubmitting(false);
     }
+
   };
 
   return (

@@ -87,24 +87,63 @@ class PhonePeLibrary {
   }
 
   /**
-   * Checks the status of a payment
+   * Checks the status of a payment (Standard or Subscription)
    */
   async checkStatus(merchantOrderId: string) {
     try {
       console.log(`[PhonePe] Checking status for Order: ${merchantOrderId}`);
-      const response = await this.client.getOrderStatus(merchantOrderId);
       
-      const latestPayment = response.paymentDetails?.[0];
-      
-      return {
-        success: response.state === 'COMPLETED',
-        state: response.state,
-        amount: response.amount / 100,
-        merchantOrderId: response.merchantOrderId,
-        transactionId: latestPayment?.transactionId,
-        paymentMode: latestPayment?.paymentMode,
-        rawResponse: response
-      };
+      // Try SDK first (Standard V1)
+      try {
+        const response = await this.client.getOrderStatus(merchantOrderId);
+        const latestPayment = response.paymentDetails?.[0];
+        
+        return {
+          success: response.state === 'COMPLETED',
+          state: response.state,
+          amount: response.amount / 100,
+          merchantOrderId: response.merchantOrderId,
+          transactionId: latestPayment?.transactionId,
+          paymentMode: latestPayment?.paymentMode,
+          subscriptionId: (response as any).subscriptionDetails?.subscriptionId,
+          rawResponse: response
+        };
+      } catch (sdkError) {
+        // If SDK fails (e.g. for V2 subscriptions), try direct V2 status check
+        console.log(`[PhonePe] SDK Status check failed, trying direct V2...`);
+        
+        const { clientId, clientSecret, baseUrl } = config.apis.phonePe;
+        const merchantId = clientId.split('_')[0];
+
+        const tokenResponse = await axios.post(`${baseUrl}/v1/oauth/token`,
+          new URLSearchParams({
+            grant_type: 'client_credentials', client_id: clientId, client_secret: clientSecret, client_version: '1.0.0'
+          }),
+          { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+        );
+        const token = tokenResponse.data.access_token;
+
+        const response = await axios.get(
+          `${baseUrl}/subscriptions/v2/status/${merchantId}/${merchantOrderId}`,
+          {
+            headers: {
+              "Authorization": `O-Bearer ${token}`,
+              "X-MERCHANT-ID": merchantId
+            }
+          }
+        );
+
+        const data = response.data.data || response.data;
+
+        return {
+          success: data.state === 'COMPLETED' || data.state === 'ACTIVE',
+          state: data.state,
+          amount: data.amount / 100,
+          merchantOrderId: data.merchantOrderId,
+          subscriptionId: data.subscriptionId,
+          rawResponse: data
+        };
+      }
     } catch (error) {
       this.handleError(error, 'checkStatus');
       throw error;
@@ -153,6 +192,99 @@ class PhonePeLibrary {
     }
   }
 
+
+  /**
+   * Sets up an Autopay Subscription (Recurring Mandate)
+   */
+  /**
+   * Sets up an Autopay Subscription (Recurring Mandate) with Redirect URL
+   */
+  async setupSubscription(params: {
+    amount: number;
+    merchantOrderId: string;
+    mobileNumber?: string;
+    merchantSubscriptionId?: string;
+    merchantUserId?: string;
+  }) {
+    try {
+      const { amount, merchantOrderId, mobileNumber } = params;
+      const { clientId, clientSecret, baseUrl } = config.apis.phonePe;
+      
+      // Extract merchantId from clientId (prefix before underscore)
+      const merchantId = clientId.split('_')[0]; 
+      const merchantSubscriptionId = params.merchantSubscriptionId || `S${Date.now()}`;
+      const merchantUserId = params.merchantUserId || `U${Date.now()}`;
+      
+      console.log(`[PhonePe] Requesting OAuth token for subscription setup...`);
+      const tokenResponse = await axios.post(`${baseUrl}/v1/oauth/token`,
+        new URLSearchParams({
+          grant_type: 'client_credentials',
+          client_id: clientId,
+          client_secret: clientSecret,
+          client_version: '1.0.0'
+        }),
+        { headers: { 'Content-Type': 'application/x-www-form-urlencoded' } }
+      );
+      const token = tokenResponse.data.access_token;
+
+      console.log(`[PhonePe] Setting up Subscription Checkout for Order: ${merchantOrderId}`);
+
+      const payload = {
+        merchantOrderId: merchantOrderId,
+        amount: Math.round(amount * 100), // convert to paise
+        merchantUserId: merchantUserId,
+        mobileNumber: mobileNumber || '9999999999',
+        deviceContext: { deviceOS: "ANDROID" }, 
+        paymentFlow: {
+          type: "SUBSCRIPTION_CHECKOUT_SETUP",
+          merchantUrls: {
+            redirectUrl: `${config.apis.phonePe.redirectUrl}?id=${merchantOrderId}`,
+            notificationUrl: config.apis.phonePe.callbackUrl
+          },
+          subscriptionDetails: {
+            subscriptionType: "RECURRING",
+            merchantSubscriptionId: merchantSubscriptionId,
+            authWorkflowType: "TRANSACTION",
+            amountType: "VARIABLE",
+            maxAmount: 100000, // ₹1000 limit in paise
+            frequency: "ON_DEMAND",
+            productType: "UPI_MANDATE",
+            expireAt: Math.floor(Date.now() / 1000) + (10 * 365 * 24 * 60 * 60) // 10 years in seconds
+          }
+        }
+      };
+
+      const response = await axios.post(
+        `${baseUrl}/checkout/v2/pay`,
+        payload,
+        {
+          headers: {
+            'Authorization': `O-Bearer ${token}`,
+            'X-MERCHANT-ID': merchantId,
+            'Content-Type': 'application/json',
+            'x-source': 'API',
+            'x-source-version': 'V2',
+            'x-source-platform': 'BACKEND_NODE_SDK',
+            'x-source-platform-version': '2.0.5'
+          }
+        }
+      );
+
+      console.log(`[PhonePe] Subscription Setup Success Body:`, response.data);
+
+      return {
+        success: true,
+        redirectUrl: response.data.redirectUrl,
+        orderId: response.data.orderId,
+        merchantSubscriptionId,
+        state: response.data.state
+      };
+    } catch (error: any) {
+      console.error("[PhonePe] Subscription Setup Error:", error.response?.data || error.message);
+      throw new Error(error.response?.data?.message || error.message);
+    }
+  }
+
   /**
    * Processes a refund (simulate payout)
    */
@@ -175,12 +307,6 @@ class PhonePeLibrary {
         callbackUrl: config.apis.phonePe.callbackUrl
       };
 
-      // In a real environment with the StandardCheckoutClient, there might be a .refund() method.
-      // However, if the SDK doesn't expose it or we want to ensure compatibility with the provided links:
-      // We'll use a manual fetch or the internal client if available.
-      // Given the SDK we have, I'll attempt to use the REST API manually for the refund 
-      // as it's often more reliable for non-checkout flows.
-      
       const endpoint = "/pg/v1/refund";
       const base64Payload = Buffer.from(JSON.stringify(payload)).toString("base64");
       const stringToHash = base64Payload + endpoint + config.apis.phonePe.clientSecret;

@@ -100,7 +100,7 @@
     "hyperLocalInfo": "RideSuraksha uses hyper-local weather data from ISRO satellites. Premium is calculated based on current atmospheric pressure and historical zone volatility.",
     "underwriting": "Underwriting...",
     "activateCoverage": "Activate Coverage",
-    "bioShieldTier": "Verification Tier: Bio-Shield ✅"
+    "premiumTier": "Verification Tier: Premium ✅"
   },
   "settings": {
     "title": "Control Terminal",
@@ -116,7 +116,7 @@
     "instantPayoutsToggle": "Instant Payouts",
     "autoTransferInfo": "Auto-transfer to linked UPI wallet",
     "securitySettlement": "Security & Settlement",
-    "bioLock": "Bio-Lock",
+    "bioLock": "Secure-Lock",
     "biometricVerification": "Biometric verification for withdrawals",
     "autoDeduct": "Auto-Deduct",
     "nextDeductionInfo": "Next deduction: Tomorrow, 9:00 AM",

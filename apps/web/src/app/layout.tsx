@@ -10,10 +10,15 @@ const inter = Inter({ variable: "--font-sans", subsets: ["latin"] });
 const jetbrainsMono = JetBrains_Mono({ variable: "--font-mono", subsets: ["latin"] });
 const nunito = Nunito({ weight: ["400", "700", "900"], variable: "--font-display", subsets: ["latin"] });
 
+import { Toaster } from "sonner";
+
+
 export const metadata: Metadata = {
   title: "RideSuraksha | Parametric Income Insurance",
   description: "Monitor disaster triggers and manage parametric insurance payouts for the gig economy.",
 };
+
+import { SocketProvider } from "@/components/providers/socket-provider";
 
 export default function RootLayout({
   children,
@@ -55,10 +60,14 @@ export default function RootLayout({
       <html lang="en" className={cn(inter.variable, jetbrainsMono.variable, nunito.variable, "dark", "scroll-smooth")}>
         <body className="antialiased min-h-screen bg-background text-foreground font-sans selection:bg-primary/30">
           <TooltipProvider>
-            {children}
+            <SocketProvider>
+              {children}
+            </SocketProvider>
+            <Toaster position="top-right" richColors theme="dark" closeButton />
           </TooltipProvider>
         </body>
       </html>
     </ClerkProvider>
+
   );
 }

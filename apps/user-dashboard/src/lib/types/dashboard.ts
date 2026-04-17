@@ -3,7 +3,7 @@
  */
 export interface UserPolicy {
   plan: string;
-  tier: 'Lite' | 'Plus' | 'Max' | 'Bio-Shield';
+  tier: 'Lite' | 'Plus' | 'Max' | 'Premium';
   status: 'Active' | 'Pending' | 'Expired';
   zone: string;
   expiryDate: string;

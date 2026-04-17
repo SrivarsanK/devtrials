@@ -58,7 +58,7 @@ export function AppHeader() {
           realNotifications.push({
             id: idCount++,
             title: "Payout Sent",
-            message: `₹${claim.amount} deposited for ${claim.title.toLowerCase()}`,
+            message: `₹${claim.amount} deposited for ${(claim.title || 'claim').toLowerCase()}`,
             time: new Date(claim.timestamp).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
             unread: claim.status === 'PAID',
             type: "payout"

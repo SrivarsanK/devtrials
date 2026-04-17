@@ -1,15 +1,15 @@
 # RideSuraksha
 
-## Current Milestone: v1.2 High-Fidelity Real-time Dashboard
+## Current Milestone: v1.3 Claim Application & PhonePe Payouts
 
-**Goal:** Implement detailed dashboard features with live API integration and modal-based claim triggers.
+**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
 
 **Target features:**
 
-- Policy Status Card (Tier, Zone, Expiry, Premium paid)
-- Claim Trigger Alert Modal (Threshold crossed -> Payout initiated)
-- Premium Payment Tracker (Due date, Auto-deduct sync)
-- Recent Claim History (5 latest events)
+- Latest Trigger Dashboard Section
+- User "Apply for Claim" actionable UI
+- PhonePe Refund API integration (mocked payout)
+- Payout success reconciliation
 
 ## What This Is
 

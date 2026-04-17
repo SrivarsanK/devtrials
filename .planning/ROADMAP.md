@@ -1,27 +1,27 @@
-# Project Roadmap: Milestone v1.2
+# Project Roadmap: Milestone v1.3
 
-## Milestone v1.2: High-Fidelity Real-time Dashboard
+## Milestone v1.3: Claim Application & PhonePe Payouts
 
-**Goal:** Implement detailed dashboard features with live API integration and modal-based claim triggers.
+**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
 
-### Phase 9: Detailed Dashboard UI & Mock Fallback
+### Phase 11: Claim Application UI Integration
 
-**Goal:** Implement the new Policy Status Card and Recent Claim History with data fetching logic.
+**Goal:** Build the Latest Trigger dashboard section and the Application confirmation UI.
 
-- **Requirements:** DB-01, DB-04, INT-01
-
-- **Success Criteria:**
-  1. Active Policy Status Card displays Tier, Zone, Expiry, and Premium status.
-  2. Recent Claim History displays 5 latest events.
-  3. UI falls back gracefully to Mock data if API fails.
-
-### Phase 10: Performance Triggers & Automated Payouts
-
-**Goal:** Implement the Trigger Alert Modal and Premium Tracker with sync logic.
-
-- **Requirements:** DB-02, DB-03, INT-02
+- **Requirements:** CLM-01, CLM-02
 
 - **Success Criteria:**
-  1. Modal triggers automatically when threshold is crossed (simulated/API).
-  2. Premium tracker displays next due date.
-  3. "Auto-deduct" toggle correctly synchronizes state with the backend.
+  1. A new "Latest Trigger" visual section appears in the `/dashboard`.
+  2. The section clearly describes the recent parameter breach.
+  3. A robust "Apply for Claim" call-to-action button allows users to initiate the payout process.
+
+### Phase 12: PhonePe Refund Flow & Auto-Payout Simulation
+
+**Goal:** Implement the PhonePe Refund transaction API to simulate automated payouts and verify status reconciliation.
+
+- **Requirements:** PAY-01, PAY-02
+
+- **Success Criteria:**
+  1. Hitting "Apply for Claim" triggers a backend call making a mock refund request to PhonePe for the policy's premium equivalent/amount.
+  2. System receives the refund success via SDK polling or webhook.
+  3. Dashboard reflects the new "PAID" status of the fresh claim gracefully.

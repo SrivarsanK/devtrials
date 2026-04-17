@@ -2,25 +2,25 @@
 
 ## Current Position
 
-**Phase:** 9 - Detailed Dashboard UI & Mock Fallback (Planned)
-**Plan:** `.planning/phases/09-dashboard-ui/09-PLAN.md`
-**Status:** Initializing Milestone v1.2.
-**Last activity:** 2026-04-17 — Milestone v1.2 started
+**Phase:** Not started (defining requirements)
+**Plan:** —
+**Status:** Initializing Milestone v1.3.
+**Last activity:** 2026-04-17 — Milestone v1.3 started
 
-## Current Milestone: v1.2 High-Fidelity Real-time Dashboard
+## Current Milestone: v1.3 Claim Application & PhonePe Payouts
 
-**Goal:** Implement detailed dashboard features with live API integration and modal-based claim triggers.
+**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
 
 **Target Features:**
 
-- Policy Status Card (Tier, Zone, Expiry, Premium paid)
-- Claim Trigger Alert Modal (Threshold crossed -> Payout initiated)
-- Premium Payment Tracker (Due date, Auto-deduct sync)
-- Recent Claim History (5 latest events)
+- Latest Trigger Dashboard Section
+- User "Apply for Claim" actionable UI
+- PhonePe Refund API integration (mocked payout)
+- Payout success reconciliation
 
 ## Accumulated Context
 
 - **Project Type:** Parametric Insurance for Gig Workers
 - **Stack:** Node.js/TypeScript (frontend), Node.js (backend), PostgreSQL
-- **UI Progress:** Basic dashboard shell exists. Sidebar integration in progress.
-- **Key Decision:** v1.2 focuses on data intensity and real-time interaction (Modals).
+- **UI Progress:** Dashboard shell is complete and symmetrical.
+- **Key Decision:** v1.3 uses PhonePe Refund API to mock automated payouts.

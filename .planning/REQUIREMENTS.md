@@ -2,28 +2,22 @@
 
 This document tracks all validated, active, and out-of-scope requirements for RideSuraksha.
 
-## Milestone v1.2 Requirements: High-Fidelity Real-time Dashboard
+## Milestone v1.3 Requirements: Claim Application & PhonePe Payouts
 
-### Dashboard Features
-- [ ] **DB-01**: Active Policy Status Card showing Plan Tier, Zone, Expiry, and Premium Paid.
-- [ ] **DB-02**: Claim Trigger Alert Modal triggered when thresholds are crossed (Rain/Flood).
-- [ ] **DB-03**: Premium Payment Tracker displaying next due date and backend-synced auto-deduct toggle.
-- [ ] **DB-04**: Recent Claim History displaying the 5 latest events.
-
-### Data & Integration
-- [ ] **INT-01**: Live API integration with Mock fallback for all dashboard data.
-- [ ] **INT-02**: Backend synchronization for "Auto-deduct" toggle state.
+### Claims & Payouts
+- [ ] **CLM-01**: "Latest Trigger" section in `/dashboard` displaying the most recent actionable parameter breach.
+- [ ] **CLM-02**: "Apply for Claim" actionable UI allowing the user to initiate payout requests for the latest trigger.
+- [ ] **PAY-01**: Execute mocked payouts using the PhonePe Standard Checkout Refund API.
+- [ ] **PAY-02**: Reconcile PhonePe Refund status via webhook or status API to verify successful payout.
 
 ## Traceability Tracker
 
 | REQ-ID | Phase | Status |
 |--------|-------|--------|
-| DB-01 | Phase 9 | Pending |
-| DB-02 | Phase 10 | Pending |
-| DB-03 | Phase 10 | Pending |
-| DB-04 | Phase 9 | Pending |
-| INT-01 | Phase 9 | Pending |
-| INT-02 | Phase 10 | Pending |
+| CLM-01 | Phase 11 | Pending |
+| CLM-02 | Phase 11 | Pending |
+| PAY-01 | Phase 12 | Pending |
+| PAY-02 | Phase 12 | Pending |
 
 ## Future Extensibility / Out of Scope (This Milestone)
 - Native Mobile Build (React Native) is excluded.

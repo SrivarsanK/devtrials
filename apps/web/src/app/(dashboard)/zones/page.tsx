@@ -1,65 +1,80 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import ZoneCard from "@/components/ZoneCard";
-import { fetchZones, Zone } from "@/lib/api";
-import { Map, Loader2, Search, ArrowUpRight } from "lucide-react";
+import { ALL_CHENNAI_ZONES, ZoneTier, ZONE_TIER_CONFIG } from "@/lib/chennaiZones";
+import { Map, Search } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import anime from "animejs";
 import RegisterZoneModal from "@/components/RegisterZoneModal";
+import ZoneCard from "@/components/ZoneCard";
 
 export default function ZonesPage() {
-  const [zones, setZones] = useState<Zone[]>([]);
-  const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
 
-  async function load() {
-    try {
-      setLoading(true);
-      const data = await fetchZones();
-      setZones(data);
-    } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
-    }
-  }
-
   useEffect(() => {
-    load();
+    const tl = anime.timeline({
+      easing: 'easeOutExpo',
+      duration: 1000
+    });
+
+    tl.add({
+      targets: '.anime-header-item',
+      translateY: [30, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(100),
+    })
+    .add({
+      targets: '.anime-zone-section',
+      translateY: [40, 0],
+      opacity: [0, 1],
+      delay: anime.stagger(150),
+      easing: 'spring(1, 80, 10, 0)',
+    }, '-=600')
+    .add({
+      targets: '.anime-footer',
+      translateY: [30, 0],
+      opacity: [0, 1],
+    }, '-=400');
   }, []);
 
-  useEffect(() => {
-    if (!loading) {
-      const tl = anime.timeline({
-        easing: 'easeOutExpo',
-        duration: 1000
-      });
-
-      tl.add({
-        targets: '.anime-header-item',
-        translateY: [30, 0],
-        opacity: [0, 1],
-        delay: anime.stagger(100),
-      })
-      .add({
-        targets: '.anime-zone-card',
-        translateY: [40, 0],
-        opacity: [0, 1],
-        delay: anime.stagger(80),
-        easing: 'spring(1, 80, 10, 0)',
-      }, '-=600')
-      .add({
-        targets: '.anime-footer',
-        translateY: [30, 0],
-        opacity: [0, 1],
-      }, '-=400');
-    }
-  }, [loading]);
-
-  const filteredZones = zones.filter(z =>
-    z.name.toLowerCase().includes(searchTerm.toLowerCase())
+  const filteredZones = ALL_CHENNAI_ZONES.filter(z =>
+    z.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    z.region.toLowerCase().includes(searchTerm.toLowerCase())
   );
+
+  const groupedZones = {
+    red: filteredZones.filter(z => z.zone === 'red'),
+    orange: filteredZones.filter(z => z.zone === 'orange'),
+    green: filteredZones.filter(z => z.zone === 'green'),
+  };
+
+  const renderSection = (tier: ZoneTier) => {
+    const zones = groupedZones[tier];
+    if (zones.length === 0) return null;
+    const config = ZONE_TIER_CONFIG[tier];
+
+    return (
+      <div key={tier} className="space-y-6 anime-zone-section opacity-0">
+        <div className="flex items-center gap-4 pl-2">
+          <div className="flex items-center gap-3">
+             <div className="size-3 rounded-full" style={{ backgroundColor: config.color, boxShadow: `0 0 10px ${config.color}` }} />
+             <h2 className="text-2xl font-display font-black text-white tracking-tight uppercase">{config.label}s</h2>
+          </div>
+          <div className="h-[1px] flex-1 bg-gradient-to-r from-white/[0.05] to-transparent" />
+          <div className="text-[10px] font-black uppercase tracking-widest text-slate-500">
+            {config.priority.split(' — ')[1]} • {zones.length} Zones
+          </div>
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {zones.map((z) => (
+            <div key={z.name} className="anime-zone-card">
+              <ZoneCard zone={z} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
+  };
 
   return (
     <div className="flex flex-col gap-12">
@@ -88,14 +103,7 @@ export default function ZonesPage() {
         </div>
       </header>
 
-      {loading ? (
-        <div className="flex h-[40vh] items-center justify-center rounded-2xl glass">
-          <div className="flex flex-col items-center gap-3">
-            <Loader2 className="animate-spin text-secondary" size={40} />
-            <span className="font-medium text-[10px] uppercase tracking-[0.15em] text-muted-foreground">Synchronizing Registry...</span>
-          </div>
-        </div>
-      ) : filteredZones.length === 0 ? (
+      {filteredZones.length === 0 ? (
         <div className="flex h-[40vh] flex-col items-center justify-center rounded-2xl glass">
           <div className="size-16 rounded-full glass flex items-center justify-center mb-4">
             <Map size={32} className="text-muted-foreground opacity-40" />
@@ -104,12 +112,8 @@ export default function ZonesPage() {
           <p className="text-sm text-muted-foreground mt-1.5">Try adjusting your search criteria</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredZones.map((z) => (
-            <div key={z.id} className="anime-zone-card opacity-0">
-              <ZoneCard zone={z} />
-            </div>
-          ))}
+        <div className="flex flex-col gap-16">
+          {(Object.keys(ZONE_TIER_CONFIG) as ZoneTier[]).map(renderSection)}
         </div>
       )}
 
@@ -127,7 +131,7 @@ export default function ZonesPage() {
               RideSuraksha is actively onboarding 14 additional metropolitan clusters for the 2025 monsoon season.
             </p>
           </div>
-          <RegisterZoneModal onSuccess={load} />
+          <RegisterZoneModal onSuccess={() => {}} />
         </div>
       </footer>
     </div>

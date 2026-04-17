@@ -19,7 +19,7 @@ export const mockTriggers: TriggerEvent[] = [
     currentValue: '41°C',
     progressPercent: 90,
     status: 'WATCH',
-    cities: ['Delhi'],
+    cities: ['Chennai'],
     affectedWorkers: 3100,
     estimatedPayoutLakhs: 12.4,
   },
@@ -30,7 +30,7 @@ export const mockTriggers: TriggerEvent[] = [
     currentValue: 'Clear',
     progressPercent: 20,
     status: 'NORMAL',
-    cities: ['Mumbai', 'Chennai'],
+    cities: ['Chennai'],
   },
   {
     id: 'TRIGGER_AQI',
@@ -39,7 +39,7 @@ export const mockTriggers: TriggerEvent[] = [
     currentValue: '187',
     progressPercent: 62,
     status: 'WATCH',
-    cities: ['Delhi'],
+    cities: ['Chennai'],
     affectedWorkers: 2800,
     estimatedPayoutLakhs: 8.2,
   },
@@ -50,7 +50,7 @@ export const mockTriggers: TriggerEvent[] = [
     currentValue: 'None',
     progressPercent: 5,
     status: 'NORMAL',
-    cities: ['Chennai', 'Mumbai', 'Delhi'],
+    cities: ['Chennai'],
   },
   {
     id: 'TRIGGER_PLATFORM',
@@ -59,6 +59,6 @@ export const mockTriggers: TriggerEvent[] = [
     currentValue: 'None',
     progressPercent: 5,
     status: 'NORMAL',
-    cities: ['Chennai', 'Mumbai', 'Delhi'],
+    cities: ['Chennai'],
   },
 ];

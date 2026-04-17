@@ -74,11 +74,10 @@ export default function LeafletMapInner() {
 
     mapRef.current = map;
 
-    // Center and fit bounds for the 3 cities
-    // Chennai: [13, 80], Mumbai: [19, 72], Delhi: [28, 77]
+    // Center and fit bounds for Chennai
     const bounds = L.latLngBounds([
-      [8.0, 68.0],   // SW (South of Chennai, West of Mumbai)
-      [32.0, 85.0],  // NE (North of Delhi, East of Chennai)
+      [12.8, 80.0],   // SW Chennai
+      [13.3, 80.4],  // NE Chennai
     ]);
     map.fitBounds(bounds, { padding: [50, 50] });
 
@@ -149,7 +148,7 @@ export default function LeafletMapInner() {
       circlesRef.current[geo.id] = marker;
     });
 
-    console.log('Risk Map: Synchronized 7 nodes.');
+    console.log(`Risk Map: Synchronized ${ZONE_GEO_DATA.length} nodes.`);
   }, [reserveHealth, pausedZones]);
 
   return <div ref={containerRef} className="w-full h-full min-h-[900px] rounded-[1.5rem] bg-[#0d0d0d]" />;

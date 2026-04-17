@@ -1,4 +1,5 @@
 import express from 'express';
+import { errorHandler } from './middleware/error-handler';
 import cors from 'cors';
 import helmet from 'helmet';
 import rateLimit from 'express-rate-limit';
@@ -70,6 +71,9 @@ app.get('/api/protected-test', auth, (req, res) => {
     user: (req as any).user
   });
 });
+
+// Global Error Handling Middleware
+app.use(errorHandler);
 
 export default app;
 

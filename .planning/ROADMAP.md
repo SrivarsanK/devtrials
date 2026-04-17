@@ -1,27 +1,31 @@
-# Project Roadmap: Milestone v1.3
+# Project Roadmap: Milestone v1.4
 
-## Milestone v1.3: Claim Application & PhonePe Payouts
+## Milestone v1.4: Chennai Zone Classification Integration
 
-**Goal:** Implement UI for the latest disruption trigger with an opt-in claim application, backed by a simulated auto-payout via PhonePe Refund API.
+**Goal:** Integrate 62 classified Chennai zones (18 Red, 28 Orange, 16 Green) with priority-based risk visualization into the live risk map and zones pages in the `apps/web` insurer dashboard.
 
-### Phase 11: Claim Application UI Integration
+### Phase 12: Zone Data Layer & Risk Map Integration
 
-**Goal:** Build the Latest Trigger dashboard section and the Application confirmation UI.
+**Goal:** Create the zone classification dataset with geocoded coordinates and render color-coded zone markers on the Leaflet risk map with interactive controls.
 
-- **Requirements:** CLM-01, CLM-02
-
-- **Success Criteria:**
-  1. A new "Latest Trigger" visual section appears in the `/dashboard`.
-  2. The section clearly describes the recent parameter breach.
-  3. A robust "Apply for Claim" call-to-action button allows users to initiate the payout process.
-
-### Phase 12: PhonePe Refund Flow & Auto-Payout Simulation
-
-**Goal:** Implement the PhonePe Refund transaction API to simulate automated payouts and verify status reconciliation.
-
-- **Requirements:** PAY-01, PAY-02
+- **Requirements:** ZONE-01, ZONE-02, ZONE-03, ZONE-04
 
 - **Success Criteria:**
-  1. Hitting "Apply for Claim" triggers a backend call making a mock refund request to PhonePe for the policy's premium equivalent/amount.
-  2. System receives the refund success via SDK polling or webhook.
-  3. Dashboard reflects the new "PAID" status of the fresh claim gracefully.
+  1. A `chennaiZones.ts` data module exports all 62 zones with name, region, lat/lng coordinates, and risk tier
+  2. The live risk map renders colored circle markers — Red zones with pulsing glow, Orange zones steady, Green zones subtle
+  3. Clicking a zone marker shows a popup with zone name, region, and priority classification
+  4. An interactive legend with toggle controls allows showing/hiding zones by tier
+  5. Red zones appear in the priority alerts sidebar with appropriate severity styling (critical glow)
+
+### Phase 13: Zones Page Classification & Polish
+
+**Goal:** Update the Zones page to display all 62 zones grouped by risk classification with color-coded priority styling.
+
+- **Requirements:** ZONE-05
+
+- **Success Criteria:**
+  1. The Zones page displays 62 zones grouped into Red, Orange, Green sections with clear visual separation
+  2. Each zone card shows a color-coded badge (Red/Orange/Green) matching its classification
+  3. Risk tier summary statistics appear at top of the page (18 Red, 28 Orange, 16 Green)
+  4. Zone search filters correctly across all classification groups
+  5. The existing zone card component shows the region label from the classification data

@@ -189,11 +189,11 @@ export async function manualPoll() {
   }
 }
 
-const ML_URL = process.env.NEXT_PUBLIC_ML_URL || "http://localhost:8001";
+const ML_URL = process.env.NEXT_PUBLIC_ML_URL || "http://localhost:9000";
 
 export async function fetchPrediction(features: any) {
   try {
-    const res = await fetch(`${ML_URL}/ml/payout/predict`, {
+    const res = await fetch(`${ML_URL}/api/pricing/predict`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
@@ -203,6 +203,7 @@ export async function fetchPrediction(features: any) {
         is_monsoon_season: [5, 6, 7, 8, 9].includes(new Date().getMonth()) ? 1 : 0,
         avg_daily_earnings_rs: 1500,
         hours_per_week: 40,
+        flood_risk_score: 0.5,
         ...features
       }),
       cache: 'no-store'
@@ -218,5 +219,30 @@ export async function fetchPrediction(features: any) {
       tier_probabilities: { LOW: 0.2, MEDIUM: 0.7, HIGH: 0.1 },
       status: 'fallback'
     };
+  }
+}
+
+export interface ReserveForecast {
+  zone_id: string;
+  area: string;
+  risk_level: string;
+  predicted_claims_next_7_days: int;
+  predicted_payout_next_7_days: float;
+  reserve_status: string;
+  status_logic: {
+    GREEN: string;
+    AMBER: string;
+    RED: string;
+  };
+}
+
+export async function fetchReserveForecast(zoneId: string): Promise<ReserveForecast | null> {
+  try {
+    const res = await fetch(`${ML_URL}/api/reserve/ml/reserve/forecast/${zoneId}`, { cache: 'no-store' });
+    if (!res.ok) throw new Error();
+    return await res.json();
+  } catch (err) {
+    console.warn(`Reserve Forecast for ${zoneId} failed`);
+    return null;
   }
 }

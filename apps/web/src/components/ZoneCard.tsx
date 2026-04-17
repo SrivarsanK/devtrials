@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { Zone } from "@/lib/api";
+import { ChennaiZone, ZONE_TIER_CONFIG } from "@/lib/chennaiZones";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { MapPin, ChevronDown, ChevronUp, Radio, Ruler, Navigation } from "lucide-react";
@@ -9,13 +9,14 @@ import { cn } from "@/lib/utils";
 import anime from "animejs";
 
 interface ZoneCardProps {
-  zone: Zone;
+  zone: ChennaiZone;
 }
 
 export default function ZoneCard({ zone }: ZoneCardProps) {
   const [expanded, setExpanded] = React.useState(false);
   const cardRef = React.useRef<HTMLDivElement>(null);
   const iconRef = React.useRef<HTMLDivElement>(null);
+  const config = ZONE_TIER_CONFIG[zone.zone];
 
   const handleEnter = () => {
     anime({
@@ -62,20 +63,22 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
     >
       <CardHeader className="flex flex-row items-center justify-between space-y-0 p-5">
         <div className="flex items-center gap-4">
-          <div ref={iconRef} className="flex aspect-square size-12 items-center justify-center rounded-2xl bg-fs-blue shadow-[0_0_15px_rgba(0,216,255,0.25)] transition-all duration-300">
-            <MapPin className="size-6 text-white" strokeWidth={2.5} />
+          <div ref={iconRef} className="flex aspect-square size-12 items-center justify-center rounded-2xl transition-all duration-300" style={{ backgroundColor: config.color, boxShadow: `0 0 15px ${config.glowColor}` }}>
+            <MapPin className="size-6 text-[#0a0a12]" strokeWidth={2.5} />
           </div>
           <div>
             <CardTitle className="text-[22px] font-display font-black tracking-tight text-foreground group-hover/card:text-secondary transition-colors leading-none uppercase">
               {zone.name}
             </CardTitle>
             <p className="text-[10px] font-bold text-muted-foreground uppercase tracking-widest mt-1.5 opacity-60">
-              Region: {(zone.state || zone.city || "Unknown").toUpperCase()}
+              Region: {zone.region.toUpperCase()}
             </p>
           </div>
         </div>
         <div className="flex items-center gap-2.5">
-          <div className="h-2 w-2 rounded-full bg-success neon-success" />
+          <div className="px-2 py-0.5 rounded text-[9px] font-black uppercase tracking-widest" style={{ backgroundColor: config.bgColor, color: config.color, border: `1px solid ${config.borderColor}` }}>
+             Class {zone.zone}
+          </div>
           {expanded ? <ChevronUp className="size-4 text-muted-foreground" /> : <ChevronDown className="size-4 text-muted-foreground" />}
         </div>
       </CardHeader>
@@ -91,7 +94,7 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
               <span>Coordinates</span>
             </div>
             <span className="text-xs font-mono font-medium text-secondary">
-              {zone.center.lat.toFixed(4)}, {zone.center.lng.toFixed(4)}
+              {zone.lat.toFixed(4)}, {zone.lng.toFixed(4)}
             </span>
           </div>
 
@@ -101,28 +104,32 @@ export default function ZoneCard({ zone }: ZoneCardProps) {
               <span>Monitor Radius</span>
             </div>
             <span className="text-xs font-medium text-foreground">
-              {zone.radius} KM
+              {zone.radius || 50} KM
             </span>
           </div>
 
           <div className="space-y-1.5">
             <div className="flex items-center gap-2 text-[10px] font-medium uppercase text-muted-foreground">
               <Radio className="size-3" />
-              <span>Active Monitored Services</span>
+              <span>Prioritization Metadata</span>
             </div>
           </div>
         </div>
 
         <div className="mt-3 flex flex-wrap gap-1.5">
-          {zone.monitoredServices.map(s => (
-            <Badge
-              key={s}
-              variant="secondary"
-              className="rounded-lg bg-white/[0.05] border-none text-[9px] font-black uppercase px-3 py-1 text-muted-foreground/80 hover:bg-white/[0.1] hover:text-foreground transition-all"
-            >
-              {s}
-            </Badge>
-          ))}
+          <Badge
+            variant="secondary"
+            className="rounded-lg border-none text-[9px] font-black uppercase px-3 py-1 transition-all"
+            style={{ backgroundColor: config.bgColor, color: config.color }}
+          >
+            {config.cluster}
+          </Badge>
+          <Badge
+            variant="secondary"
+            className="rounded-lg bg-white/[0.05] border-none text-[9px] font-black uppercase px-3 py-1 text-muted-foreground/80 transition-all"
+          >
+            {config.priority.split(' — ')[1]}
+          </Badge>
         </div>
       </CardContent>
     </Card>
